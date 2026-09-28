@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleGrid from '../components/ArticleGrid.astro';
+import { getArticles, kindLocales } from '../lib/articles';
+import { kinds, type Kind } from '../lib/kinds';
+import { sharedAlternates, t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  kind: Kind;
+}
+
+const { locale, kind } = Astro.props;
+const label = t(locale, kinds[kind].label);
+const articles = (await getArticles(locale)).filter((a) => a.data.kind === kind);
+---
+
+<BaseLayout
+  locale={locale}
+  title={label}
+  description={`${label}: ${t(locale, 'home.description')}`}
+  alternates={sharedAlternates(kinds[kind].slug, await kindLocales(kind))}
+>
+  <main class="container listing">
+    <h1 class="listing-title">{label}</h1>
+    <ArticleGrid articles={articles} emptyText={t(locale, 'home.empty')} />
+  </main>
+</BaseLayout>
+
+<style>
+  .listing {
+    padding-block: 36px 72px;
+  }
+
+  .listing-title {
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 30px;
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import Mark from '../icons/Mark.astro';
+import { t, toLocale } from '../../i18n/ui';
+
+// A measured value ("1.8 s", "412 MB"), a yes/no, or null while the run is pending.
+// Never an estimate: every number comes from our own test (DESIGN.md 5).
+type Value = string | number | boolean | null;
+
+interface Props {
+  // Read by screen readers: what was measured and on what.
+  caption: string;
+  tools: string[];
+  // Highlighted column. Must be one of `tools`.
+  winner?: string;
+  rows: { label: string; values: Value[] }[];
+}
+
+const { caption, tools, winner, rows } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+
+if (winner && !tools.includes(winner)) {
+  throw new Error(`<Results>: winner "${winner}" is not in tools (${tools.join(', ')}).`);
+}
+for (const row of rows) {
+  if (row.values.length !== tools.length) {
+    throw new Error(`<Results>: row "${row.label}" has ${row.values.length} values for ${tools.length} tools.`);
+  }
+}
+
+const winnerIndex = winner ? tools.indexOf(winner) : -1;
+---
+
+<div class="results">
+  <table>
+    <caption class="visually-hidden">{caption}</caption>
+    <thead>
+      <tr>
+        <td></td>
+        {tools.map((tool, i) => <th scope="col" class:list={{ win: i === winnerIndex }}>{tool}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row">{row.label}</th>
+            {row.values.map((value, i) => (
+              <td class:list={{ win: i === winnerIndex }}>
+                {value === true ? (
+                  <Mark type="yes" label={t(locale, 'results.yes')} size={22} />
+                ) : value === false ? (
+                  <Mark type="no" label={t(locale, 'results.no')} size={22} />
+                ) : value === null ? (
+                  <span class="pending" title={t(locale, 'results.pending')}>
+                    —<span class="visually-hidden">{t(locale, 'results.pending')}</span>
+                  </span>
+                ) : (
+                  value
+                )}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  /* The table scrolls inside its box; the page never scrolls sideways (DESIGN.md 3). */
+  .results {
+    overflow-x: auto;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  thead {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  thead th {
+    padding: 16px 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  thead th.win {
+    background: var(--warm);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  tbody th {
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 500;
+    min-width: 180px;
+  }
+
+  td {
+    padding: 14px 12px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  td :global(svg) {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  td.win {
+    background: var(--warm-soft);
+  }
+
+  tbody tr + tr > * {
+    border-top: 1px solid var(--line);
+  }
+
+  tbody tr + tr > td.win {
+    border-top-color: var(--warm-line);
+  }
+
+  .pending {
+    color: var(--pending);
+  }
+</style>

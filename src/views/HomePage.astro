@@ -1,0 +1,134 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
+import ArticleCover from '../components/ArticleCover.astro';
+import ArticleGrid from '../components/ArticleGrid.astro';
+import { articleUrl, getArticles } from '../lib/articles';
+import { site } from '../lib/site';
+import { formatDate, sharedAlternates, t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [featured, ...latest] = await getArticles(locale);
+const featuredAuthor = featured && (await getEntry(featured.data.author));
+
+// Principle: "come in, see articles, done". No marketing hero (plan 9.4).
+// TODO: search (Pagefind) next to the title and topic filters on "Latest".
+---
+
+<BaseLayout
+  locale={locale}
+  title={site.name}
+  description={t(locale, 'home.description')}
+  alternates={sharedAlternates()}
+>
+  <main class="container home">
+    <h1 class="home-title">{t(locale, 'home.title')}</h1>
+
+    {
+      featured && (
+        <a class="featured" href={articleUrl(featured)}>
+          <ArticleCover tools={featured.data.tools} kind={featured.data.kind} size="featured" />
+          <div>
+            <p class="topic-label">{featured.data.topic}</p>
+            <h2 class="featured-title">{featured.data.title}</h2>
+            <p class="featured-lede">{featured.data.lede}</p>
+            <p class="meta">
+              {featuredAuthor?.data.name}, {t(locale, 'article.tested').toLowerCase()}{' '}
+              {formatDate(locale, featured.data.testedAt)}
+            </p>
+          </div>
+        </a>
+      )
+    }
+
+    {!featured && <p class="empty">{t(locale, 'home.empty')}</p>}
+
+    {
+      latest.length > 0 && (
+        <section class="latest" aria-labelledby="latest">
+          <h2 id="latest" class="section-title">{t(locale, 'home.latest')}</h2>
+          <ArticleGrid articles={latest} emptyText={t(locale, 'home.empty')} />
+        </section>
+      )
+    }
+
+    {featured && <AdSlot placement="home" />}
+  </main>
+</BaseLayout>
+
+<style>
+  .home {
+    padding-block: 36px 72px;
+  }
+
+  .home-title {
+    margin-bottom: 32px;
+    font-size: 30px;
+  }
+
+  .featured {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px;
+    align-items: center;
+    margin-bottom: 48px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .topic-label {
+    margin-bottom: 10px;
+  }
+
+  .featured-title {
+    margin-bottom: 12px;
+    font-size: 36px;
+    line-height: 1.15;
+  }
+
+  .featured:hover .featured-title {
+    color: var(--accent);
+  }
+
+  .featured-lede {
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+
+  .meta {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .empty {
+    color: var(--muted);
+  }
+
+  .home :global(.ad) {
+    margin-top: 48px;
+  }
+
+  .section-title {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 26px;
+  }
+
+  @media (max-width: 1023px) {
+    .featured {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .featured-title {
+      font-size: 30px;
+    }
+  }
+</style>

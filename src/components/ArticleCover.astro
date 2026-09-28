@@ -1,0 +1,61 @@
+---
+import ToolLogo from './ToolLogo.astro';
+import { kinds, type Kind } from '../lib/kinds';
+
+interface Props {
+  tools: string[];
+  kind: Kind;
+  size?: 'card' | 'featured';
+}
+
+const { tools, kind, size = 'card' } = Astro.props;
+
+// Generated from frontmatter, never stock or AI images (DESIGN.md 4).
+const backgrounds = ['var(--accent-soft)', 'var(--warm-soft)', 'var(--surface)', 'var(--con-soft)'];
+const hash = [...tools.join('')].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+const background = backgrounds[hash % backgrounds.length];
+
+const [first, ...rest] = tools;
+const { joiner } = kinds[kind];
+const featured = size === 'featured';
+---
+
+<div class:list={['cover', size]} style={{ background }} aria-hidden="true">
+  <ToolLogo name={first} size={featured ? 92 : 64} />
+  {joiner && rest.length > 0 && <span class="joiner">{joiner}</span>}
+  {rest.slice(0, 3).map((tool) => <ToolLogo name={tool} size={featured ? 56 : 44} tone="outline" />)}
+</div>
+
+<style>
+  .cover {
+    height: 190px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+
+  .cover.featured {
+    height: 330px;
+    border-radius: 14px;
+    gap: 22px;
+  }
+
+  .joiner {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .featured .joiner {
+    font-size: 18px;
+  }
+
+  @media (max-width: 640px) {
+    .cover.featured {
+      height: 220px;
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+import KindPage from '../../views/KindPage.astro';
+import { kindStaticPaths } from '../../lib/articles';
+
+export const getStaticPaths = () => kindStaticPaths('guide');
+
+const { locale } = Astro.props;
+---
+
+<KindPage locale={locale} kind="guide" />

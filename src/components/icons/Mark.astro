@@ -1,0 +1,41 @@
+---
+interface Props {
+  // yes: check in --accent. no: cross in --con.
+  type: 'yes' | 'no';
+  // Accessible name when the icon carries meaning on its own (table cells). Omit when decorative.
+  label?: string;
+  size?: number;
+}
+
+const { type, label, size = 20 } = Astro.props;
+---
+
+<svg
+  class:list={['mark', type]}
+  width={size}
+  height={size}
+  viewBox="0 0 20 20"
+  fill="none"
+  stroke-width="2.4"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {type === 'yes' ? <path d="M4 10.5l4 4 8-9" /> : <path d="M5.5 5.5l9 9M14.5 5.5l-9 9" />}
+</svg>
+
+<style>
+  .mark {
+    flex-shrink: 0;
+  }
+
+  .yes {
+    stroke: var(--accent);
+  }
+
+  .no {
+    stroke: var(--con);
+  }
+</style>

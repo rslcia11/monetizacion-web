@@ -1,0 +1,127 @@
+---
+import { kindsWithArticles } from '../lib/articles';
+import { kindEntries } from '../lib/kinds';
+import { site } from '../lib/site';
+import { localeMeta, localePath, t, type Alternate, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  // Only rendered when this page really exists in the other language.
+  otherLanguage?: Alternate;
+}
+
+const { locale, otherLanguage } = Astro.props;
+const current = Astro.url.pathname;
+// Empty sections stay out of the menu until they have articles.
+const available = await kindsWithArticles(locale);
+
+const links = [
+  { href: localePath(locale), label: t(locale, 'nav.latest') },
+  ...kindEntries
+    .filter(([kind]) => available.has(kind))
+    .map(([, info]) => ({ href: localePath(locale, info.slug), label: t(locale, info.label) })),
+];
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="logo" href={localePath(locale)}>{site.name}</a>
+    <nav class="nav" aria-label={t(locale, 'nav.main')}>
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={current === link.href ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    {
+      otherLanguage && (
+        <a class="language" href={otherLanguage.href} hreflang={otherLanguage.locale} lang={otherLanguage.locale}>
+          {localeMeta[otherLanguage.locale].label}
+        </a>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    min-height: var(--header-h);
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 27px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav {
+    display: flex;
+    gap: 28px;
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .nav a,
+  .language {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav a:hover,
+  .language:hover {
+    color: var(--accent);
+  }
+
+  .nav a[aria-current='page'] {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .language {
+    font-size: 15px;
+  }
+
+  @media (max-width: 760px) {
+    .bar {
+      flex-wrap: wrap;
+      gap: 0 24px;
+      padding-top: 8px;
+    }
+
+    .logo {
+      flex-grow: 1;
+    }
+
+    /* Nav drops to its own row and scrolls sideways instead of hiding behind a menu button. */
+    .nav {
+      order: 3;
+      flex-basis: 100%;
+      gap: 22px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav a {
+      white-space: nowrap;
+    }
+  }
+</style>

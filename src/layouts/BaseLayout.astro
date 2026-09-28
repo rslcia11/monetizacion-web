@@ -1,0 +1,75 @@
+---
+import { Font } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { adsenseClient } from '../lib/ads';
+import { site } from '../lib/site';
+import { defaultLocale, localeMeta, type Alternate, type Locale } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  // Page title only; the site name is appended here (plan 9.5).
+  title: string;
+  description: string;
+  // Language versions of this page, including itself. Empty = no translation yet.
+  alternates?: Alternate[];
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { locale, title, description, alternates = [], ogType = 'website', jsonLd = [] } = Astro.props;
+
+// JSON-LD carries frontmatter text into a <script>: escape "<" so a "</script>" inside a
+// title can't close the tag and inject HTML.
+const safeJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
+
+const siteName = site.name;
+const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const hreflang = alternates.length > 1 ? alternates : [];
+const xDefault = hreflang.find((a) => a.locale === defaultLocale);
+const otherLanguage = alternates.find((a) => a.locale !== locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {hreflang.map((a) => <link rel="alternate" hreflang={a.locale} href={new URL(a.href, Astro.site)} />)}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={new URL(xDefault.href, Astro.site)} />}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={localeMeta[locale].og} />
+
+    <Font cssVariable="--font-sans" preload={[{ weight: '400' }]} />
+    <Font cssVariable="--font-serif" preload />
+
+    {
+      adsenseClient && (
+        <script
+          is:inline
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+          crossorigin="anonymous"
+        />
+      )
+    }
+
+    {jsonLd.map((data) => <script type="application/ld+json" is:inline set:html={safeJson(data)} />)}
+  </head>
+  <body>
+    <Header locale={locale} otherLanguage={otherLanguage} />
+    <slot />
+    <Footer locale={locale} />
+  </body>
+</html>

@@ -1,0 +1,11 @@
+---
+import HomePage from '../../views/HomePage.astro';
+import { localeStaticPaths } from '../../i18n/ui';
+
+// Wrapped: Astro passes its own options object to getStaticPaths.
+export const getStaticPaths = () => localeStaticPaths();
+
+const { locale } = Astro.props;
+---
+
+<HomePage locale={locale} />

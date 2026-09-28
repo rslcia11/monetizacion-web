@@ -1,0 +1,94 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { t, type Locale } from '../i18n/ui';
+
+interface Props {
+  headings: MarkdownHeading[];
+  locale: Locale;
+  // sidebar: sticky box on desktop. inline: collapsible list above the content below 1024px.
+  variant: 'sidebar' | 'inline';
+}
+
+const { headings, locale, variant } = Astro.props;
+const label = t(locale, 'article.toc');
+---
+
+{
+  variant === 'sidebar' ? (
+    <nav class="toc" aria-label={label}>
+      <h2 class="toc-title">{label}</h2>
+      <ol>
+        {headings.map((h) => (
+          <li>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  ) : (
+    <details class="toc inline">
+      <summary class="toc-title">{label}</summary>
+      <ol>
+        {headings.map((h) => (
+          <li>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  )
+}
+
+<style>
+  .toc {
+    padding: 20px;
+    background: var(--accent-soft);
+    border-radius: var(--radius-lg);
+  }
+
+  .toc-title {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  ol {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .inline {
+    display: none;
+    margin-bottom: 32px;
+  }
+
+  summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  @media (max-width: 1023px) {
+    .inline {
+      display: block;
+    }
+  }
+</style>

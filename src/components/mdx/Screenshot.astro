@@ -1,0 +1,64 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+// Our own screenshots only, never the vendor's marketing images (plan 9.3, point 2).
+// Files: src/assets/screenshots/<article-slug>/<descriptive-name>.png
+interface Props {
+  src: ImageMetadata;
+  // What the screenshot shows, for people who can't see it.
+  alt: string;
+  // What the reader should notice.
+  caption: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="shot">
+  <div class="frame">
+    <div class="bar" aria-hidden="true"><span></span><span></span><span></span></div>
+    <Image src={src} alt={alt} widths={[720, 1440]} sizes="(max-width: 760px) 100vw, 720px" />
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .frame {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .bar {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+    background: var(--ink);
+  }
+
+  .bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pending);
+  }
+
+  .bar span:first-child {
+    background: var(--warm);
+  }
+
+  .frame :global(img) {
+    width: 100%;
+  }
+
+  figcaption {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+</style>

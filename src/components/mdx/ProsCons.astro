@@ -1,0 +1,100 @@
+---
+import Mark from '../icons/Mark.astro';
+import { t, toLocale } from '../../i18n/ui';
+
+// Each item finishes the sentence "Worth it if..." / "Think twice if...", from our own tests.
+interface Props {
+  pros: string[];
+  cons: string[];
+}
+
+const { pros, cons } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+
+if (pros.length === 0 || cons.length === 0) {
+  throw new Error('<ProsCons>: needs at least one pro and one con. Every tool has a trade-off.');
+}
+
+const boxes = [
+  { kind: 'pros', title: t(locale, 'pros.title'), items: pros, mark: 'yes' },
+  { kind: 'cons', title: t(locale, 'cons.title'), items: cons, mark: 'no' },
+] as const;
+---
+
+<div class="pros-cons">
+  {
+    boxes.map((box) => (
+      <div class:list={['box', box.kind]}>
+        <p class="title">{box.title}</p>
+        <ul>
+          {box.items.map((item) => (
+            <li>
+              <Mark type={box.mark} />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .pros-cons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .box {
+    padding: 20px 22px;
+    border-radius: var(--radius-md);
+  }
+
+  .pros {
+    background: var(--accent-soft);
+  }
+
+  .cons {
+    background: var(--con-soft);
+  }
+
+  .title {
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .pros .title {
+    color: var(--accent);
+  }
+
+  .cons .title {
+    color: var(--con-text);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  li {
+    display: flex;
+    gap: 10px;
+  }
+
+  li :global(svg) {
+    margin-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .pros-cons {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

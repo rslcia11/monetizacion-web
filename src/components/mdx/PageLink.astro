@@ -1,0 +1,12 @@
+---
+import { localePath, toLocale } from '../../i18n/ui';
+
+// Link to another page of the site in the current language: /how-we-test/ or /es/how-we-test/.
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<a href={localePath(toLocale(Astro.currentLocale), slug)}><slot /></a>

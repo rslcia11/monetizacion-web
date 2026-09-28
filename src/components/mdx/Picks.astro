@@ -1,0 +1,23 @@
+---
+// Wraps the <Pick> rows right after "## Our picks" (DESIGN.md 4). Top pick goes first.
+---
+
+<div class="picks">
+  <slot />
+</div>
+
+<style>
+  .picks {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .picks :global(.pick + .pick) {
+    border-top: 1px solid var(--line);
+  }
+
+  .picks :global(.pick.top + .pick) {
+    border-top-color: var(--warm-line);
+  }
+</style>

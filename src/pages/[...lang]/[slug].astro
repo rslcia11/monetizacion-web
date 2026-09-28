@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ArticlePage from '../../views/ArticlePage.astro';
+import SitePageView from '../../views/SitePageView.astro';
+import { articleLocale, articleSlug, getArticles, localeFromId, slugFromId } from '../../lib/articles';
+import { getSitePages } from '../../lib/pages';
+import { langParam } from '../../i18n/ui';
+
+// Articles and site pages share the /<slug>/ URL space. Article file names can't use a site
+// page's slug (checked in articleSlug), so the two lists never collide.
+export const getStaticPaths = (async () => {
+  const [all, pages] = await Promise.all([getArticles(), getSitePages()]);
+  return [
+    ...all.map((article) => ({
+      params: { lang: langParam(articleLocale(article)), slug: articleSlug(article) },
+      props: { kind: 'article' as const, article, all },
+    })),
+    ...pages.map((page) => ({
+      params: { lang: langParam(localeFromId(page.id)), slug: slugFromId(page.id) },
+      props: { kind: 'page' as const, page },
+    })),
+  ];
+}) satisfies GetStaticPaths;
+
+const props = Astro.props;
+---
+
+{props.kind === 'article' ? <ArticlePage article={props.article} all={props.all} /> : <SitePageView page={props.page} />}

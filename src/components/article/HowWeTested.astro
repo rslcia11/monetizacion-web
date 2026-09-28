@@ -1,0 +1,94 @@
+---
+import type { Article } from '../../lib/articles';
+import { formatDate, localePath, t, type Locale } from '../../i18n/ui';
+
+interface Props {
+  id: string;
+  locale: Locale;
+  testing: Article['data']['testing'];
+  testedAt: Date;
+}
+
+const { id, locale, testing, testedAt } = Astro.props;
+---
+
+<section class="how" aria-labelledby={id}>
+  <h2 id={id} class="section-heading">{t(locale, 'testing.title')}</h2>
+  <dl class="setup">
+    <div>
+      <dt>{t(locale, 'testing.date')}</dt>
+      <dd><time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time></dd>
+    </div>
+    <div>
+      <dt>{t(locale, 'testing.environment')}</dt>
+      <dd>{testing.environment}</dd>
+    </div>
+  </dl>
+  <table class="versions">
+    <thead>
+      <tr>
+        <th scope="col">{t(locale, 'testing.tool')}</th>
+        <th scope="col">{t(locale, 'testing.version')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        testing.versions.map((v) => (
+          <tr>
+            <td>{v.tool}</td>
+            <td>{v.version}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  {testing.notes && <p>{testing.notes}</p>}
+  <p class="method">
+    <a href={localePath(locale, 'how-we-test')}>{t(locale, 'testing.method')}</a>
+  </p>
+</section>
+
+<style>
+  .how > * + * {
+    margin-top: 20px;
+  }
+
+  .setup {
+    display: grid;
+    gap: 12px;
+    font-size: 16px;
+  }
+
+  dt {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+  }
+
+  .versions {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+
+  .versions th,
+  .versions td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+
+  .versions th {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .method {
+    font-size: 16px;
+  }
+</style>

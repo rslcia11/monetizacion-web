@@ -1,0 +1,78 @@
+---
+import { sitePages } from '../lib/routes';
+import { site } from '../lib/site';
+import { localePath, t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div class="about">
+      <p class="name">{site.name}</p>
+      <p>{t(locale, 'site.tagline')}</p>
+    </div>
+    <nav class="links" aria-label={t(locale, 'nav.footer')}>
+      {sitePages.map((page) => <a href={localePath(locale, page.slug)}>{t(locale, page.label)}</a>)}
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--footer-text);
+  }
+
+  .inner {
+    padding-block: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    font-size: 15px;
+  }
+
+  .about {
+    max-width: 420px;
+    line-height: 1.55;
+  }
+
+  .name {
+    margin-bottom: 8px;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--paper);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--footer-text);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: var(--paper);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 760px) {
+    .inner {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+</style>

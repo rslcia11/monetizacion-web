@@ -1,0 +1,58 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  name: string;
+  photo?: ImageMetadata;
+  size: number;
+  // Ring color: --accent in the article header, --warm in the author box.
+  ring: 'accent' | 'warm';
+  // Empty when the name is already written next to the avatar.
+  alt?: string;
+}
+
+const { name, photo, size, ring, alt = '' } = Astro.props;
+const initials = name
+  .split(/\s+/)
+  .slice(0, 2)
+  .map((part) => part[0])
+  .join('')
+  .toUpperCase();
+---
+
+{
+  photo ? (
+    <Image class:list={['avatar', ring]} src={photo} alt={alt} width={size} height={size} style={{ width: `${size}px`, height: `${size}px` }} />
+  ) : (
+    <span class:list={['avatar', 'initials', ring]} style={{ width: `${size}px`, height: `${size}px`, fontSize: `${Math.round(size * 0.36)}px` }} aria-hidden="true">
+      {initials}
+    </span>
+  )
+}
+
+<style>
+  .avatar {
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid;
+    object-fit: cover;
+  }
+
+  .accent {
+    border-color: var(--accent);
+  }
+
+  .warm {
+    border-color: var(--warm);
+  }
+
+  .initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 700;
+  }
+</style>

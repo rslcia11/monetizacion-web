@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Avatar from '../Avatar.astro';
+import { inLocale, localePath, t, type Locale } from '../../i18n/ui';
+
+interface Props {
+  author: CollectionEntry<'authors'>;
+  locale: Locale;
+  // "About the author" heading: on at the end of an article, off in the About page's list.
+  showTitle?: boolean;
+}
+
+const { author, locale, showTitle = true } = Astro.props;
+const headingId = `author-${author.id}`;
+const { name, photo, links } = author.data;
+const role = inLocale(author.data.role, locale, `the role of author "${author.id}"`);
+const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`);
+---
+
+<section class="author" aria-labelledby={headingId}>
+  <Avatar name={name} photo={photo} size={72} ring="warm" alt={`${t(locale, 'author.photo')} ${name}`} />
+  <div>
+    {showTitle && <h2 class="title">{t(locale, 'author.title')}</h2>}
+    <p class="name" id={headingId}>{name}, {role}</p>
+    <p>{bio}</p>
+    <p class="links">
+      <a href={localePath(locale, 'how-we-test')}>{t(locale, 'footer.howWeTest')}</a>
+      {
+        links.map((link) => (
+          <a href={link.url} rel="me noopener">
+            {link.label}
+          </a>
+        ))
+      }
+    </p>
+  </div>
+</section>
+
+<style>
+  .author {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    background: var(--warm-soft);
+    border-radius: var(--radius-lg);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .title {
+    margin-bottom: 6px;
+    font-family: var(--font-sans);
+    font-size: 17px;
+  }
+
+  .name {
+    font-weight: 600;
+  }
+
+  .name + p {
+    margin-top: 4px;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 20px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  @media (max-width: 640px) {
+    .author {
+      flex-direction: column;
+      padding: 20px;
+    }
+  }
+</style>

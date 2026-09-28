@@ -1,0 +1,74 @@
+---
+import ToolLogo from '../ToolLogo.astro';
+import { t, toLocale } from '../../i18n/ui';
+
+// Goes right under a tool's "## ..." heading: logo plus the three facts readers check first.
+interface Props {
+  tool: string;
+  price: string;
+  runsOn: string;
+  license: string;
+}
+
+const { tool, price, runsOn, license } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+---
+
+<div class="facts">
+  <ToolLogo name={tool} size={52} />
+  <dl>
+    <div>
+      <dt>{t(locale, 'facts.price')}</dt>
+      <dd>{price}</dd>
+    </div>
+    <div>
+      <dt>{t(locale, 'facts.runsOn')}</dt>
+      <dd>{runsOn}</dd>
+    </div>
+    <div>
+      <dt>{t(locale, 'facts.license')}</dt>
+      <dd>{license}</dd>
+    </div>
+  </dl>
+</div>
+
+<style>
+  .facts {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 16px 22px;
+    background: var(--accent-soft);
+    border-radius: var(--radius-md);
+  }
+
+  dl {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  dt {
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 700;
+  }
+
+  @media (max-width: 640px) {
+    .facts {
+      align-items: flex-start;
+      padding: 16px;
+      gap: 16px;
+    }
+
+    dl {
+      flex-direction: column;
+    }
+  }
+</style>
