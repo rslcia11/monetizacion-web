@@ -5,6 +5,7 @@ import AuthorBox from '../components/article/AuthorBox.astro';
 import { mdxComponents } from '../components/mdx';
 import { localeFromId, slugFromId } from '../lib/articles';
 import type { SitePage } from '../lib/pages';
+import { cookiesSection } from '../lib/routes';
 import { formatDate, sharedAlternates, t } from '../i18n/ui';
 
 interface Props {
@@ -14,11 +15,15 @@ interface Props {
 const { page } = Astro.props;
 const locale = localeFromId(page.id);
 const { title, description, updatedAt, showAuthors } = page.data;
-const { Content } = await render(page);
+const { Content, headings } = await render(page);
+const slug = slugFromId(page.id);
+if (slug === cookiesSection.page && !headings.some((h) => h.slug === cookiesSection.anchor)) {
+  throw new Error(`"${page.id}" needs a heading with id "${cookiesSection.anchor}": the footer's Cookies link points to it.`);
+}
 const authors = showAuthors ? await getCollection('authors') : [];
 ---
 
-<BaseLayout locale={locale} title={title} description={description} alternates={sharedAlternates(slugFromId(page.id))}>
+<BaseLayout locale={locale} title={title} description={description} alternates={sharedAlternates(slug)}>
   <main id="main" class="container page">
     <h1>{title}</h1>
     <p class="updated">

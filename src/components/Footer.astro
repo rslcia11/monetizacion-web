@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { sitePages } from '../lib/routes';
+import { cookiesSection, sitePages } from '../lib/routes';
+import { site } from '../lib/site';
 import { localePath, t, type Locale } from '../i18n/ui';
 
 interface Props {
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+// Set when the page is built: a yearly rebuild (or any new article) keeps it current.
+const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
@@ -15,9 +18,11 @@ const { locale } = Astro.props;
     <div class="about">
       <Logo href={localePath(locale)} size="sm" />
       <p>{t(locale, 'site.tagline')}</p>
+      <p class="copyright">© {year} {site.name}</p>
     </div>
     <nav class="links" aria-label={t(locale, 'nav.footer')}>
       {sitePages.map((page) => <a href={localePath(locale, page.slug)}>{t(locale, page.label)}</a>)}
+      <a href={`${localePath(locale, cookiesSection.page)}#${cookiesSection.anchor}`}>{t(locale, 'footer.cookies')}</a>
     </nav>
   </div>
 </footer>
@@ -45,6 +50,11 @@ const { locale } = Astro.props;
 
   .about > :global(.logo) {
     margin-bottom: 6px;
+  }
+
+  .copyright {
+    margin-top: 12px;
+    font-size: 14px;
   }
 
   .links {
