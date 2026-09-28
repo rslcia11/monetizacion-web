@@ -12,4 +12,10 @@ export const sitePages: { slug: string; label: UIKey }[] = [
 ];
 
 // Articles live at /<file-name>/, next to these pages. A clash would silently drop the article.
-export const reservedSlugs = new Set([...Object.values(kinds).map((k) => k.slug), ...sitePages.map((p) => p.slug)]);
+// "og" is the share-image folder (src/pages/og/), "search" the search page.
+export const reservedSlugs = new Set([
+  ...Object.values(kinds).map((k) => k.slug),
+  ...sitePages.map((p) => p.slug),
+  'og',
+  'search',
+]);

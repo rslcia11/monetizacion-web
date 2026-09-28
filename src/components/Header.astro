@@ -1,7 +1,7 @@
 ---
+import Logo from './Logo.astro';
 import { kindsWithArticles } from '../lib/articles';
 import { kindEntries } from '../lib/kinds';
-import { site } from '../lib/site';
 import { localeMeta, localePath, t, type Alternate, type Locale } from '../i18n/ui';
 
 interface Props {
@@ -24,8 +24,8 @@ const links = [
 ---
 
 <header class="site-header">
-  <div class="container bar">
-    <a class="logo" href={localePath(locale)}>{site.name}</a>
+  <div class="bar">
+    <Logo href={localePath(locale)} tone="dark" />
     <nav class="nav" aria-label={t(locale, 'nav.main')}>
       {
         links.map((link) => (
@@ -35,6 +35,16 @@ const links = [
         ))
       }
     </nav>
+    {
+      available.size > 0 && (
+        <a class="search-link" href={localePath(locale, 'search')} aria-label={t(locale, 'nav.search')}>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2" />
+            <path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+        </a>
+      )
+    }
     {
       otherLanguage && (
         <a class="language" href={otherLanguage.href} hreflang={otherLanguage.locale} lang={otherLanguage.locale}>
@@ -46,34 +56,31 @@ const links = [
 </header>
 
 <style>
+  /* Teal brand bar (DESIGN.md 4). Spans the full width so the logo sits near the left edge;
+     the page content below stays centered in its 1120px column. */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 10;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
+    background: var(--accent);
+    color: var(--paper);
   }
 
   .bar {
+    max-width: 1440px;
     min-height: var(--header-h);
+    margin-inline: auto;
+    padding-inline: 40px;
     display: flex;
     align-items: center;
-    gap: 48px;
-  }
-
-  .logo {
-    font-family: var(--font-serif);
-    font-size: 27px;
-    font-weight: 700;
-    color: var(--ink);
-    text-decoration: none;
+    gap: 44px;
   }
 
   .nav {
     display: flex;
     gap: 28px;
     flex-grow: 1;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
   }
 
@@ -82,32 +89,58 @@ const links = [
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 3px;
   }
 
   .nav a:hover,
   .language:hover {
-    color: var(--accent);
+    color: var(--paper);
+    text-decoration-line: underline;
+    text-decoration-color: rgb(255 255 255 / 55%);
   }
 
+  /* Current page: warm underline (yellow = highlight in the palette). */
   .nav a[aria-current='page'] {
-    color: var(--accent);
     font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-color: var(--warm);
   }
 
   .language {
     font-size: 15px;
   }
 
+  .search-link {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--paper);
+  }
+
+  .search-link:hover {
+    color: var(--paper);
+    background: rgb(255 255 255 / 14%);
+  }
+
+  /* The global focus ring is teal: invisible on this bar. */
+  .site-header :focus-visible {
+    outline-color: var(--paper);
+  }
+
   @media (max-width: 760px) {
     .bar {
       flex-wrap: wrap;
       gap: 0 24px;
-      padding-top: 8px;
+      padding-inline: var(--gutter);
+      padding-top: 6px;
     }
 
-    .logo {
+    .bar > :global(.logo) {
       flex-grow: 1;
     }
 

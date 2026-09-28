@@ -1,0 +1,75 @@
+---
+import { t, type Locale } from '../i18n/ui';
+
+// Topic buttons above a grid of ArticleCards, in the same parent element (DESIGN.md 4,
+// "Filtro por tema"). Hidden until the script runs: without JavaScript every card stays visible.
+interface Props {
+  topics: string[];
+  locale: Locale;
+}
+
+const { topics, locale } = Astro.props;
+---
+
+<div class="filter" role="group" aria-label={t(locale, 'filter.label')} data-topic-filter hidden>
+  <button type="button" aria-pressed="true" data-topic="">{t(locale, 'filter.all')}</button>
+  {
+    topics.map((topic) => (
+      <button type="button" aria-pressed="false" data-topic={topic}>
+        {topic}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  for (const filter of document.querySelectorAll<HTMLElement>('[data-topic-filter]')) {
+    const buttons = [...filter.querySelectorAll<HTMLButtonElement>('button')];
+    const cards = [...filter.parentElement!.querySelectorAll<HTMLElement>('[data-card-topic]')];
+
+    filter.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest('button');
+      if (!button) return;
+      const topic = button.dataset.topic;
+      for (const b of buttons) b.setAttribute('aria-pressed', String(b === button));
+      for (const card of cards) card.hidden = Boolean(topic) && card.dataset.cardTopic !== topic;
+    });
+
+    filter.hidden = false;
+  }
+</script>
+
+<style>
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .filter[hidden] {
+    display: none;
+  }
+
+  button {
+    min-height: 44px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  button:hover {
+    color: var(--accent);
+  }
+
+  button[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+</style>

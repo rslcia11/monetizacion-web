@@ -1,0 +1,67 @@
+---
+import { site } from '../lib/site';
+
+// Wordmark: the first letter boxed, the rest of the name right after it ("[K]riterio").
+// `tone` depends on the background: 'dark' on the teal header, 'light' on white.
+interface Props {
+  href: string;
+  size?: 'md' | 'sm';
+  tone?: 'dark' | 'light';
+}
+
+const { href, size = 'md', tone = 'light' } = Astro.props;
+const [first, ...rest] = site.name;
+---
+
+<a class:list={['logo', size, tone]} href={href} aria-label={site.name}>
+  <span class="box" aria-hidden="true">{first}</span><span aria-hidden="true">{rest.join('')}</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .box {
+    display: inline-grid;
+    place-items: center;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 2px;
+    border-radius: 5px;
+  }
+
+  .md {
+    font-size: 25px;
+  }
+
+  .sm {
+    font-size: 22px;
+  }
+
+  .light,
+  .light:hover {
+    color: var(--ink);
+  }
+
+  .light .box {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .dark,
+  .dark:hover {
+    color: var(--paper);
+  }
+
+  .dark .box {
+    background: var(--paper);
+    color: var(--accent);
+  }
+</style>

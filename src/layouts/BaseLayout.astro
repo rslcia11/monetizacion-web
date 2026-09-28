@@ -3,7 +3,7 @@ import { Font } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { adsenseClient } from '../lib/ads';
-import { site } from '../lib/site';
+import { ogImageSize, site } from '../lib/site';
 import { defaultLocale, localeMeta, t, type Alternate, type Locale } from '../i18n/ui';
 import '../styles/global.css';
 
@@ -11,21 +11,37 @@ interface Props {
   locale: Locale;
   // Page title only; the site name is appended here (plan 9.5).
   title: string;
+  // Home only: the brand leads ("Kriterio: Developer tools, ...") instead of trailing.
+  brandFirst?: boolean;
   description: string;
   // Language versions of this page, including itself. Empty = no translation yet.
   alternates?: Alternate[];
   ogType?: 'website' | 'article';
+  // Share image path, from src/pages/og/. Pages without their own use the site-wide one.
+  ogImage?: string;
   jsonLd?: Record<string, unknown>[];
+  // Pages that shouldn't appear in Google, like internal search results.
+  noindex?: boolean;
 }
 
-const { locale, title, description, alternates = [], ogType = 'website', jsonLd = [] } = Astro.props;
+const {
+  locale,
+  title,
+  brandFirst = false,
+  description,
+  alternates = [],
+  ogType = 'website',
+  ogImage = '/og/default.png',
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
 
-// JSON-LD carries frontmatter text into a <script>: escape "<" so a "</script>" inside a
-// title can't close the tag and inject HTML.
+// JSON-LD carries frontmatter text into a script tag: escape "<" so a closing script tag
+// inside a title can't end it early and inject HTML.
 const safeJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 
 const siteName = site.name;
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const fullTitle = brandFirst ? `${siteName}: ${title}` : `${title} | ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const hreflang = alternates.length > 1 ? alternates : [];
 const xDefault = hreflang.find((a) => a.locale === defaultLocale);
@@ -40,6 +56,7 @@ const otherLanguage = alternates.find((a) => a.locale !== locale);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
     {hreflang.map((a) => <link rel="alternate" hreflang={a.locale} href={new URL(a.href, Astro.site)} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={new URL(xDefault.href, Astro.site)} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -53,6 +70,12 @@ const otherLanguage = alternates.find((a) => a.locale !== locale);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={localeMeta[locale].og} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(ogImageSize.width)} />
+    <meta property="og:image:height" content={String(ogImageSize.height)} />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <Font cssVariable="--font-sans" preload={[{ weight: '400' }]} />
     <Font cssVariable="--font-serif" preload />

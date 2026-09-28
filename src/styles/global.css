@@ -19,14 +19,13 @@
   --con: #b8432a;
   --con-text: #9c3822;
   --con-soft: #fbeeea;
-  --footer-text: #d5deda;
 
   --container: 1120px;
   --gutter: 24px;
   --measure: 720px;
   /* 300px: the widest ad AdSense allows in a sticky sidebar (300x600). */
   --sidebar: 300px;
-  --header-h: 68px;
+  --header-h: 56px;
 
   --radius-lg: 12px;
   --radius-md: 10px;

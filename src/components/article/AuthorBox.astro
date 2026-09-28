@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Avatar from '../Avatar.astro';
+import { socialIcon } from '../../lib/social';
 import { inLocale, localePath, t, type Locale } from '../../i18n/ui';
 
 interface Props {
@@ -23,16 +24,25 @@ const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`
     {showTitle && <h2 class="title">{t(locale, 'author.title')}</h2>}
     <p class="name" id={headingId}>{name}, {role}</p>
     <p>{bio}</p>
-    <p class="links">
-      <a href={localePath(locale, 'how-we-test')}>{t(locale, 'footer.howWeTest')}</a>
+    <div class="links">
+      <a class="method" href={localePath(locale, 'how-we-test')}>{t(locale, 'footer.howWeTest')}</a>
       {
-        links.map((link) => (
-          <a href={link.url} rel="me noopener">
-            {link.label}
-          </a>
-        ))
+        links.map((link) => {
+          const icon = socialIcon(link.url);
+          return icon ? (
+            <a class="profile" href={link.url} rel="me noopener" aria-label={`${name} ${t(locale, 'author.on')} ${link.label}`} title={link.label}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill={icon.color} aria-hidden="true">
+                <path d={icon.path} />
+              </svg>
+            </a>
+          ) : (
+            <a class="method" href={link.url} rel="me noopener">
+              {link.label}
+            </a>
+          );
+        })
       }
-    </p>
+    </div>
   </div>
 </section>
 
@@ -64,16 +74,33 @@ const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 20px;
-    margin-top: 8px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
     font-size: 15px;
     font-weight: 600;
   }
 
-  .links a {
+  .method {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    margin-right: 12px;
+  }
+
+  /* Profile buttons: brand glyph on a white disc, brand-colored ring on hover. */
+  .profile {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--warm-line);
+    border-radius: 50%;
+    background: var(--paper);
+  }
+
+  .profile:hover {
+    border-color: var(--ink);
   }
 
   @media (max-width: 640px) {

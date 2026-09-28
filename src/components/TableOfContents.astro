@@ -15,7 +15,7 @@ const label = t(locale, 'article.toc');
 
 {
   variant === 'sidebar' ? (
-    <nav class="toc" aria-label={label}>
+    <nav class="toc" aria-label={label} data-pagefind-ignore>
       <h2 class="toc-title">{label}</h2>
       <ol>
         {headings.map((h) => (
@@ -26,7 +26,7 @@ const label = t(locale, 'article.toc');
       </ol>
     </nav>
   ) : (
-    <details class="toc inline">
+    <details class="toc inline" data-pagefind-ignore>
       <summary class="toc-title">{label}</summary>
       <ol>
         {headings.map((h) => (

@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import ArticleCover from '../components/ArticleCover.astro';
 import ArticleGrid from '../components/ArticleGrid.astro';
+import SearchForm from '../components/SearchForm.astro';
+import TopicFilter from '../components/TopicFilter.astro';
 import { articleUrl, getArticles } from '../lib/articles';
 import { absoluteUrl, organizationJsonLd, site } from '../lib/site';
 import { formatDate, sharedAlternates, t, type Locale } from '../i18n/ui';
@@ -15,6 +17,8 @@ interface Props {
 const { locale } = Astro.props;
 const [featured, ...latest] = await getArticles(locale);
 const featuredAuthor = featured && (await getEntry(featured.data.author));
+// Filter buttons only make sense with at least two topics to choose from.
+const topics = [...new Set(latest.map((a) => a.data.topic))].sort((a, b) => a.localeCompare(b, locale));
 
 // Tells search engines what the site is and who publishes it.
 const jsonLd = [
@@ -23,18 +27,21 @@ const jsonLd = [
 ];
 
 // Principle: "come in, see articles, done". No marketing hero (plan 9.4).
-// TODO: search (Pagefind) next to the title and topic filters on "Latest".
 ---
 
 <BaseLayout
   locale={locale}
-  title={site.name}
+  title={t(locale, 'home.title')}
+  brandFirst
   description={t(locale, 'home.description')}
   alternates={sharedAlternates()}
   jsonLd={jsonLd}
 >
   <main id="main" class="container home">
-    <h1 class="home-title">{t(locale, 'home.title')}</h1>
+    <div class="home-head">
+      <h1 class="home-title">{t(locale, 'home.title')}</h1>
+      {featured && <SearchForm locale={locale} />}
+    </div>
 
     {
       featured && (
@@ -59,6 +66,7 @@ const jsonLd = [
       latest.length > 0 && (
         <section class="latest" aria-labelledby="latest">
           <h2 id="latest" class="section-title">{t(locale, 'home.latest')}</h2>
+          {topics.length > 1 && <TopicFilter topics={topics} locale={locale} />}
           <ArticleGrid articles={latest} emptyText={t(locale, 'home.empty')} />
         </section>
       )
@@ -73,8 +81,16 @@ const jsonLd = [
     padding-block: 36px 72px;
   }
 
-  .home-title {
+  .home-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
     margin-bottom: 32px;
+  }
+
+  .home-title {
     font-size: 30px;
   }
 

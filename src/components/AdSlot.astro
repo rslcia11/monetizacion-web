@@ -16,7 +16,7 @@ const format = placement === 'home' ? 'horizontal' : placement === 'sidebar' ? '
 
 {
   unit && (
-    <aside class:list={['ad', placement]} aria-label={t(locale, 'ad.label')}>
+    <aside class:list={['ad', placement]} aria-label={t(locale, 'ad.label')} data-pagefind-ignore>
       <p class="label">{t(locale, 'ad.label')}</p>
       <ins
         class="adsbygoogle"

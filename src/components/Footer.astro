@@ -1,6 +1,6 @@
 ---
+import Logo from './Logo.astro';
 import { sitePages } from '../lib/routes';
-import { site } from '../lib/site';
 import { localePath, t, type Locale } from '../i18n/ui';
 
 interface Props {
@@ -13,7 +13,7 @@ const { locale } = Astro.props;
 <footer class="site-footer">
   <div class="container inner">
     <div class="about">
-      <p class="name">{site.name}</p>
+      <Logo href={localePath(locale)} size="sm" />
       <p>{t(locale, 'site.tagline')}</p>
     </div>
     <nav class="links" aria-label={t(locale, 'nav.footer')}>
@@ -24,8 +24,9 @@ const { locale } = Astro.props;
 
 <style>
   .site-footer {
-    background: var(--ink);
-    color: var(--footer-text);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    color: var(--muted);
   }
 
   .inner {
@@ -42,12 +43,8 @@ const { locale } = Astro.props;
     line-height: 1.55;
   }
 
-  .name {
-    margin-bottom: 8px;
-    font-family: var(--font-serif);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--paper);
+  .about > :global(.logo) {
+    margin-bottom: 6px;
   }
 
   .links {
@@ -60,12 +57,12 @@ const { locale } = Astro.props;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: var(--footer-text);
+    color: var(--ink-2);
     text-decoration: none;
   }
 
   .links a:hover {
-    color: var(--paper);
+    color: var(--accent);
     text-decoration: underline;
   }
 

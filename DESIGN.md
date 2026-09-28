@@ -10,7 +10,7 @@ Principio: sitio informativo de artículos. El usuario entra, entiende de qué t
 
 | Token | Hex | Uso |
 |---|---|---|
-| `--ink` | `#16211E` | Texto principal, encabezado de tablas, footer |
+| `--ink` | `#16211E` | Texto principal, encabezado de tablas |
 | `--ink-2` | `#24312D` | Texto secundario largo (entradillas, resúmenes) |
 | `--muted` | `#3E4B47` | Metadatos, captions, etiquetas |
 | `--pending` | `#5E6B67` | Datos pendientes (—) |
@@ -71,15 +71,21 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 
 ## 4. Componentes
 
-**Header** (sticky, fondo blanco, borde inferior `--line`, alto 68px): logo "Kriterio" en serif 27px 700 · menú editorial: Latest, Comparisons, Alternatives, Guides · enlace "Español" · en páginas internas, botón de búsqueda (44×44).
+**Logo:** palabra "Kriterio" en serif 700 con la "K" dentro de un recuadro (radio 5px) y "riterio" pegado a continuación. Sobre el header verde: recuadro blanco con K verde, resto en blanco (`tone="dark"`). Sobre fondo claro: recuadro `--accent` con K blanca, resto en `--ink`. El favicon es el recuadro solo. Componente `Logo.astro`.
 
-**Buscador (portada):** input redondeado (alto 50px, radio 25px, borde `#C9D3CF`), placeholder "Search a tool, like Postman or Supabase", botón circular `--accent` con lupa. Label accesible oculto.
+**Header** (sticky, fondo `--accent`, texto blanco, alto 56px, sin borde): ocupa casi todo el ancho de la pantalla (máx. 1440px, márgenes de 40px) para que el logo quede a la izquierda; el contenido de abajo sigue centrado en 1120px. Menú editorial: Latest, Comparisons, Alternatives, Guides (solo las secciones con artículos) · enlace "Español" cuando existe la traducción. Página actual: subrayado `--warm` de 3px. Foco visible en blanco. Botón de búsqueda (lupa, 44×44) a la derecha, solo cuando hay artículos.
+
+**Buscador (portada, junto al título):** formulario GET a /search/ (funciona sin JS). Input redondeado (alto 50px, radio 25px, borde `#C9D3CF`), placeholder "Search a tool, like Postman or Supabase", botón circular `--accent` con lupa. Label accesible oculto.
 
 **Artículo destacado (portada):** grilla 2 columnas: portada (330px alto) + tema en `--accent`, h2 serif 36px, resumen 18px, autor y fecha. Todo el bloque es un link.
 
 **Grilla de artículos:** tarjeta = portada 190px + tema (14px, `--accent`, 700) + título (20px, 700) + resumen de una línea (16px, `--muted`). Sin sombras.
 
-**Filtro por tema:** botones de texto; activo = fondo `--ink`, texto blanco, radio 8px. `aria-pressed`. Estado vacío con mensaje útil.
+**Filtro por tema ("Latest" en portada):** aparece solo con 2 temas o más; sin JS no se muestra y se ven todas las tarjetas. Botones de texto; activo = fondo `--ink`, texto blanco, radio 8px. `aria-pressed`. Estado vacío con mensaje útil.
+
+**Búsqueda:** Pagefind, índice generado en el build (`astro build && pagefind`); solo indexa el cuerpo del artículo (`data-pagefind-body`), sin navegación, anuncios ni caja de autor. La página /search/ es `noindex` y no va al sitemap. En `astro dev` no hay índice: muestra "no disponible".
+
+**Imagen para compartir (og:image):** PNG 1200×630 generado en el build (satori + resvg) en /og/<locale>/<slug>.png: logo, título, tema y logos de las herramientas sobre el mismo fondo que la portada. Portada y páginas usan /og/default.png.
 
 **Portadas generadas (sistema propio):** fondo de la paleta + logos oficiales de las herramientas enfrentados ("vs") o logo + "alternatives". Se generan por código a partir del frontmatter del artículo (sin imágenes de IA ni stock).
 
@@ -107,7 +113,7 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 
 **Caja de autor:** fondo `--warm-soft`, foto 72px, bio real, enlace a "How we test".
 
-**Footer:** fondo `--ink`, logo + una línea sobre qué es Kriterio + About, How we test, Contact, Privacy, Terms.
+**Footer:** fondo `--surface` con borde superior `--line`, logo (versión chica) + una línea sobre qué es Kriterio + About, How we test, Contact, Privacy, Terms.
 
 ---
 

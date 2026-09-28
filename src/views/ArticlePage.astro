@@ -81,7 +81,13 @@ const jsonLd = [
     inLanguage: locale,
     datePublished: publishedAt.toISOString(),
     dateModified: updatedAt.toISOString(),
-    author: { '@type': 'Person', name: author.data.name, url: absoluteUrl(localePath(locale, 'about')) },
+    author: {
+      '@type': 'Person',
+      name: author.data.name,
+      url: absoluteUrl(localePath(locale, 'about')),
+      // Public profiles tie the byline to a real person (E-E-A-T).
+      sameAs: author.data.links.map((link) => link.url),
+    },
     publisher: organizationJsonLd(),
     mainEntityOfPage: url,
   },
@@ -102,17 +108,19 @@ const jsonLd = [
   description={description}
   alternates={alternatesFor(article, all)}
   ogType="article"
+  ogImage={`/og/${article.id}.png`}
   jsonLd={jsonLd}
 >
-  <main id="main">
+  <!-- Search index (Pagefind): only the article itself, not navigation, ads or the author box. -->
+  <main id="main" data-pagefind-body>
   <div class="article-head">
     <div class="container">
       <nav class="breadcrumb" aria-label={t(locale, 'nav.breadcrumb')}>
-        <a href={kindHref}>{kindLabel}</a> / <span>{topic}</span>
+        <a href={kindHref}>{kindLabel}</a> / <span data-pagefind-meta="topic">{topic}</span>
       </nav>
       <h1>{title}</h1>
       <p class="lede">{lede}</p>
-      <div class="byline">
+      <div class="byline" data-pagefind-ignore>
         <Avatar name={author.data.name} photo={author.data.photo} size={48} ring="accent" />
         <div>
           <p>
@@ -135,13 +143,13 @@ const jsonLd = [
       <div class="prose">
         <Content components={mdxComponents} />
       </div>
-      <div class="after">
+      <div class="after" data-pagefind-ignore>
         <HowWeTested id="how-we-tested" locale={locale} testing={testing} testedAt={testedAt} />
         <Sources id="sources" locale={locale} sources={sources} />
         <AuthorBox author={author} locale={locale} />
       </div>
     </div>
-    <aside class="sidebar">
+    <aside class="sidebar" data-pagefind-ignore>
       <TableOfContents headings={toc} locale={locale} variant="sidebar" />
       <div class="sidebar-ad">
         <AdSlot placement="sidebar" />

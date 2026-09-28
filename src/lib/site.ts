@@ -8,6 +8,9 @@ export const site = {
   country: 'Ecuador',
 } as const;
 
+// Share image size (og:image): the 1.91:1 ratio X, LinkedIn, Facebook and Slack all show large.
+export const ogImageSize = { width: 1200, height: 630 } as const;
+
 // "/about/" -> "https://kriterio.dev/about/" (the `site` option in astro.config.mjs).
 export function absoluteUrl(path: string): string {
   return new URL(path, import.meta.env.SITE).href;

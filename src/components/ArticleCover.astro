@@ -1,5 +1,6 @@
 ---
 import ToolLogo from './ToolLogo.astro';
+import { coverBackground } from '../lib/cover';
 import { kinds, type Kind } from '../lib/kinds';
 
 interface Props {
@@ -11,9 +12,7 @@ interface Props {
 const { tools, kind, size = 'card' } = Astro.props;
 
 // Generated from frontmatter, never stock or AI images (DESIGN.md 4).
-const backgrounds = ['var(--accent-soft)', 'var(--warm-soft)', 'var(--surface)', 'var(--con-soft)'];
-const hash = [...tools.join('')].reduce((sum, char) => sum + char.charCodeAt(0), 0);
-const background = backgrounds[hash % backgrounds.length];
+const background = coverBackground(tools).css;
 
 const [first, ...rest] = tools;
 const { joiner } = kinds[kind];
