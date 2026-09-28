@@ -21,7 +21,7 @@ const articles = (await getArticles(locale)).filter((a) => a.data.kind === kind)
   description={`${label}: ${t(locale, 'home.description')}`}
   alternates={sharedAlternates(kinds[kind].slug, await kindLocales(kind))}
 >
-  <main class="container listing">
+  <main id="main" class="container listing">
     <h1 class="listing-title">{label}</h1>
     <ArticleGrid articles={articles} emptyText={t(locale, 'home.empty')} />
   </main>

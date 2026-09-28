@@ -355,6 +355,52 @@ Matices honestos:
 
 ---
 
+## 11.1 Auditoría de cumplimiento (28-sep-2026)
+
+Fuentes: [políticas del programa AdSense](https://support.google.com/adsense/answer/48182), [requisitos de elegibilidad](https://support.google.com/adsense/answer/9724), [políticas para publishers de Google](https://support.google.com/publisherpolicies/answer/10502938), [CMP certificado para EEE/UK/Suiza](https://support.google.com/adsense/answer/13554116), [leyes estatales de EE.UU.](https://support.google.com/adsense/answer/9560818), reglas de anuncios sticky ([Ad Manager](https://support.google.com/admanager/answer/7246067)).
+
+| Requisito | Estado |
+|---|---|
+| Contenido original y de valor; nada copiado sin aportar análisis | Estándar editorial §9.3 + validaciones de build. Faltan los artículos. |
+| Transparencia: dueño, propósito, independencia, relaciones comerciales | About, How we test, Contact; autor real con bio. |
+| Política de privacidad con cookies de terceros (Google) y opt-out | Privacy con los avisos exigidos, LOPDP, GDPR y opt-out de estados de EE.UU. |
+| CMP certificado (EEE/UK/Suiza) | Se activa en AdSense > Privacidad y mensajes; no requiere código (lo sirve el script de AdSense). |
+| Estados de EE.UU. ("Do not sell or share") | Mensaje de estados de EE.UU. en Privacidad y mensajes; opcional RDP. |
+| Anuncios distinguibles del contenido, etiquetados, sin incitar clics | Etiqueta "Advertisement"; sin textos tipo "support us" ni flechas. |
+| No anuncios junto a navegación ni imitándola | Solo 3 ubicaciones: dentro del artículo, barra lateral y portada. |
+| Sticky: uno solo, escritorio, ≤300px, sin tapar contenido | Barra lateral 300px, solo el anuncio es sticky, oculto <1120px. |
+| Densidad (Better Ads Standards) | Máx. 3 anuncios en el artículo, nunca seguidos, nunca antes del veredicto. |
+| Espacio reservado (CLS) | Alto fijo por ubicación. |
+| ads.txt | Automático con `ADSENSE_CLIENT`. |
+| Navegación clara, sin secciones vacías | Menú solo con secciones con artículos. |
+| Acceso al HTML del sitio, dominio propio, HTTPS | Sitio propio en Astro; .dev obliga HTTPS. |
+| Sitemap, robots, canonical, datos estructurados | Sí (Article, BreadcrumbList, WebSite, Organization). RSS en `/rss.xml`. |
+| Accesibilidad básica | Enlace "Skip to content", foco visible, contraste, `alt` obligatorio en capturas. |
+| Identidad visual completa | Favicon propio (SVG). Pendiente: imagen para compartir en redes (og:image). |
+
+**Pendiente antes de aplicar:** comprar el dominio y desplegar, 15–20 artículos reales, activar los mensajes de Privacidad y mensajes, revisión legal de Privacy/Terms.
+
+---
+
+## 11.2 Monetización más allá de AdSense (investigación 28-sep-2026)
+
+| Opción | Requisito de entrada | Encaje con Kriterio |
+|---|---|---|
+| AdSense | Sin mínimo de tráfico; contenido de calidad | **Fase 1.** |
+| Google Ad Manager (gratis) | Sin mínimo; acceso a AdX solo vía un socio MCM | Cuando haya volumen, para sumar demanda. |
+| Journey by Mediavine | 1.000 sesiones/mes (desde ene-2026) | Primer salto natural desde AdSense. |
+| Raptive | 25.000 páginas vistas/mes (desde oct-2025) | Fase de crecimiento. |
+| Mediavine (principal) | ~$5.000/año en ingresos por anuncios | Fase madura. |
+| Ezoic | Subió a 250.000 usuarios/mes (feb-2026, dato de terceros; verificar) | No por ahora. |
+| EthicalAds / Carbon | Audiencia de desarrolladores; CPM ~$1–2.5; Carbon pide miles de visitas diarias | Complemento que encaja con la audiencia y con el tono independiente. |
+| Afiliados de herramientas | Programas de cada vendedor | Posible, pero exige divulgación visible y `rel="sponsored"`; hoy el sitio declara que no tenemos relaciones comerciales, así que se decide artículo por artículo y se actualiza About/How we test. |
+
+Fuentes: [Mediavine y Raptive cambian requisitos](https://thisweekinblogging.com/mediavine-raptive-requirements/), [Journey 2026](https://www.productiveblogging.com/everything-you-need-to-know-about-journey-by-mediavine/), [Ezoic y alternativas](https://newormedia.com/blog/best-ad-networks-for-publishers-2026/), [EthicalAds publishers](https://www.ethicalads.io/publishers/), [Carbon FAQ](https://www.carbonads.net/faq), [Ad Manager y MCM](https://www.publift.com/blog/google-mcm-multiple-customer-management).
+
+**Preparado para cambiar de red:** todos los anuncios pasan por un solo componente (`AdSlot`), un solo script en el `<head>` y un solo `ads.txt`. Cambiar o sumar una red es tocar esos tres puntos, no los artículos. Journey/Mediavine piden redirigir `ads.txt` a su servidor: se configura en el hosting.
+
+---
+
 ## 12. Decisiones cerradas y pendientes
 
 **Cerradas:**

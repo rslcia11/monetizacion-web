@@ -5,7 +5,7 @@ import AdSlot from '../components/AdSlot.astro';
 import ArticleCover from '../components/ArticleCover.astro';
 import ArticleGrid from '../components/ArticleGrid.astro';
 import { articleUrl, getArticles } from '../lib/articles';
-import { site } from '../lib/site';
+import { absoluteUrl, organizationJsonLd, site } from '../lib/site';
 import { formatDate, sharedAlternates, t, type Locale } from '../i18n/ui';
 
 interface Props {
@@ -16,6 +16,12 @@ const { locale } = Astro.props;
 const [featured, ...latest] = await getArticles(locale);
 const featuredAuthor = featured && (await getEntry(featured.data.author));
 
+// Tells search engines what the site is and who publishes it.
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: absoluteUrl(Astro.url.pathname), inLanguage: locale },
+  { '@context': 'https://schema.org', ...organizationJsonLd() },
+];
+
 // Principle: "come in, see articles, done". No marketing hero (plan 9.4).
 // TODO: search (Pagefind) next to the title and topic filters on "Latest".
 ---
@@ -25,8 +31,9 @@ const featuredAuthor = featured && (await getEntry(featured.data.author));
   title={site.name}
   description={t(locale, 'home.description')}
   alternates={sharedAlternates()}
+  jsonLd={jsonLd}
 >
-  <main class="container home">
+  <main id="main" class="container home">
     <h1 class="home-title">{t(locale, 'home.title')}</h1>
 
     {

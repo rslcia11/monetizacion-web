@@ -10,7 +10,7 @@ import AuthorBox from '../components/article/AuthorBox.astro';
 import { mdxComponents } from '../components/mdx';
 import { alternatesFor, articleLocale, articleSlug, type Article } from '../lib/articles';
 import { kinds } from '../lib/kinds';
-import { site } from '../lib/site';
+import { absoluteUrl, organizationJsonLd } from '../lib/site';
 import { formatDate, inLocale, localePath, t } from '../i18n/ui';
 
 interface Props {
@@ -32,7 +32,7 @@ const kindInfo = kinds[kind];
 const kindLabel = t(locale, kindInfo.label);
 const kindHref = localePath(locale, kindInfo.slug);
 // Same source as BaseLayout's canonical, so both always agree.
-const url = new URL(Astro.url.pathname, Astro.site).href;
+const url = absoluteUrl(Astro.url.pathname);
 
 // Sections every article gets from its frontmatter, after the body. Fixed ids in every language.
 const autoSections = [
@@ -55,12 +55,19 @@ for (const [, anchor] of body.matchAll(/href="#([^"]+)"/g)) {
     throw new Error(`Article "${slug}": link to "#${anchor}" has no matching heading.`);
   }
 }
-// Ads never go between the title and the verdict: after <Picks> when there is one,
-// otherwise after the first section heading (DESIGN.md 4).
-const firstAd = body.search(/<Ad\b/);
+// Ad rules (DESIGN.md 4, Better Ads Standards): at most 3 in-content ads, never back to back,
+// and never between the title and the verdict (<Picks>, or the first section without picks).
+const MAX_IN_CONTENT_ADS = 3;
+const ads = [...body.matchAll(/<Ad\b[^>]*\/>/g)].map((m) => ({ start: m.index, end: m.index + m[0].length }));
+if (ads.length > MAX_IN_CONTENT_ADS) {
+  throw new Error(`Article "${slug}": ${ads.length} <Ad /> blocks; the limit is ${MAX_IN_CONTENT_ADS}.`);
+}
+if (ads.some((ad, i) => i > 0 && body.slice(ads[i - 1].end, ad.start).trim() === '')) {
+  throw new Error(`Article "${slug}": two <Ad /> blocks in a row. Put content between them.`);
+}
 const picks = body.indexOf('<Picks');
 const adsAllowedFrom = picks !== -1 ? picks : body.search(/^## /m);
-if (firstAd !== -1 && (adsAllowedFrom === -1 || firstAd < adsAllowedFrom)) {
+if (ads.length > 0 && (adsAllowedFrom === -1 || ads[0].start < adsAllowedFrom)) {
   throw new Error(`Article "${slug}": ads can't go above "Our picks" or the first section (DESIGN.md 4).`);
 }
 
@@ -74,15 +81,15 @@ const jsonLd = [
     inLanguage: locale,
     datePublished: publishedAt.toISOString(),
     dateModified: updatedAt.toISOString(),
-    author: { '@type': 'Person', name: author.data.name, url: new URL(localePath(locale, 'about'), Astro.site).href },
-    publisher: { '@type': 'Organization', name: site.name, url: new URL('/', Astro.site).href },
+    author: { '@type': 'Person', name: author.data.name, url: absoluteUrl(localePath(locale, 'about')) },
+    publisher: organizationJsonLd(),
     mainEntityOfPage: url,
   },
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: kindLabel, item: new URL(kindHref, Astro.site).href },
+      { '@type': 'ListItem', position: 1, name: kindLabel, item: absoluteUrl(kindHref) },
       { '@type': 'ListItem', position: 2, name: title, item: url },
     ],
   },
@@ -97,6 +104,7 @@ const jsonLd = [
   ogType="article"
   jsonLd={jsonLd}
 >
+  <main id="main">
   <div class="article-head">
     <div class="container">
       <nav class="breadcrumb" aria-label={t(locale, 'nav.breadcrumb')}>
@@ -122,7 +130,7 @@ const jsonLd = [
   </div>
 
   <div class="container layout">
-    <main class="content">
+    <div class="content">
       <TableOfContents headings={toc} locale={locale} variant="inline" />
       <div class="prose">
         <Content components={mdxComponents} />
@@ -132,12 +140,15 @@ const jsonLd = [
         <Sources id="sources" locale={locale} sources={sources} />
         <AuthorBox author={author} locale={locale} />
       </div>
-    </main>
+    </div>
     <aside class="sidebar">
       <TableOfContents headings={toc} locale={locale} variant="sidebar" />
-      <AdSlot placement="sidebar" />
+      <div class="sidebar-ad">
+        <AdSlot placement="sidebar" />
+      </div>
     </aside>
   </div>
+  </main>
 </BaseLayout>
 
 <style>
@@ -195,9 +206,10 @@ const jsonLd = [
     color: var(--muted);
   }
 
+  /* 720 + 52 + 300 = 1072 = container minus gutters. */
   .layout {
     display: flex;
-    gap: 64px;
+    gap: 52px;
     align-items: flex-start;
     padding-block: 48px 72px;
   }
@@ -208,17 +220,28 @@ const jsonLd = [
     flex-shrink: 1;
   }
 
+  /* Stretches to the article's height so the ad inside can stay in view while reading.
+     AdSense sticky rules: one sticky ad, desktop only, max 300px wide, never over content. */
   .sidebar {
     width: var(--sidebar);
     flex-shrink: 0;
-    position: sticky;
-    top: 100px;
+    align-self: stretch;
     display: flex;
     flex-direction: column;
     gap: 32px;
   }
 
-  @media (max-width: 1023px) {
+  /* Sticky only when the whole unit (~640px + 100px offset) fits the screen: on shorter
+     laptops a stuck ad would stay half cut off. */
+  @media (min-height: 760px) {
+    .sidebar-ad {
+      position: sticky;
+      top: 100px;
+    }
+  }
+
+  /* Below the full desktop width: one column, no sidebar and no sticky ad (tablets included). */
+  @media (max-width: 1119px) {
     .layout {
       display: block;
     }
@@ -231,7 +254,9 @@ const jsonLd = [
     .sidebar {
       display: none;
     }
+  }
 
+  @media (max-width: 1023px) {
     h1 {
       font-size: 38px;
     }

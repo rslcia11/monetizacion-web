@@ -147,7 +147,7 @@ El ancla de un `##` es el título en minúsculas con guiones: `## Bruno keeps yo
 - Frontmatter completo y con formato válido (largos, fechas, URLs http/https, autor existente).
 - Una `comparison` con al menos dos herramientas.
 - Cada `href="#..."` apunta a un título que existe.
-- Ningún `<Ad />` antes de "Our picks".
+- Ningún `<Ad />` antes de "Our picks" (o del primer `##` si el artículo no tiene picks), máximo 3 por artículo y nunca dos seguidos.
 - `<Results>`: cada fila tiene un valor por herramienta y `winner` es una de ellas.
 - `<Pick>` sin `top` necesita `label`; `<ProsCons>` necesita al menos un pro y un contra.
 - El nombre del archivo no choca con una página del sitio.

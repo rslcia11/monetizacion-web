@@ -7,3 +7,19 @@ export const site = {
   city: 'Loja',
   country: 'Ecuador',
 } as const;
+
+// "/about/" -> "https://kriterio.dev/about/" (the `site` option in astro.config.mjs).
+export function absoluteUrl(path: string): string {
+  return new URL(path, import.meta.env.SITE).href;
+}
+
+// The publisher, as schema.org data: the home page's Organization and every article's publisher.
+export function organizationJsonLd() {
+  return {
+    '@type': 'Organization',
+    name: site.name,
+    url: absoluteUrl('/'),
+    founder: { '@type': 'Person', name: site.owner },
+    email: site.email,
+  };
+}

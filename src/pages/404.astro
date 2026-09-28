@@ -6,7 +6,7 @@ const locale = 'en';
 ---
 
 <BaseLayout locale={locale} title={t(locale, 'notFound.title')} description={t(locale, 'notFound.body')}>
-  <main class="container not-found">
+  <main id="main" class="container not-found">
     <h1>{t(locale, 'notFound.title')}</h1>
     <p>{t(locale, 'notFound.body')}</p>
     <p><a href={localePath(locale)}>{t(locale, 'notFound.home')}</a></p>

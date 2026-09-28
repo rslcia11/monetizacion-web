@@ -57,12 +57,12 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 ## 3. Layout
 
 - Contenedor: `max-width: 1120px`, padding lateral 24px, centrado.
-- **Artículo:** columna principal 720px + barra lateral 288px, separación 64px. La barra lateral es sticky (`top: 100px`).
+- **Artículo:** columna principal 720px + barra lateral 300px, separación 52px (suman 1072px, el contenedor sin márgenes). 300px porque es el ancho del anuncio vertical 300×600 de AdSense. En la barra lateral solo el anuncio es sticky (`top: 100px`); el índice queda arriba, fijo en su lugar. Reglas de Google para anuncios sticky: uno solo, solo en escritorio, máximo 300px de ancho, nunca sobre el contenido.
 - Radios: 12–14px bloques grandes y portadas; 8–10px botones y cajas; 50% avatares.
 - Espaciado entre secciones: 48–56px.
 
 ### Responsive (el mockup es solo desktop)
-- < 1024px: una columna; la barra lateral pasa debajo del artículo (índice arriba del contenido como desplegable).
+- < 1120px: una columna, sin barra lateral ni anuncio sticky (tablets incluidas); el índice va arriba del contenido como desplegable.
 - Grilla de portada: 3 columnas desktop, 2 tablet, 1 móvil.
 - Tabla de resultados: scroll horizontal dentro de su contenedor; la página nunca hace scroll lateral.
 - Botones y enlaces táctiles ≥ 44px.
@@ -99,7 +99,7 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 
 **Índice (barra lateral):** caja `--accent-soft`, "On this page", sección actual en `--accent` 700.
 
-**Anuncios:** espacio reservado con alto fijo para evitar CLS. En contenido: 250px. Barra lateral: 300×600. Portada: 120px entre bloques. Fondo `--surface`, etiqueta "Advertisement". Nunca entre el título y "Our picks" (el build lo impide). Mientras AdSense no esté configurado no se renderiza nada: ni script ni cajas vacías.
+**Anuncios:** espacio reservado con alto fijo para evitar CLS. En contenido: 250px. Barra lateral: 300×600. Portada: 120px entre bloques. Fondo `--surface`, etiqueta "Advertisement". Nunca entre el título y "Our picks", máximo 3 dentro del artículo y nunca dos seguidos (el build lo impide). Mientras AdSense no esté configurado no se renderiza nada: ni script ni cajas vacías.
 
 **Menú:** solo muestra las secciones (Comparisons, Alternatives, Guides) que tienen artículos; una sección vacía no genera página.
 

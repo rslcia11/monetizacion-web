@@ -26,7 +26,7 @@ const format = placement === 'home' ? 'horizontal' : placement === 'sidebar' ? '
         data-ad-format={format}
         data-full-width-responsive={placement === 'sidebar' ? 'false' : 'true'}
       ></ins>
-      {/* Only request an ad for a visible slot: the sidebar is hidden below 1024px, and a
+      {/* Only request an ad for a visible slot: the sidebar is hidden below 1120px, and a
           zero-width slot makes AdSense throw and requests an ad nobody can see. */}
       <script is:inline>
         (function (ins) {
@@ -58,8 +58,11 @@ const format = placement === 'home' ? 'horizontal' : placement === 'sidebar' ? '
     min-height: 250px;
   }
 
+  /* No side padding: a 300px-wide unit needs the full width. */
   .sidebar {
+    width: var(--sidebar);
     min-height: 600px;
+    padding-inline: 0;
   }
 
   .home {

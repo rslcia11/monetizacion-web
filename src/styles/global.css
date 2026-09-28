@@ -24,7 +24,8 @@
   --container: 1120px;
   --gutter: 24px;
   --measure: 720px;
-  --sidebar: 288px;
+  /* 300px: the widest ad AdSense allows in a sticky sidebar (300x600). */
+  --sidebar: 300px;
   --header-h: 68px;
 
   --radius-lg: 12px;
@@ -199,6 +200,25 @@ table {
   font-size: 14px;
   font-weight: 700;
   color: var(--accent);
+}
+
+/* Hidden until focused with the keyboard. */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+  color: var(--paper);
 }
 
 .visually-hidden {
