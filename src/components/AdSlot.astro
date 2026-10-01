@@ -58,6 +58,11 @@ const format = placement === 'home' ? 'horizontal' : placement === 'sidebar' ? '
     min-height: 250px;
   }
 
+  /* Clear space above and below, away from links and buttons (accidental clicks policy). */
+  :global(.prose) > .article {
+    margin-block: 48px;
+  }
+
   /* No side padding: a 300px-wide unit needs the full width. */
   .sidebar {
     width: var(--sidebar);

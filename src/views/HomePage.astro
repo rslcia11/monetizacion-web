@@ -36,10 +36,14 @@ const jsonLd = [
   description={t(locale, 'home.description')}
   alternates={sharedAlternates()}
   jsonLd={jsonLd}
+  ads
 >
   <main id="main" class="container home">
     <div class="home-head">
-      <h1 class="home-title">{t(locale, 'home.title')}</h1>
+      <div class="home-intro">
+        <h1 class="home-title">{t(locale, 'home.title')}</h1>
+        <p class="home-lede">{t(locale, 'home.intro')}</p>
+      </div>
       {featured && <SearchForm locale={locale} />}
     </div>
 
@@ -77,6 +81,18 @@ const jsonLd = [
 
   .home-title {
     font-size: 30px;
+  }
+
+  .home-intro {
+    flex: 1 1 600px;
+    max-width: 740px;
+  }
+
+  .home-lede {
+    margin-top: 10px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
   }
 
   .empty {

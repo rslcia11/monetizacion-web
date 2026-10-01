@@ -71,6 +71,15 @@ const adsAllowedFrom = picks !== -1 ? picks : body.search(/^## /m);
 if (ads.length > 0 && (adsAllowedFrom === -1 || ads[0].start < adsAllowedFrom)) {
   throw new Error(`Article "${slug}": ads can't go above "Our picks" or the first section (DESIGN.md 4).`);
 }
+// AdSense accidental-click policy: no ad right next to interactive blocks. Code blocks carry a Copy
+// button, and <Picks> and <Output> sit next to buttons or code, so content must separate them.
+const interactive = /(```\s*$|<\/Picks>\s*$|<\/Output>\s*$)/;
+const interactiveAfter = /^\s*(```|<Picks|<Output)/;
+for (const ad of ads) {
+  if (interactive.test(body.slice(0, ad.start)) || interactiveAfter.test(body.slice(ad.end))) {
+    throw new Error(`Article "${slug}": <Ad /> sits right next to a code block, <Picks> or <Output>. Put text between them.`);
+  }
+}
 
 // Article + BreadcrumbList (plan 9.5). No FAQ schema: Google stopped showing FAQ rich results.
 const jsonLd = [
@@ -82,6 +91,8 @@ const jsonLd = [
     inLanguage: locale,
     datePublished: publishedAt.toISOString(),
     dateModified: updatedAt.toISOString(),
+    // Google asks for 16:9, 4:3 and 1:1 versions, at least 1200 px wide (Article and Discover docs).
+    image: ['16x9', '4x3', '1x1'].map((shape) => absoluteUrl(`/og/${article.id}-${shape}.png`)),
     author: {
       '@type': 'Person',
       name: author.data.name,
@@ -109,6 +120,7 @@ const jsonLd = [
   description={description}
   alternates={alternatesFor(article, all)}
   ogType="article"
+  ads
   ogImage={`/og/${article.id}.png`}
   jsonLd={jsonLd}
 >

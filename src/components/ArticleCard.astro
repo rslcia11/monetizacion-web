@@ -7,11 +7,11 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { title, description, topic, tools, kind } = article.data;
+const { title, description, topic, tools, kind, hook } = article.data;
 ---
 
 <a class="card" href={articleUrl(article)} data-card-topic={topic}>
-  <ArticleCover tools={tools} kind={kind} />
+  <ArticleCover tools={tools} kind={kind} hook={hook} />
   <p class="topic-label">{topic}</p>
   <h3 class="title">{title}</h3>
   <p class="summary">{description}</p>
