@@ -82,6 +82,8 @@ const jsonLd = [
     inLanguage: locale,
     datePublished: publishedAt.toISOString(),
     dateModified: updatedAt.toISOString(),
+    // Same 1200x630 share image as og:image. Google recommends an image for Article results.
+    image: absoluteUrl(`/og/${article.id}.png`),
     author: {
       '@type': 'Person',
       name: author.data.name,
