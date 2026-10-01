@@ -44,7 +44,17 @@ const slides = await Promise.all(
           data-slide
         >
           <a class="featured" href={articleUrl(article)}>
-            <ArticleCover tools={article.data.tools} kind={article.data.kind} hook={article.data.hook} size="featured" />
+            {/* Only the first cover is in the page: the rest wait in a <template> until their slide is
+                about to show, so low-end phones don't load and paint 20 covers nobody sees yet. */}
+            <div class="cover-slot">
+              {index === 0 ? (
+                <ArticleCover tools={article.data.tools} kind={article.data.kind} hook={article.data.hook} size="featured" />
+              ) : (
+                <template data-cover>
+                  <ArticleCover tools={article.data.tools} kind={article.data.kind} hook={article.data.hook} size="featured" />
+                </template>
+              )}
+            </div>
             <div>
               <p class="topic-label">{article.data.topic}</p>
               <h2 class="featured-title">{article.data.title}</h2>
@@ -104,8 +114,17 @@ const slides = await Promise.all(
     let pausedByUser = reducedMotion;
     let pausedByContext = false;
 
+    // Puts a slide's cover into the page the first time it's needed.
+    const loadCover = (i: number) => {
+      const template = slides[(i + slides.length) % slides.length].querySelector<HTMLTemplateElement>('template[data-cover]');
+      template?.replaceWith(template.content.cloneNode(true));
+    };
+
     const show = (next: number) => {
       index = (next + slides.length) % slides.length;
+      loadCover(index);
+      // Load the next cover now, so its logos are ready before it rotates in.
+      loadCover(index + 1);
       slides.forEach((slide, i) => {
         const active = i === index;
         slide.classList.toggle('active', active);
@@ -190,6 +209,13 @@ const slides = await Promise.all(
   .slide.active {
     opacity: 1;
     visibility: visible;
+  }
+
+  /* Keeps the cover's 16:9 box (and the slide height) before a deferred cover is loaded. */
+  .cover-slot {
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    background: var(--ink);
   }
 
   .featured {

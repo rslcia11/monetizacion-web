@@ -23,6 +23,10 @@ const { title, description, topic, tools, kind, hook } = article.data;
     flex-direction: column;
     color: var(--ink);
     text-decoration: none;
+    /* Cards below the fold skip layout and paint until scrolled near: less work on slow phones.
+       The size hint keeps the scrollbar stable; "auto" remembers the real size once rendered. */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
   }
 
   /* Hidden by the topic filter. */
