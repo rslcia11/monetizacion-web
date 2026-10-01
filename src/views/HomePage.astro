@@ -52,7 +52,7 @@ const jsonLd = [
             <h2 class="featured-title">{featured.data.title}</h2>
             <p class="featured-lede">{featured.data.lede}</p>
             <p class="meta">
-              {featuredAuthor?.data.name}, {t(locale, 'article.tested').toLowerCase()}{' '}
+              {featuredAuthor?.data.name}, {t(locale, featured.data.method === 'research' ? 'article.researched' : 'article.tested').toLowerCase()}{' '}
               {formatDate(locale, featured.data.testedAt)}
             </p>
           </div>

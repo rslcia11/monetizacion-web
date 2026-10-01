@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each vendor's pricing page, changelog, documentation and code repository, October 1, 2026.
+  environment: Research on each vendor's pricing page, changelog, documentation and code repository, October 1, 2026. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Appwrite, version: "2.x (cloud and self-hosted)" }
     - { tool: Neon, version: "Hosted platform (October 2026)" }
@@ -142,6 +142,19 @@ Coming from Supabase, the big change is the data model. Firestore stores documen
   pros={['you want a free project that never pauses', 'your data fits documents and collections']}
   cons={['you want to keep SQL', 'you need predictable monthly costs']}
 />
+
+## How I keep the exit door open on Supabase
+
+I like Supabase and use it in client work, so when someone asks me about alternatives, I first ask which part hurts: pausing, cost, or lock-in. Each one has a different answer, and sometimes the answer is just upgrading one project to Pro.
+
+What makes any move painless later is keeping your schema in migrations from day one, instead of clicking tables together in the dashboard:
+
+```sh
+supabase migration new create_orders
+supabase db push
+```
+
+With every change in versioned SQL files, moving the database to Neon or any Postgres host is a dump and a restore. The parts that take real work are the ones Supabase gives you for free: Auth, Storage and Realtime. List the ones you actually use before you decide. That list usually picks the alternative for you.
 
 ## How to choose in 30 seconds
 

@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on Zustand's and Redux Toolkit's official documentation, npm pages and release notes, October 1, 2026. Code samples follow each project's own docs.
+  environment: Research on Zustand's and Redux Toolkit's official documentation, npm pages and release notes, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Zustand, version: "5.x" }
     - { tool: Redux Toolkit, version: "2.x" }
@@ -134,6 +134,22 @@ RTK Query is its biggest extra. You define API endpoints and it generates the ho
   pros={['a large team needs consistent state code', 'you want server data cached in the same store with RTK Query', 'you rely on action logs and time-travel debugging']}
   cons={['your app is small and the extra pieces slow you down', 'you don\'t want a provider and dispatch for simple UI state']}
 />
+
+## How I split state in React apps
+
+The pattern I recommend on most projects: server data goes in a data-fetching library, and only real UI state goes in a store. Things like the open modal, the selected filters or the current step of a form. Once you do that, the store gets small, and Zustand is usually all you need.
+
+One Zustand habit worth knowing: when a component reads several values, wrap the selector with `useShallow`, so it only re-renders when those values actually change:
+
+```ts
+import { useShallow } from 'zustand/react/shallow';
+
+const { count, increment } = useCounter(
+  useShallow((state) => ({ count: state.count, increment: state.increment })),
+);
+```
+
+I'd pick Redux Toolkit when a large team needs every feature written the same way, or when RTK Query can replace a pile of hand-written fetching code. Those are good reasons. "Everyone uses Redux" isn't one anymore.
 
 ## How to choose in 30 seconds
 

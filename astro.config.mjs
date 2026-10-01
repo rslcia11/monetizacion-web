@@ -24,6 +24,9 @@ export default defineConfig({
       ADSENSE_SLOT_ARTICLE: envField.string({ context: 'server', access: 'public', optional: true }),
       ADSENSE_SLOT_SIDEBAR: envField.string({ context: 'server', access: 'public', optional: true }),
       ADSENSE_SLOT_HOME: envField.string({ context: 'server', access: 'public', optional: true }),
+      // false = every page gets <meta name="robots" content="noindex">. Use it on a deploy that
+      // must stay out of Google until launch (plan 10.4). Never block crawling in robots.txt instead.
+      PUBLIC_INDEXABLE: envField.boolean({ context: 'server', access: 'public', default: true }),
     },
   },
 
@@ -56,7 +59,7 @@ export default defineConfig({
       fallbacks: ['Helvetica', 'Arial', 'sans-serif'],
     },
     {
-      // Final serif still pending (plan 12). Swap name here: Literata or Source Serif 4.
+      // Title serif, confirmed (DESIGN.md 2).
       name: 'Newsreader',
       cssVariable: '--font-serif',
       provider: fontProviders.fontsource(),

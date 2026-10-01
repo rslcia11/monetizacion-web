@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on Supabase's and Firebase's pricing pages, billing docs and code repositories, October 1, 2026.
+  environment: Research on Supabase's and Firebase's pricing pages, billing docs and code repositories, October 1, 2026. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Supabase, version: "Hosted platform (October 2026)" }
     - { tool: Firebase, version: "Hosted platform (October 2026)" }
@@ -123,6 +123,36 @@ const snapshot = await getDocs(q);
 ```
 
 On Supabase you aren't billed per row: you pay for the instance the query runs on. On Firestore it costs 10 reads each time it runs, so a page that runs it 5,000 times a day uses the whole free daily quota of 50,000 reads.
+
+## What I set up first in client projects
+
+I've shipped client projects on Supabase and on Firebase. I also host static sites like Musa Rosa on Firebase Hosting: a Next.js static export plus `firebase deploy --only hosting`. The mistake I see most often is the same on both platforms: a database exposed to the internet without access rules, because "we'll add security later".
+
+On Supabase, I turn on Row Level Security for every table before writing the first query, and add one policy per action:
+
+```sql
+alter table orders enable row level security;
+
+create policy "Users read their own orders"
+on orders for select
+to authenticated
+using ( (select auth.uid()) = user_id );
+```
+
+On Firebase, test mode is fine for one afternoon and never for production. Write Firestore security rules that match how the app reads data:
+
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /orders/{orderId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+  }
+}
+```
+
+My rule of thumb for clients: if the data has relations and the budget must be predictable, Supabase. If the app is mostly documents, real-time and mobile, and the team wants Google to run everything, Firebase, with budget alerts set up on day one.
 
 ## How to choose in 30 seconds
 

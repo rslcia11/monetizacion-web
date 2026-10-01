@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs.
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: FastAPI, version: "0.14x (October 2026)" }
     - { tool: Django, version: "6.1" }
@@ -80,7 +80,26 @@ async def create_book(book: Book) -> Book:
     return book
 ```
 
-Run `fastapi dev main.py` and open `/docs`: the interactive documentation is already there. Send `"year": "soon"` and FastAPI returns a 422 error that explains which field failed. Saving the book is up to you. FastAPI doesn't include a database layer.
+Run `fastapi dev main.py` and open `/docs`: the interactive documentation is already there. Send `"year": "soon"` and FastAPI rejects it before your code runs, with an error that names the field:
+
+<Output label="Response: 422 Unprocessable Entity">
+
+```json
+{
+  "detail": [
+    {
+      "type": "int_parsing",
+      "loc": ["body", "year"],
+      "msg": "Input should be a valid integer, unable to parse string as an integer",
+      "input": "soon"
+    }
+  ]
+}
+```
+
+</Output>
+
+Saving the book is up to you. FastAPI doesn't include a database layer.
 
 In Django with Django REST framework, you write a model, a serializer and a viewset:
 
@@ -136,6 +155,25 @@ For APIs, Django REST framework is the long-standing choice. Django Ninja is the
   pros={['you\'re building a product with users and a database', 'non-developers need an admin screen', 'you want one structure every Django developer recognizes']}
   cons={['you only need a small API service', 'you want async everywhere without thinking about it']}
 />
+
+## When I reach for each one
+
+I use FastAPI when the job is an API: a backend for a React or Flutter app, or a service another system calls. I use Django when the client needs a product with users, permissions and somebody non-technical managing data. In those projects, the admin alone saves weeks.
+
+Two habits I'd recommend on day one. In Django, create a custom user model before your first migration, as Django's docs recommend. Changing it later is painful:
+
+```python
+# accounts/models.py
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    pass
+
+# settings.py
+AUTH_USER_MODEL = "accounts.User"
+```
+
+In FastAPI, keep your Pydantic request and response schemas separate from your database models. It feels like duplication at first, but it stops you from leaking internal fields, like password hashes, into API responses.
 
 ## How to choose in 30 seconds
 

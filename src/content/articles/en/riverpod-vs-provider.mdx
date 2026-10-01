@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on Riverpod's documentation, both packages' pub.dev pages and changelogs, and Flutter's docs, October 1, 2026. Code samples follow each project's own docs.
+  environment: Research on Riverpod's documentation, both packages' pub.dev pages and changelogs, and Flutter's docs, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Riverpod, version: "3.x" }
     - { tool: Provider, version: "6.x" }
@@ -138,6 +138,12 @@ Its limits show as an app grows. Errors from reading a provider in the wrong pla
   pros={['your app already uses it and works well', 'you\'re learning Flutter with the official docs', 'the app is small and will stay small']}
   cons={['you\'re starting a large app from scratch', 'you keep hitting ProviderNotFoundException during refactors']}
 />
+
+## What changed for me moving to Riverpod
+
+My earlier Flutter projects used Provider for state and get_it to inject services like API clients and repositories. It works, but it's two systems to learn and keep in sync. With Riverpod, providers handle both state and dependency injection, so the service locator goes away.
+
+If you're migrating, don't rewrite everything. Both packages can live in the same app. I'd start by writing new features with Riverpod, then move shared services, like the HTTP client or auth, into providers, and finally replace the old ChangeNotifiers one screen at a time. Write tests for each screen before you touch it. Riverpod makes those tests easier to write, which is half the reason to migrate.
 
 ## How to choose in 30 seconds
 

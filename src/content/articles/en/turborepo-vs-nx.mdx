@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each project's documentation, pricing pages, changelogs and repository, October 1, 2026. Config samples follow each project's own docs.
+  environment: Research on each project's documentation, pricing pages, changelogs and repository, October 1, 2026. Config samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Turborepo, version: "2.11" }
     - { tool: Nx, version: "Current release (October 2026)" }
@@ -111,6 +111,20 @@ Nx Cloud's free Hobby plan includes 50,000 credits a month, 5 contributors and r
   pros={['your repo mixes JavaScript with Java or .NET', 'many teams share one repo and need enforced boundaries', 'you want CI features like distributed task execution']}
   cons={['you only need caching for a small JS monorepo', 'you don\'t want another platform to learn and pay for at scale']}
 />
+
+## What I've learned running Turborepo
+
+I've built and maintained monorepos with Turborepo, and most problems people blame on the tool come from two settings. First, `outputs` must list exactly what a task produces, or the cache restores the wrong files. Second, environment variables that change the build must be declared, or Turborepo happily serves a cached build made with the old values:
+
+```json
+"build": {
+  "dependsOn": ["^build"],
+  "outputs": [".next/**", "!.next/cache/**"],
+  "env": ["NEXT_PUBLIC_API_URL"]
+}
+```
+
+Get those two right and Turborepo mostly disappears into the background, which is exactly what you want. I'd move to Nx when the repo has several teams, needs enforced boundaries, or includes non-JavaScript projects. That's not about speed. It's about structure.
 
 ## How to choose in 30 seconds
 

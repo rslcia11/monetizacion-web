@@ -138,6 +138,8 @@ Texto con lo que encontraste al usarla.
 | `<Screenshot>` | Captura propia con marco | `src` (importada), `alt`, `caption` |
 | `<ProsCons>` | "Worth it if" / "Think twice if" | `pros`, `cons` (mínimo uno de cada) |
 | `<Ad />` | Anuncio dentro del artículo | ninguna |
+| ` ``` ` (bloque de código) | Recuadro con etiqueta del lenguaje y botón **Copiar**, estilo W3Schools. Sale solo con cualquier bloque Markdown | el lenguaje después de ` ``` ` (`sh` se muestra como "Terminal") |
+| `<Output>` | Lo que devuelve o imprime el código de arriba. Va justo después de un bloque de código | `label?` (por defecto "Result"); dentro va otro bloque de código |
 
 El ancla de un `##` es el título en minúsculas con guiones: `## Bruno keeps your requests in the repo` → `#bruno-keeps-your-requests-in-the-repo`.
 

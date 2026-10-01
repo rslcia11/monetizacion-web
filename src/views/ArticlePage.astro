@@ -129,8 +129,8 @@ const jsonLd = [
             {inLocale(author.data.role, locale, `the role of author "${author.id}"`)}
           </p>
           <p class="dates">
-          {t(locale, researched ? 'article.researched' : 'article.tested')} <time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time>.
-          {t(locale, 'article.updated')} <time datetime={updatedAt.toISOString()}>{formatDate(locale, updatedAt)}</time>.
+          {t(locale, researched ? 'article.researched' : 'article.tested')} <time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time>.{' '}
+          {t(locale, 'article.updated')} <time datetime={updatedAt.toISOString()}>{formatDate(locale, updatedAt)}</time>.{' '}
           {t(locale, 'article.independence')}
           </p>
         </div>

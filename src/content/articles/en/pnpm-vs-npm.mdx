@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on pnpm's and npm's official documentation, release notes and pnpm's published benchmarks, October 1, 2026.
+  environment: Research on pnpm's and npm's official documentation, release notes and pnpm's published benchmarks, October 1, 2026. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: pnpm, version: "12.8" }
     - { tool: npm, version: "12.x" }
@@ -108,6 +108,22 @@ Run your tests. If something fails with "Cannot find module", your code was rely
   "packageManager": "pnpm@12.8.0"
 }
 ```
+
+## How I use both in real projects
+
+My Next.js frontends run on pnpm, and some of my NestJS backends still use npm. Both are fine, and mixing them across repos is fine too. What isn't fine is mixing them inside one repo: pick one, commit its lockfile and delete the others.
+
+In CI, always install from the lockfile, so the build uses exactly the versions you tested:
+
+```sh
+# pnpm
+pnpm install --frozen-lockfile
+
+# npm
+npm ci
+```
+
+pnpm's strictness caught real bugs for me: imports of packages that only worked because something else installed them. If you switch and something breaks, that's usually the cause. Add the missing dependency instead of loosening pnpm's settings.
 
 ## How to choose in 30 seconds
 

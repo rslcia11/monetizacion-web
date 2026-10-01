@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each vendor's pricing page, billing docs, migration guides and code repository, October 1, 2026.
+  environment: Research on each vendor's pricing page, billing docs, migration guides and code repository, October 1, 2026. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Firebase, version: "Hosted platform (October 2026)" }
     - { tool: Supabase, version: "Hosted platform (October 2026)" }
@@ -125,6 +125,14 @@ You take on the work Google did for you: backups, updates and uptime. PocketBase
   pros={['you want a fixed, tiny monthly cost', 'your app fits one SQLite database', 'you\'re comfortable running a small server']}
   cons={['you need to scale beyond one machine', 'you don\'t want to own backups and upgrades']}
 />
+
+## What I'd plan before leaving Firebase
+
+I still use Firebase where it shines. Static sites like Musa Rosa are a Next.js export deployed with `firebase deploy --only hosting`, and I have no reason to move them. When a client wants to leave Firebase, it's almost always about Firestore costs or getting their data into SQL.
+
+Plan the data model before you move anything. Firestore documents don't map one-to-one to tables: subcollections become tables with foreign keys, and duplicated fields become joins. I write the target schema first, migrate Auth users second, so people keep their passwords, and move data and Storage last.
+
+And whatever you choose, set budget alerts on day one. An inefficient query in a listener loop is the most common source of surprise bills I've seen, on any platform that bills per operation.
 
 ## How to choose in 30 seconds
 

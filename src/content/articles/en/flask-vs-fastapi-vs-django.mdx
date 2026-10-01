@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs.
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Flask, version: "3.1.x" }
     - { tool: FastAPI, version: "0.14x (October 2026)" }
@@ -146,6 +146,25 @@ Async views are supported. Django's docs say to run under ASGI to get the benefi
   pros={['you\'re building a product with users, data and an admin', 'you want one structure across every project', 'you\'d rather not choose and wire a dozen libraries']}
   cons={['you only need one small service', 'you want a minimal dependency footprint']}
 />
+
+## How I structure a Flask app so it scales
+
+I still use Flask for small services and internal tools, and the one thing I'd tell any team is to start with an application factory and blueprints, even if the app is tiny today. It's the pattern Flask's own docs use, and it makes testing and growing the app much easier:
+
+```python
+from flask import Flask
+
+def create_app(config_object="config.Settings"):
+    app = Flask(__name__)
+    app.config.from_object(config_object)
+
+    from .books import bp as books_bp
+    app.register_blueprint(books_bp)
+
+    return app
+```
+
+My honest take after working with all three: if you catch yourself adding Flask extensions for auth, admin and migrations one by one, you're rebuilding Django. And if most of your endpoints just validate JSON in and out, FastAPI does that work for you.
 
 ## How to choose in 30 seconds
 

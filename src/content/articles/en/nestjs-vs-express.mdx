@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs.
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: NestJS, version: "12.x" }
     - { tool: Express, version: "5.x" }
@@ -129,6 +129,19 @@ The cost is the learning curve: decorators, modules, providers and how injection
   pros={['several developers or teams share one backend', 'you want dependency injection and easy unit tests', 'you want the option to switch to Fastify later']}
   cons={['your service is small and will stay small', 'your team doesn\'t want decorators and classes everywhere']}
 />
+
+## What I configure first in a NestJS backend
+
+My most recent NestJS backend uses Prisma for the database, Passport with JWT for auth, Swagger for docs and rate limiting on public routes. That's a lot of moving parts, and Nest's modules keep them in order in a way I'd have to enforce by hand in Express.
+
+The first line I add to `main.ts` is a global validation pipe, so every DTO is validated and unknown fields are stripped before they reach a service:
+
+```ts
+const app = await NestFactory.create(AppModule);
+app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+```
+
+In Express, I get the same safety with a validation library like Zod at each route, one error-handling middleware at the end, and a folder structure the team agrees on in writing. Both work. The difference is whether the framework enforces the rules or your code reviews do.
 
 ## How to choose in 30 seconds
 

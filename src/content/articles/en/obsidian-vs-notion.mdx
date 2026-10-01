@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each vendor's pricing page, help center and release notes, October 1, 2026.
+  environment: Research on each vendor's pricing page, help center and release notes, October 1, 2026. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Obsidian, version: "1.9+ (Bases available)" }
     - { tool: Notion, version: "Current plans (October 2026)" }
@@ -100,6 +100,20 @@ Offline works in the desktop and mobile apps, not in the browser. You mark pages
   pros={['a team writes and edits together', 'you want shared databases with permissions', 'nobody on the team should have to manage files or sync']}
   cons={['you want your notes as plain files you can take anywhere', 'you need full offline access to a large workspace']}
 />
+
+## Why I use both
+
+I use Obsidian for my own notes: technical snippets, project logs, things I'm learning. I use Notion for anything a client or a team needs to see. Trying to make one tool do both jobs is where most people get frustrated.
+
+If you go with Obsidian and want free sync, a Git repo works well for text-heavy vaults. Keep the per-device files out of it, or you'll get conflicts every time you switch machines:
+
+```text
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.trash/
+```
+
+On Notion, the habit that pays off is structure from day one: one database for docs with an owner and a "last reviewed" date. A wiki without owners turns stale in months, whatever tool it lives in.
 
 ## How to choose in 30 seconds
 

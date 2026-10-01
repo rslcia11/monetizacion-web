@@ -1,0 +1,99 @@
+---
+import { t, toLocale } from '../../i18n/ui';
+
+// Every ``` block in an article: a labeled box with a Copy button, like a W3Schools example.
+// Mapped to `pre` in index.ts, so writers keep using plain Markdown code fences.
+const { 'data-language': language = 'plaintext', ...attrs } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+
+const names: Record<string, string> = {
+  sh: 'Terminal',
+  bash: 'Terminal',
+  shell: 'Terminal',
+  js: 'JavaScript',
+  jsx: 'JavaScript',
+  ts: 'TypeScript',
+  tsx: 'TypeScript',
+  json: 'JSON',
+  python: 'Python',
+  py: 'Python',
+  dart: 'Dart',
+  markdown: 'Markdown',
+  md: 'Markdown',
+  yaml: 'YAML',
+  sql: 'SQL',
+  plaintext: t(locale, 'code.example'),
+  text: t(locale, 'code.example'),
+};
+const label = names[language] ?? language.toUpperCase();
+---
+
+<figure class="code">
+  <div class="bar">
+    <span class="label">{label}</span>
+    <button type="button" class="copy" data-copy data-done={t(locale, 'code.copied')}>{t(locale, 'code.copy')}</button>
+  </div>
+  <pre {...attrs} data-language={language}><slot /></pre>
+</figure>
+
+<script>
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy]');
+    const code = button?.closest('.code')?.querySelector('pre');
+    if (!button || !code) return;
+    try {
+      await navigator.clipboard.writeText(code.innerText);
+      const original = button.textContent;
+      button.textContent = button.dataset.done ?? original;
+      setTimeout(() => (button.textContent = original), 1600);
+    } catch {
+      // Clipboard blocked (old browser or insecure context): the reader can still select the text.
+    }
+  });
+</script>
+
+<style>
+  .code {
+    margin-top: 24px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 8px 18px;
+    background: var(--accent-soft);
+    border-bottom: 1px solid var(--line-strong);
+    font-size: 14px;
+  }
+
+  .label {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .copy {
+    padding: 4px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--accent);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .copy:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .code pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+</style>

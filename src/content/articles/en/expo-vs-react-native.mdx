@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on React Native's and Expo's official documentation, pricing pages and changelogs, October 1, 2026. Commands follow each project's own docs.
+  environment: Research on React Native's and Expo's official documentation, pricing pages and changelogs, October 1, 2026. Commands follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Expo, version: "Current SDK (October 2026)" }
     - { tool: React Native CLI, version: "@react-native-community/cli (latest)" }
@@ -106,6 +106,18 @@ npx expo install expo-updates
   pros={['React Native goes inside an existing iOS or Android app', 'native developers on your team want full control of native files', 'you already have mobile CI and signing set up']}
   cons={['you\'re starting from scratch and want to ship fast', 'nobody on the team knows Xcode or Gradle well']}
 />
+
+## How I set up a new Expo project
+
+I start every new React Native app with Expo now, and the setup I recommend is the one Expo's docs push you toward. Use development builds instead of Expo Go as soon as you add your first native library, and keep the generated `ios` and `android` folders out of Git, because prebuild recreates them.
+
+Build profiles in `eas.json` keep development, preview and production apart. The first build I run is a development build:
+
+```sh
+eas build --profile development --platform android
+```
+
+I'd only start from the bare CLI today when React Native is going into an existing native app. For everything else, the time Expo saves on builds, signing and updates goes straight into the product.
 
 ## How to choose in 30 seconds
 

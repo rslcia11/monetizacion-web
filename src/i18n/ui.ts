@@ -24,8 +24,8 @@ export function localeStaticPaths(only: Locale[] = publishedLocales) {
 
 const en = {
   'site.tagline': 'Independent comparisons of developer tools. We install them, test them the same way, and publish the numbers.',
-  'home.title': 'Developer tools, tested side by side',
-  'home.description': 'Independent comparisons and alternatives for developer tools, tested on the same setup with published numbers.',
+  'home.title': 'Developer tools, compared side by side',
+  'home.description': 'Independent comparisons and alternatives for developer tools, written by a working developer and checked against official sources.',
   'home.latest': 'Latest',
   'home.empty': 'No articles published yet.',
   'nav.main': 'Main',
@@ -71,6 +71,10 @@ const en = {
   'research.version': 'Version checked',
   'research.note': "We didn't run hands-on benchmarks for this article. Every fact comes from the official pages listed in Sources.",
   'sources.title': 'Sources',
+  'code.example': 'Example',
+  'code.copy': 'Copy',
+  'code.copied': 'Copied',
+  'code.result': 'Result',
   'author.title': 'About the author',
   'author.photo': 'Photo of',
   'author.on': 'on',
@@ -96,8 +100,8 @@ export type UIKey = keyof typeof en;
 // Same keys as English, enforced by the type: a missing translation is a type error.
 const es: Record<UIKey, string> = {
   'site.tagline': 'Comparativas independientes de herramientas para desarrolladores. Las instalamos, las probamos igual y publicamos los números.',
-  'home.title': 'Herramientas para developers, probadas lado a lado',
-  'home.description': 'Comparativas y alternativas independientes de herramientas para desarrolladores, probadas en el mismo entorno y con números publicados.',
+  'home.title': 'Herramientas para developers, comparadas lado a lado',
+  'home.description': 'Comparativas y alternativas independientes de herramientas para desarrolladores, escritas por un desarrollador en activo y verificadas con fuentes oficiales.',
   'home.latest': 'Lo último',
   'home.empty': 'Todavía no hay artículos publicados.',
   'nav.main': 'Principal',
@@ -143,6 +147,10 @@ const es: Record<UIKey, string> = {
   'research.version': 'Versión revisada',
   'research.note': 'Para este artículo no hicimos pruebas prácticas. Cada dato sale de las páginas oficiales listadas en Fuentes.',
   'sources.title': 'Fuentes',
+  'code.example': 'Ejemplo',
+  'code.copy': 'Copiar',
+  'code.copied': 'Copiado',
+  'code.result': 'Resultado',
   'author.title': 'Sobre el autor',
   'author.photo': 'Foto de',
   'author.on': 'en',

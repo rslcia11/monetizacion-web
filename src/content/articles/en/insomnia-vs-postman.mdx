@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each vendor's pricing page, documentation and code repository, October 1, 2026. The author uses Postman every day.
+  environment: Research on each vendor's pricing page, documentation and code repository, October 1, 2026. The author uses Postman every day. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Insomnia, version: "Current release (October 2026)" }
     - { tool: Postman, version: "Current plans (October 2026)" }
@@ -107,6 +107,18 @@ I've used Postman every day since university. The math changes when a small team
 Export your collections and environments from Postman as JSON (Collection v2.1). In Insomnia, open your project, click **Import** and pick the files or the full ZIP export. Insomnia understands Postman's format and brings over folders, environments and most pre-request scripts. Check any complex scripts by hand after the import.
 
 If you're still deciding, our list of the [best Postman alternatives](/postman-alternatives/) covers Bruno, Hoppscotch and four other options.
+
+## What I've learned using both
+
+Postman is still the client I open first, and for a company that pays the license I don't push anyone to switch. Monitors, mock servers and a shared workspace save real time when ten people touch the same API. For small teams I recommend Insomnia more and more, because three people sharing requests through Git for free covers most freelance and startup projects I work on.
+
+Whichever you pick, two habits matter more than the tool. First, one environment per stage, like local, staging and production, with the base URL and tokens as variables. Never hard-code a token in a request. Second, add a test to the requests you care about, so a collection run tells you something useful. In Postman it's one line:
+
+```js
+pm.test('returns 200', () => pm.response.to.have.status(200));
+```
+
+Insomnia's after-response scripts work the same way with its own `insomnia` object, so the habit carries over if you switch.
 
 ## How to choose in 30 seconds
 

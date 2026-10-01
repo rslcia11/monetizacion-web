@@ -11,7 +11,7 @@ publishedAt: 2026-10-01
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on Vite's and webpack's official documentation, blogs and release notes, October 1, 2026. Config samples follow each project's own docs.
+  environment: Research on Vite's and webpack's official documentation, blogs and release notes, October 1, 2026. Config samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Vite, version: "8.1" }
     - { tool: Webpack, version: "5.111" }
@@ -124,6 +124,25 @@ Module Federation is its biggest reason to stay. Separately built apps load each
   pros={['you run micro-frontends with Module Federation', 'you have a large, working webpack build', 'you need fine-grained control of the build pipeline']}
   cons={['you\'re starting a new single-page app', 'your team spends real time maintaining webpack config']}
 />
+
+## How I set up Vite on React projects
+
+All my recent React projects use Vite, and two settings cover most of what I need beyond the defaults. First, a dev proxy, so the frontend can call the API on the same origin and you skip CORS problems in development:
+
+```ts
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
+});
+```
+
+Second, environment variables. Only variables that start with `VITE_` reach browser code, through `import.meta.env.VITE_API_URL`. That prefix is a safety net: keep secrets without it, and they never ship to the browser.
+
+I still maintain webpack configs on older projects. My rule is simple: if the build works and nobody touches the config, leave it. If the dev server is slowing the team down every day, plan the move to Vite.
 
 ## How to choose in 30 seconds
 

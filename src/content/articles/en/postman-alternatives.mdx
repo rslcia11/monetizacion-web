@@ -11,7 +11,7 @@ publishedAt: 2026-09-28
 updatedAt: 2026-10-01
 testedAt: 2026-10-01
 testing:
-  environment: Research on each vendor's pricing page, documentation and code repository, checked again on October 1, 2026. The author uses Postman every day.
+  environment: Research on each vendor's pricing page, documentation and code repository, checked again on October 1, 2026. The author uses Postman every day. Advice and examples come from the author's own work with these tools.
   versions:
     - { tool: Postman, version: "Current plans (October 2026)" }
     - { tool: Bruno, version: "3.x" }
@@ -158,6 +158,14 @@ Worth knowing: Apidog publishes many of the "Postman alternatives" articles you'
 />
 
 If you're comparing just the two biggest names, read our [Insomnia vs Postman](/insomnia-vs-postman/) breakdown.
+
+## How I'd move a team off Postman
+
+I've moved collections between API clients more than once, and the tool is never the hard part. The hard part is everything that grew around Postman without anyone noticing: shared tokens in collection variables, scripts nobody remembers writing, and three copies of the same environment.
+
+So I start with a cleanup, not an import. Export only the collections the team actually used in the last month, in Collection v2.1 format, plus their environments. Move every secret out of the collection and into a local environment file that never gets committed. Then import into the new tool and run the requests once, top to bottom, before anyone deletes anything in Postman.
+
+If you go with Bruno, keep the collection in the same repo as the API it tests and run it in CI on every pull request. That's the real win: when someone changes an endpoint, the request that documents it changes in the same diff.
 
 ## How to choose in 30 seconds
 

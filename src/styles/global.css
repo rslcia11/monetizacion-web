@@ -151,7 +151,6 @@ table {
 
 /* Code samples: scroll sideways instead of widening the page on phones. */
 .prose pre {
-  margin-top: 24px;
   padding: 16px 18px;
   overflow-x: auto;
   font-size: 15px;

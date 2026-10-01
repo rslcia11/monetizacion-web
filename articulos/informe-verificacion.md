@@ -39,11 +39,23 @@
 | NestJS vs Express | NestJS sin versión; Express 4 | **NestJS 12** (agosto de 2026); **Express 5** es el default en npm |
 | Todos los "X vs Y" | `kind: vs`, `winner="Tie"` | `kind: comparison` (`vs` y `Tie` rompían el build) |
 
+## Segunda ronda (1 de octubre de 2026): experiencia, logos y código
+
+- **Experiencia del autor en los 20 artículos.** Cada uno tiene una sección en primera persona (antes de "How to choose in 30 seconds") con recomendaciones de mejores prácticas y ejemplos verificados: RLS en Supabase, reglas de Firestore, `ValidationPipe` en NestJS, usuario personalizado en Django, app factory en Flask, `outputs` y `env` en Turborepo, proxy y `VITE_` en Vite, `useShallow` en Zustand, instalación desde lockfile en CI, entre otros.
+- **Proyectos reales citados:** Musa Rosa (Next.js en Firebase Hosting), backend NestJS con Prisma, JWT y Swagger, Flutter con Provider y get_it, pnpm en frontends y npm en backend, y Postman a diario. Los proyectos de clientes se mencionan sin nombres.
+- **No se inventó** ninguna métrica, cliente con nombre ni incidente concreto.
+- **Bio del autor:** desarrollador full-stack con su stack real. Se quitó "instala y prueba cada herramienta".
+- **Textos del sitio:** la portada, About, "How we test and research", Terms y Contact ahora describen el método real: experiencia propia más fuentes oficiales.
+- **Logos:** 38 de 39 herramientas. Vienen de Simple Icons (CC0) y de los repos oficiales de Riverpod, AppFlowy, Thunder Client y Zustand. Apidog queda con iniciales porque no hay logo accesible. Las portadas y las imágenes para redes se generan solas.
+- **Bloques de código estilo W3Schools:** etiqueta con el lenguaje y botón Copiar en todos los bloques, y recuadro `<Output>` para el resultado (ejemplo en FastAPI vs Django).
+- **`PUBLIC_INDEXABLE`:** con `false`, todas las páginas llevan `noindex`, para probar en producción antes del lanzamiento.
+- **Cloudflare:** `wrangler.jsonc` y `.node-version` listos, más la guía paso a paso en `docs/despliegue.md`.
+- **Fuente de títulos:** Newsreader, confirmada.
+
 ## Pendiente de tu parte antes de publicar
 
-1. **Experiencia del autor.** Solo dejé la línea "I've used Postman every day since university" (Postman alternatives e Insomnia vs Postman), que venía de tu borrador. Confírmala. Si tienes experiencia real con otras herramientas, añade 1 o 2 frases tuyas; es lo que más suma para E-E-A-T.
-2. **Capturas propias** (estándar §9.3, punto 2). Ningún artículo tiene capturas todavía. El componente `<Screenshot>` ya está listo.
-3. **Logos oficiales** en `src/assets/logos/`. Sin ellos, las portadas muestran iniciales.
-4. **Precios el día de publicar.** La guía pide revisarlos ese día y actualizar `updatedAt`. Los más volátiles son Yaak, Appwrite, Anytype, Joplin y EAS.
-5. **Textos del sitio que prometen pruebas.** La portada dice "tested side by side… with published numbers" (`src/i18n/ui.ts`, `home.description`), pero los 20 artículos son `research`. Conviene ajustar ese texto o hacer pruebas propias antes del lanzamiento.
-6. **Pruebas propias (opcional, mejora fuerte).** pnpm vs npm y Vite vs Webpack son buenos candidatos para medir en tu máquina y pasar a `method: tested`.
+1. **Tu foto** en `src/assets/authors/` (cuadrada, real). Te la conecto en un minuto.
+2. **Dominio y correo** (`kriterio.dev`, `contact@kriterio.dev`). Después actualizo `src/lib/site.ts`.
+3. **Cloudflare, Search Console y AdSense**, siguiendo `docs/despliegue.md`.
+4. **Lectura final de los 20 artículos**, sobre todo las secciones en primera persona.
+5. **Revisar precios el día de publicar**, en especial Yaak, Appwrite, Anytype, Joplin y EAS.
