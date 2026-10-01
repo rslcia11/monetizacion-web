@@ -1,0 +1,161 @@
+---
+title: "Zustand vs Redux: which React state manager should you use?"
+description: Zustand is a hook-based store with no provider. Redux Toolkit adds slices, strict patterns and RTK Query. The same counter in both and when each wins.
+lede: Pick Zustand for most apps. It's a store in a few lines, with no provider and little to learn. Pick Redux Toolkit when a large team needs one strict pattern, or when you want RTK Query to handle server data in the same store.
+kind: comparison
+method: research
+topic: Frontend and tooling
+tools: [Zustand, Redux Toolkit]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on Zustand's and Redux Toolkit's official documentation, npm pages and release notes, October 1, 2026. Code samples follow each project's own docs.
+  versions:
+    - { tool: Zustand, version: "5.x" }
+    - { tool: Redux Toolkit, version: "2.x" }
+  notes: Both libraries are free and MIT licensed. Download counts change weekly.
+sources:
+  - { title: "Zustand docs", url: "https://zustand.docs.pmnd.rs/" }
+  - { title: "Zustand: migrating to v5", url: "https://zustand.docs.pmnd.rs/reference/migrations/migrating-to-v5.html" }
+  - { title: "zustand on npm", url: "https://www.npmjs.com/package/zustand" }
+  - { title: "Redux Toolkit: getting started", url: "https://redux-toolkit.js.org/introduction/getting-started" }
+  - { title: "Redux Toolkit: usage guide", url: "https://redux-toolkit.js.org/usage/usage-guide" }
+  - { title: "RTK Query overview", url: "https://redux-toolkit.js.org/rtk-query/overview" }
+  - { title: "Redux Toolkit quick start", url: "https://redux.js.org/tutorials/quick-start" }
+  - { title: "Redux Toolkit 2.0 release", url: "https://github.com/reduxjs/redux-toolkit/discussions/3945" }
+  - { title: "Redux ecosystem (DevTools)", url: "https://redux.js.org/introduction/ecosystem" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Zustand" top why="A store in a few lines, no provider, and you can use it outside React components." href="#zustand-is-a-store-in-a-few-lines" />
+  <Pick tool="Redux Toolkit" label="Large teams" why="One strict pattern for everyone, plus RTK Query for server data." href="#redux-toolkit-gives-a-team-one-pattern" />
+</Picks>
+
+## Modern Redux means Redux Toolkit
+
+Comparisons often pit Zustand against old-style Redux, with switch statements and hand-written action types. That isn't how Redux is written anymore. Redux Toolkit is the official way to use Redux. `configureStore` sets up good defaults and DevTools, and `createSlice` generates actions and lets you write "mutating" updates safely through Immer.
+
+So the real comparison is Zustand against Redux Toolkit. Both are actively maintained, MIT licensed and widely used. Zustand alone sees about 55 million npm downloads a week.
+
+## The same counter in both
+
+**Zustand.** The store is a hook. There's no provider to add:
+
+```ts
+import { create } from 'zustand';
+
+type CounterState = {
+  count: number;
+  increment: () => void;
+};
+
+export const useCounter = create<CounterState>()((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+}));
+
+// In any component:
+const count = useCounter((state) => state.count);
+const increment = useCounter((state) => state.increment);
+```
+
+**Redux Toolkit.** A slice, a store and a provider at the root:
+
+```ts
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { count: 0 },
+  reducers: {
+    increment: (state) => {
+      state.count += 1; // Immer turns this into an immutable update
+    },
+  },
+});
+
+export const { increment } = counterSlice.actions;
+export const store = configureStore({ reducer: { counter: counterSlice.reducer } });
+
+// Wrap the app once: <Provider store={store}><App /></Provider>
+// In a component:
+const count = useSelector((state: RootState) => state.counter.count);
+const dispatch = useDispatch();
+dispatch(increment());
+```
+
+Redux Toolkit has more pieces: slice, store, provider, `useSelector`, `useDispatch`. Each one has a fixed place, though, and that's the point for a big team.
+
+## The two side by side
+
+<Results
+  caption="Zustand and Redux Toolkit, from each project's own documentation, October 2026"
+  tools={['Zustand', 'Redux Toolkit']}
+  winner="Zustand"
+  rows={[
+    { label: 'Setup', values: ['One create() call', 'Slice + configureStore + Provider'] },
+    { label: 'Needs a Provider', values: [false, true] },
+    { label: 'Update state', values: ['set() inside the store', 'Dispatch actions to reducers'] },
+    { label: 'Server data fetching and caching', values: ['Pair with a separate library', 'RTK Query, built in'] },
+    { label: 'Redux DevTools', values: ['Via devtools middleware', 'On by default'] },
+    { label: 'Use outside React', values: ['Yes, vanilla store', 'Yes, the store is plain JS'] },
+  ]}
+/>
+
+## Zustand is a store in a few lines
+
+<ToolFacts tool="Zustand" price="Free" runsOn="React, or plain JS with zustand/vanilla" license="Open source (MIT)" />
+
+You create a store with one `create` call and get a hook back. Components select only the slice of state they need, so they re-render only when it changes. There's no provider, so the store also works outside components. For non-React code, `createStore` from `zustand/vanilla` gives you a store without the hook.
+
+Zustand doesn't impose structure. That's great for small and medium apps, but on a large team you'll want your own conventions for splitting stores. For server data, most teams pair it with a separate data-fetching library rather than storing API responses by hand.
+
+<ProsCons
+  pros={['you want the least code and the least to learn', 'you don\'t want a provider wrapping your app', 'you need to read or update state outside components']}
+  cons={['many developers need one enforced pattern', 'you want data fetching and caching in the same tool']}
+/>
+
+<Ad />
+
+## Redux Toolkit gives a team one pattern
+
+<ToolFacts tool="Redux Toolkit" price="Free" runsOn="React (via React-Redux), or plain JS" license="Open source (MIT)" />
+
+Redux Toolkit 2.0 shipped alongside Redux 5 and React-Redux 9, and tightened the API by removing deprecated syntax. Every feature follows the same shape: a slice with state and reducers, actions dispatched from components. Developers who join a Redux codebase know where everything lives.
+
+RTK Query is its biggest extra. You define API endpoints and it generates the hooks, caching, loading states and cache invalidation for you. That replaces a lot of hand-written fetching code. The Redux DevTools extension shows every action and state change and lets you step back through them.
+
+<ProsCons
+  pros={['a large team needs consistent state code', 'you want server data cached in the same store with RTK Query', 'you rely on action logs and time-travel debugging']}
+  cons={['your app is small and the extra pieces slow you down', 'you don\'t want a provider and dispatch for simple UI state']}
+/>
+
+## How to choose in 30 seconds
+
+- **Most apps, least code:** Zustand.
+- **No provider, state usable outside React:** Zustand.
+- **A large team that needs one pattern:** Redux Toolkit.
+- **Server data caching in the same tool:** Redux Toolkit with RTK Query.
+
+Setting up the project itself? See [Vite vs Webpack](/vite-vs-webpack/).
+
+Picking a package manager for the project? Read [pnpm vs npm](/pnpm-vs-npm/).
+
+## FAQ
+
+### Is Redux dead?
+
+No. Redux Toolkit is the official, actively maintained way to write Redux. What faded is the old hand-written style with switch statements and action-type constants.
+
+### Does Zustand need a Provider?
+
+No. `create` returns a hook you use in any component, with no provider around your app.
+
+### Can Zustand use Redux DevTools?
+
+Yes. Wrap your store with Zustand's `devtools` middleware and it shows up in the Redux DevTools extension.

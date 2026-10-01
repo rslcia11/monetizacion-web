@@ -1,0 +1,135 @@
+---
+title: "pnpm vs npm: which package manager should you use?"
+description: pnpm stores each package once and links it into projects. npm ships with Node. Disk use, strictness, speed claims, npm 12's changes and how to switch.
+lede: Use pnpm for monorepos, CI and machines with many projects. It saves disk space and stops code from importing packages you never declared. Stay on npm if you want zero setup and maximum compatibility.
+kind: comparison
+method: research
+topic: Frontend and tooling
+tools: [pnpm, npm]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on pnpm's and npm's official documentation, release notes and pnpm's published benchmarks, October 1, 2026.
+  versions:
+    - { tool: pnpm, version: "12.8" }
+    - { tool: npm, version: "12.x" }
+  notes: The speed numbers in this article are pnpm's own published benchmarks, not our measurements.
+sources:
+  - { title: "pnpm: benchmarks of JavaScript package managers", url: "https://pnpm.io/benchmarks" }
+  - { title: "pnpm: motivation (content-addressable store)", url: "https://pnpm.io/motivation" }
+  - { title: "pnpm: symlinked node_modules structure", url: "https://pnpm.io/symlinked-node-modules-structure" }
+  - { title: "pnpm: node-modules and hoisting settings", url: "https://pnpm.io/settings/node-modules" }
+  - { title: "pnpm 12.0 release", url: "https://pnpm.io/blog/releases/12.0" }
+  - { title: "pnpm: installation", url: "https://pnpm.io/installation" }
+  - { title: "pnpm import", url: "https://pnpm.io/cli/import" }
+  - { title: "npm CLI v12.0.0 release notes", url: "https://github.com/npm/cli/releases/tag/v12.0.0" }
+  - { title: "npm docs", url: "https://docs.npmjs.com/" }
+  - { title: "Node.js: Corepack removed from the distribution (v25+)", url: "https://github.com/nodejs/node/pull/61207" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="pnpm" top why="One copy of each package on disk, strict dependencies, and strong workspace support." href="#pnpm-stores-each-package-once" />
+  <Pick tool="npm" label="Zero setup" why="Ships with Node.js and works with every tool and tutorial out there." href="#npm-is-already-installed" />
+</Picks>
+
+## Copy versus link
+
+The core difference is how `node_modules` gets filled. **npm** copies every package into each project and flattens the tree, so ten projects that use the same React version keep ten copies. **pnpm** keeps one copy of every file in a global content-addressable store and hard-links it into each project. A hundred projects on the same version cost one copy on disk.
+
+That layout has a second effect. In a flat `node_modules`, your code can import a package you never listed in `package.json`, because it happened to be hoisted there by something else. pnpm's symlinked layout only exposes your declared dependencies to your code, which catches those "phantom dependency" bugs early.
+
+## The two side by side
+
+<Results
+  caption="pnpm and npm, from each project's own documentation and release notes, October 2026"
+  tools={['pnpm', 'npm']}
+  winner="pnpm"
+  rows={[
+    { label: 'How packages are stored', values: ['Global store, hard-linked', 'Copied into each project'] },
+    { label: 'Undeclared imports from your code', values: ['Blocked', 'Allowed (flat tree)'] },
+    { label: 'Dependency install scripts', values: ['Opt-in', 'Opt-in since npm 12'] },
+    { label: 'Ships with Node.js', values: [false, true] },
+    { label: 'Workspaces', values: [true, true] },
+    { label: 'Clean install, "alotta-packages" (pnpm\'s benchmark)', values: ['14.3 s', '1 min 51 s'] },
+  ]}
+/>
+
+## pnpm stores each package once
+
+<ToolFacts tool="pnpm" price="Free" runsOn="Windows, macOS, Linux" license="Open source (MIT)" />
+
+pnpm 12 is a rewrite in Rust and the current release line. In pnpm's own published benchmark for a project with many packages, a clean install took 14.3 seconds with pnpm 12 and 1 minute 51 seconds with npm. Those are pnpm's numbers, measured on pnpm's setup. Your project will differ, but the direction is consistent across their scenarios.
+
+Workspaces are where pnpm shines. A `pnpm-workspace.yaml` lists your packages, and `workspace:` versions link them locally. Strictness has an escape hatch: if an old package relies on phantom dependencies, the hoisting settings can expose just that package.
+
+Install pnpm from its website or with a standalone script. Corepack is no longer bundled with Node.js 25 and later, so don't rely on it to provide pnpm.
+
+<ProsCons
+  pros={['you work in a monorepo', 'you have many projects on one machine or slow CI installs', 'you want undeclared imports to fail early']}
+  cons={['an old tool in your stack breaks with a symlinked node_modules', 'you want nothing extra to install on every machine']}
+/>
+
+<Ad />
+
+## npm is already installed
+
+<ToolFacts tool="npm" price="Free" runsOn="Windows, macOS, Linux" license="Open source (Artistic 2.0)" />
+
+npm comes with Node.js, so every CI image, hosting platform and tutorial supports it. Nothing to install or explain to a new teammate.
+
+npm 12, released in July 2026, closed one of pnpm's old advantages. Lifecycle scripts from dependencies are now blocked unless your project allows them, and git and tarball-URL dependencies are off by default. It also removed `npm shrinkwrap` and turned unknown config keys into errors, so check your `.npmrc` before upgrading.
+
+Its layout hasn't changed: packages are still copied per project in a flat tree, which uses more disk and lets code import packages it never declared.
+
+<ProsCons
+  pros={['you want zero setup on every machine', 'you depend on tools that assume a flat node_modules', 'your project is small and installs are already fast']}
+  cons={['disk space or CI install time is a problem', 'you want imports of undeclared packages to fail']}
+/>
+
+## How to switch from npm to pnpm
+
+pnpm can build its lockfile from your existing `package-lock.json`, so you keep the same resolved versions:
+
+```sh
+pnpm import
+rm -rf node_modules package-lock.json
+pnpm install
+```
+
+Run your tests. If something fails with "Cannot find module", your code was relying on a phantom dependency: add that package to your dependencies. Finally, pin the pnpm version for your team in `package.json`:
+
+```json
+{
+  "packageManager": "pnpm@12.8.0"
+}
+```
+
+## How to choose in 30 seconds
+
+- **A monorepo:** pnpm.
+- **Many projects on one laptop, or slow CI:** pnpm.
+- **Zero setup, maximum compatibility:** npm.
+- **A legacy project with fragile tooling:** npm.
+
+Building a monorepo? Pair pnpm with [Turborepo or Nx](/turborepo-vs-nx/).
+
+Choosing the bundler too? Read [Vite vs Webpack](/vite-vs-webpack/).
+
+## FAQ
+
+### Is pnpm actually faster than npm?
+
+In pnpm's published benchmarks, yes, in every scenario they test. A clean install of their "alotta-packages" project took 14.3 seconds with pnpm 12 and 1 minute 51 seconds with npm. Those are pnpm's measurements, not ours.
+
+### How does pnpm save disk space?
+
+It keeps one copy of each file in a global store on your machine and hard-links it into each project's `node_modules`, instead of copying packages into every project.
+
+### Do I still need Corepack for pnpm?
+
+No. Corepack isn't bundled with Node.js 25 and later. Install pnpm with the methods on pnpm's installation page, and pin the version with the `packageManager` field.

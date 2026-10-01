@@ -1,0 +1,138 @@
+---
+title: "Turborepo vs Nx: which monorepo tool should you choose?"
+description: Turborepo adds caching to a JS monorepo with one file. Nx adds generators, boundaries and Java or .NET support. Setup, caching costs and config compared.
+lede: Pick Turborepo if you have a JavaScript or TypeScript monorepo and want faster builds with almost no setup. Pick Nx if you have a large or multi-language repo and want code generators, enforced boundaries and CI tooling.
+kind: comparison
+method: research
+topic: Frontend and tooling
+tools: [Turborepo, Nx]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's documentation, pricing pages, changelogs and repository, October 1, 2026. Config samples follow each project's own docs.
+  versions:
+    - { tool: Turborepo, version: "2.11" }
+    - { tool: Nx, version: "Current release (October 2026)" }
+  notes: Both tools are free and MIT licensed. We make no speed claims because we didn't benchmark them.
+sources:
+  - { title: "Turborepo docs: configuring tasks", url: "https://turbo.build/repo/docs/crafting-your-repository/configuring-tasks" }
+  - { title: "Turborepo docs: add to an existing repository", url: "https://turbo.build/repo/docs/getting-started/existing-monorepo" }
+  - { title: "Turborepo docs: remote caching", url: "https://turbo.build/repo/docs/core-concepts/remote-caching" }
+  - { title: "Vercel: Remote Cache is now free", url: "https://vercel.com/changelog/free-vercel-remote-cache" }
+  - { title: "Turborepo releases", url: "https://github.com/vercel/turborepo/releases" }
+  - { title: "Turborepo source code (MIT)", url: "https://github.com/vercel/turborepo" }
+  - { title: "Nx Cloud pricing", url: "https://nx.dev/pricing" }
+  - { title: "Nx docs: multi-language support", url: "https://nx.dev/docs/features/multi-language-support" }
+  - { title: "Nx 22 release", url: "https://nx.dev/blog/nx-22-release" }
+  - { title: "Nx remote cache options", url: "https://nx.dev/remote-cache" }
+  - { title: "Nx source code (MIT)", url: "https://github.com/nrwl/nx" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Turborepo" top why="One turbo.json and your JS monorepo gets task ordering and caching. Remote cache on Vercel is free." href="#turborepo-is-the-fastest-way-to-faster-builds" />
+  <Pick tool="Nx" label="Large or mixed repos" why="Generators, module boundaries, and support for Java, .NET and more." href="#nx-is-a-full-platform-for-big-repos" />
+</Picks>
+
+## Both cache, and they differ in how much else they do
+
+At their core, both tools do the same job. They read your workspace, work out which packages depend on which, run tasks in the right order and skip tasks whose inputs haven't changed by restoring the result from a cache. With a remote cache, your teammates and CI share those results.
+
+The difference is scope. **Turborepo** is a task runner and cache for JavaScript and TypeScript, and that's all. **Nx** also generates code, enforces rules about which projects may import which, works with Java, .NET and other languages, and offers distributed CI through Nx Cloud.
+
+## The two side by side
+
+<Results
+  caption="Turborepo and Nx, from each project's own docs and pricing pages, October 2026"
+  tools={['Turborepo', 'Nx']}
+  rows={[
+    { label: 'License', values: ['MIT', 'MIT'] },
+    { label: 'Config to get started', values: ['One turbo.json', 'nx init; nx.json and inferred tasks'] },
+    { label: 'Languages', values: ['JavaScript, TypeScript', 'JS/TS, Java (Gradle, Maven), .NET, plus community plugins'] },
+    { label: 'Free remote cache', values: ['Vercel Remote Cache, all plans', 'Nx Cloud Hobby, 50,000 credits/mo'] },
+    { label: 'Paid plan', values: ['None needed for caching', 'Nx Cloud Team $19/contributor/mo'] },
+    { label: 'Code generators', values: ['Basic (turbo gen)', 'Extensive'] },
+    { label: 'Enforced module boundaries', values: [false, true] },
+  ]}
+/>
+
+## Turborepo is the fastest way to faster builds
+
+<ToolFacts tool="Turborepo" price="Free; Vercel Remote Cache free on all plans" runsOn="Node.js workspaces (npm, pnpm, Yarn, Bun)" license="Open source (MIT)" />
+
+Add Turborepo to an existing workspace and describe your tasks in one file:
+
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "dependsOn": ["build"]
+    },
+    "lint": {}
+  }
+}
+```
+
+`^build` means "build my dependencies first". `outputs` tells Turborepo what to cache. Then run `npx turbo run build test lint`. The second time, unchanged packages come straight from the cache.
+
+For a shared cache, run `npx turbo login` and `npx turbo link`. Vercel Remote Cache is free on all Vercel plans, even if you don't host your apps there, subject to fair use. You can also point Turborepo at a self-hosted cache.
+
+<ProsCons
+  pros={['your monorepo is JavaScript or TypeScript', 'you want caching today without restructuring anything', 'you want a free remote cache with no credit limits']}
+  cons={['part of your repo is Java, .NET or another language', 'you want generators and import rules enforced by the tool']}
+/>
+
+<Ad />
+
+## Nx is a full platform for big repos
+
+<ToolFacts tool="Nx" price="Free; Nx Cloud from $0 (Hobby)" runsOn="Node.js, plus Gradle, Maven and .NET via plugins" license="Open source (MIT)" />
+
+Run `npx nx@latest init` in an existing repo and Nx infers tasks from your tools' config files. From there it adds what Turborepo leaves out. Generators scaffold new apps and libraries the same way every time. Module boundary rules stop one team's code from importing another's. And `nx affected` runs tasks only for the projects a change touches:
+
+```sh
+npx nx affected -t lint test build
+```
+
+Nx supports JavaScript and TypeScript, Java with Gradle or Maven, and .NET as first-party plugins. Community plugins cover Python, Rust, Go and PHP.
+
+Nx Cloud's free Hobby plan includes 50,000 credits a month, 5 contributors and remote caching. Team costs $19 per contributor per month and adds usage-based billing past the included credits. There's more to learn than with Turborepo: generators, project configuration and Nx's CLI.
+
+<ProsCons
+  pros={['your repo mixes JavaScript with Java or .NET', 'many teams share one repo and need enforced boundaries', 'you want CI features like distributed task execution']}
+  cons={['you only need caching for a small JS monorepo', 'you don\'t want another platform to learn and pay for at scale']}
+/>
+
+## How to choose in 30 seconds
+
+- **A JS/TS monorepo, faster builds today:** Turborepo.
+- **Java, .NET or mixed languages in one repo:** Nx.
+- **Many teams, strict rules about who imports what:** Nx.
+- **A free shared cache with no credit limits:** Turborepo with Vercel Remote Cache.
+
+Setting up the workspace too? Read [pnpm vs npm](/pnpm-vs-npm/) for the package manager underneath.
+
+Choosing the bundler for each app? Read [Vite vs Webpack](/vite-vs-webpack/).
+
+## FAQ
+
+### Do I need Vercel to use Turborepo?
+
+No. Turborepo runs locally and in any CI. Vercel Remote Cache is optional, and free on every Vercel plan even if you don't deploy there. You can also use a self-hosted cache.
+
+### Can Nx handle non-JavaScript projects?
+
+Yes. Nx has first-party plugins for Java (Gradle and Maven) and .NET, and community plugins for Python, Rust, Go and PHP.
+
+### Which one is easier to learn?
+
+Turborepo. You need one config file and a handful of task options. Nx has more concepts, like generators, inferred tasks and project boundaries, because it does more.

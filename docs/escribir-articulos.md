@@ -2,7 +2,7 @@
 
 Un artículo es un solo archivo `.mdx`. El diseño, el SEO, la portada, el índice, "How we tested", las fuentes, la caja de autor y los anuncios salen solos. Si falta algo obligatorio, el build falla con un mensaje que dice qué corregir.
 
-Estándar editorial: [plan-sitio-adsense.md §9.3](../plan-sitio-adsense.md). Diseño: [DESIGN.md](../DESIGN.md).
+Estándar editorial: [plan-sitio-adsense.md §9.3](../articulos/plan-sitio-adsense.md). Diseño: [DESIGN.md](../DESIGN.md).
 
 ---
 
@@ -56,6 +56,7 @@ author: nombre-apellido   # id del archivo en src/content/authors/
 publishedAt: 2026-10-01
 updatedAt: 2026-10-01     # no puede ser anterior a publishedAt
 testedAt: 2026-09-28
+method: tested           # tested (pruebas propias con números) | research (solo fuentes oficiales, sin mediciones)
 testing:                  # genera la sección "How we tested"
   environment: MacBook Air M2, 16 GB RAM, macOS 15.4
   versions:
