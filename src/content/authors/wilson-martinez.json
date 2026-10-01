@@ -1,12 +1,12 @@
 {
   "name": "Wilson Martínez",
   "role": {
-    "en": "Founder and software developer",
-    "es": "Fundador y desarrollador de software"
+    "en": "Full-stack developer and founder",
+    "es": "Desarrollador full-stack y fundador"
   },
   "bio": {
-    "en": "Wilson is a software developer based in Loja, Ecuador, and the founder of Kriterio. He installs and tests every tool reviewed on the site.",
-    "es": "Wilson es desarrollador de software en Loja, Ecuador, y fundador de Kriterio. Instala y prueba cada herramienta que se analiza en el sitio."
+    "en": "Wilson is a full-stack developer in Loja, Ecuador, and the founder of Kriterio. He builds web and mobile products for clients with React, Next.js, NestJS, Supabase, Firebase and Flutter, and writes every comparison on the site from that day-to-day work.",
+    "es": "Wilson es desarrollador full-stack en Loja, Ecuador, y fundador de Kriterio. Construye productos web y móviles para clientes con React, Next.js, NestJS, Supabase, Firebase y Flutter, y escribe cada comparativa del sitio desde ese trabajo diario."
   },
   "links": [
     { "label": "GitHub", "url": "https://github.com/rslcia11" },

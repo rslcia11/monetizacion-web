@@ -35,7 +35,7 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 ## 2. Tipografía
 
 - **Cuerpo y UI:** Public Sans (400, 500, 600, 700).
-- **Títulos (h1, h2, logo):** serif. Por defecto Newsreader 700. Alternativas evaluadas: Literata, Source Serif 4. **Pendiente confirmar.**
+- **Títulos (h1, h2, logo):** serif. **Newsreader 700 (confirmada, 1 de octubre de 2026).** Alternativas evaluadas y descartadas: Literata, Source Serif 4.
 - **Cifras:** `font-variant-numeric: tabular-nums`. No usar fuente monoespaciada para datos.
 - Cargar fuentes self-hosted con `font-display: swap` (rendimiento y sin peticiones a terceros).
 

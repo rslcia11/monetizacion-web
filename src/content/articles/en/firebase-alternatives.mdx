@@ -1,0 +1,160 @@
+---
+title: "The best Firebase alternatives in 2026, compared"
+description: Supabase, Appwrite and PocketBase compared with Firebase on pricing, spend limits, SQL and self-hosting, plus what a migration really involves.
+lede: Moving to SQL? Pick Supabase. It's Postgres with auth, storage and realtime, and it has official Firebase migration tools. Want an open-source backend with a fixed base price? Appwrite. Want no platform at all? PocketBase.
+kind: alternatives
+method: research
+topic: Backend
+tools: [Firebase, Supabase, Appwrite, PocketBase]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, billing docs, migration guides and code repository, October 1, 2026. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Firebase, version: "Hosted platform (October 2026)" }
+    - { tool: Supabase, version: "Hosted platform (October 2026)" }
+    - { tool: Appwrite, version: "2.x (cloud and self-hosted)" }
+    - { tool: PocketBase, version: "Latest release (pre-1.0)" }
+  notes: Prices change often. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Firebase pricing plans", url: "https://firebase.google.com/docs/projects/billing/firebase-pricing-plans" }
+  - { title: "Firebase docs: avoid surprise bills", url: "https://firebase.google.com/docs/projects/billing/avoid-surprise-bills" }
+  - { title: "Firebase docs: spend caps", url: "https://firebase.google.com/docs/projects/billing/spend-caps" }
+  - { title: "Cloud Firestore usage and limits", url: "https://firebase.google.com/docs/firestore/quotas" }
+  - { title: "Firebase CLI: auth:import and auth:export", url: "https://firebase.google.com/docs/cli/auth" }
+  - { title: "Supabase pricing", url: "https://supabase.com/pricing" }
+  - { title: "Supabase docs: control your costs (spend cap)", url: "https://supabase.com/docs/guides/platform/cost-control" }
+  - { title: "Supabase docs: migrate from Firebase Auth", url: "https://supabase.com/docs/guides/platform/migrating-to-supabase/firebase-auth" }
+  - { title: "Supabase docs: migrate from Firestore", url: "https://supabase.com/docs/guides/platform/migrating-to-supabase/firestore-data" }
+  - { title: "Supabase docs: free project pausing", url: "https://supabase.com/docs/guides/platform/free-project-pausing" }
+  - { title: "Appwrite pricing", url: "https://appwrite.io/pricing" }
+  - { title: "Appwrite: new pricing plans", url: "https://appwrite.io/blog/post/appwrite-pricing-update" }
+  - { title: "Appwrite changelog: automatic pausing of inactive Free projects", url: "https://appwrite.io/changelog/entry/2026-02-20-1" }
+  - { title: "Appwrite changelog: native PostgreSQL and MySQL in every region", url: "https://appwrite.io/changelog/entry/2026-09-24-2" }
+  - { title: "Appwrite source code (BSD 3-Clause)", url: "https://github.com/appwrite/appwrite" }
+  - { title: "PocketBase source code (MIT)", url: "https://github.com/pocketbase/pocketbase" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Supabase" top why="Postgres, auth, storage and realtime, plus official tools to move your Firebase users and data." href="#supabase-is-the-best-way-off-firestore" />
+  <Pick tool="Appwrite" label="Fixed base price" why="Open source, with document collections or native Postgres and MySQL." href="#appwrite-keeps-documents-and-adds-sql" />
+  <Pick tool="PocketBase" label="No platform fees" why="One executable you run on your own server. MIT licensed." href="#pocketbase-if-you-want-to-own-the-server" />
+</Picks>
+
+## Why teams leave Firebase
+
+Firebase's free Spark plan is generous, and the paid Blaze plan keeps the same free quota. The risk is how Blaze bills: per document read, write and delete. A query in a loop, or a page that reads too many documents, shows up directly on your bill.
+
+Firebase gives you two tools. Budget alerts only send emails and don't stop anything. Spend caps can pause a service when it goes over budget, but they only exist for Cloud Functions, App Hosting, AI Logic and Extensions. Firestore isn't on the list. The other reason teams leave is lock-in. Firebase is proprietary, so you can't run it on your own servers.
+
+## The alternatives side by side
+
+<Results
+  caption="Firebase and three alternatives, from each vendor's own pricing pages, changelogs and docs, October 2026"
+  tools={['Firebase', 'Supabase', 'Appwrite', 'PocketBase']}
+  winner="Supabase"
+  rows={[
+    { label: 'Database', values: ['Firestore (NoSQL)', 'PostgreSQL', 'Documents, PostgreSQL, MySQL', 'SQLite'] },
+    { label: 'Paid plan', values: ['Pay per operation', '$25/mo per org + compute', '$25/mo + $15 per extra project', 'Free, you pay the server'] },
+    { label: 'Hard spend cap on the database', values: [false, 'Yes, on by default (not compute)', null, 'Not needed'] },
+    { label: 'Free projects pause when idle', values: ['No', 'After 1 week', 'After 7 days', 'You run it'] },
+    { label: 'Official Firebase migration guide', values: [null, true, null, null] },
+    { label: 'Open source, self-hostable', values: [false, 'Yes (Apache 2.0)', 'Yes (BSD 3-Clause)', 'Yes (MIT)'] },
+  ]}
+/>
+
+## Supabase is the best way off Firestore
+
+<ToolFacts tool="Supabase" price="Free; Pro $25/mo per organization + compute" runsOn="Cloud or self-hosted (Docker)" license="Open source (Apache 2.0)" />
+
+Supabase is a Postgres database with auth, file storage, edge functions and realtime around it. Pro costs $25 a month per organization and includes $10 of compute credits, enough for one Micro instance. Pro has a spend cap on by default that blocks overage charges. Compute hours aren't covered by the cap, but they only grow when you pick a bigger instance.
+
+It's also the only option here with official Firebase migration guides. They cover Auth users, Firestore collections and Storage files. Your users can keep their passwords, because Supabase's import tool takes Firebase's password hash parameters. You start by exporting users with the Firebase CLI:
+
+```sh
+firebase auth:export users.json --format=json --project your-project-id
+```
+
+Realtime listeners change shape but not idea. A Firestore `onSnapshot` on a collection becomes a channel on a table:
+
+```js
+supabase
+  .channel('new-orders')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, (payload) => {
+    console.log('New order:', payload.new);
+  })
+  .subscribe();
+```
+
+The free plan's catch: projects pause after one week of inactivity, and you can have two active ones.
+
+<ProsCons
+  pros={['you want SQL, joins and foreign keys', 'you want a monthly bill with a cap', 'you want official tools to move users and data']}
+  cons={['your data model depends on deeply nested documents', 'a free project must stay online with no activity']}
+/>
+
+<Ad />
+
+## Appwrite keeps documents and adds SQL
+
+<ToolFacts tool="Appwrite" price="Free; Pro $25/mo, +$15 per extra project" runsOn="Cloud or self-hosted (Docker)" license="Open source (BSD 3-Clause)" />
+
+Appwrite's built-in databases use documents and collections, so the model will feel familiar coming from Firestore. Since Appwrite 2.0 you can also create native PostgreSQL or MySQL databases in a project. Those are dedicated instances that start at $10 a month, and Pro includes $10 in database credits each month.
+
+Pro costs $25 a month and includes 2 TB of bandwidth per project. Each extra project adds $15. Free projects pause after seven days with no development activity in the console. User traffic doesn't count, and projects paused for 90 days are deleted.
+
+<ProsCons
+  pros={['you want a document model like Firestore, but open source', 'you want SQL available when you need it', 'you may self-host later under a permissive license']}
+  cons={['you\'ll run many separate projects', 'you want a free tier for a live app with users']}
+/>
+
+## PocketBase if you want to own the server
+
+<ToolFacts tool="PocketBase" price="Free (you pay for the server)" runsOn="Any Linux, macOS or Windows server" license="Open source (MIT)" />
+
+PocketBase is one Go executable with an embedded SQLite database, auth, file storage, realtime subscriptions and an admin dashboard. There's no hosted plan and no per-operation billing. Your cost is the server you run it on.
+
+You take on the work Google did for you: backups, updates and uptime. PocketBase is still before version 1.0, and its README says full backward compatibility isn't guaranteed until then.
+
+<ProsCons
+  pros={['you want a fixed, tiny monthly cost', 'your app fits one SQLite database', 'you\'re comfortable running a small server']}
+  cons={['you need to scale beyond one machine', 'you don\'t want to own backups and upgrades']}
+/>
+
+## What I'd plan before leaving Firebase
+
+I still use Firebase where it shines. Static sites like Musa Rosa are a Next.js export deployed with `firebase deploy --only hosting`, and I have no reason to move them. When a client wants to leave Firebase, it's almost always about Firestore costs or getting their data into SQL.
+
+Plan the data model before you move anything. Firestore documents don't map one-to-one to tables: subcollections become tables with foreign keys, and duplicated fields become joins. I write the target schema first, migrate Auth users second, so people keep their passwords, and move data and Storage last.
+
+And whatever you choose, set budget alerts on day one. An inefficient query in a listener loop is the most common source of surprise bills I've seen, on any platform that bills per operation.
+
+## How to choose in 30 seconds
+
+- **You want SQL and an official migration path:** Supabase.
+- **You want to keep a document model, open source:** Appwrite.
+- **You want no platform bill at all:** PocketBase.
+- **Your app stays inside the daily free quota:** stay on Firebase.
+
+For a head-to-head on pricing and queries, read [Supabase vs Firebase](/supabase-vs-firebase/).
+
+Already on Supabase and looking around? See the [best Supabase alternatives](/supabase-alternatives/).
+
+## FAQ
+
+### Can I set a hard spending limit on Firebase?
+
+Not for Firestore. Budget alerts only send emails. Spend caps that pause a service exist for Cloud Functions, App Hosting, AI Logic and Extensions only.
+
+### Can my users keep their passwords if I leave Firebase?
+
+With Supabase, yes. Its Firebase Auth migration guide imports users exported with `firebase auth:export`, using Firebase's password hash parameters so existing passwords keep working.
+
+### Is there an open-source Firebase I can self-host?
+
+Yes. Supabase (Apache 2.0), Appwrite (BSD 3-Clause) and PocketBase (MIT) can all run on your own servers.

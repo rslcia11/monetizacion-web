@@ -1,5 +1,6 @@
 ---
 import { Font } from 'astro:assets';
+import { PUBLIC_INDEXABLE } from 'astro:env/server';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { adsenseClient } from '../lib/ads';
@@ -56,7 +57,7 @@ const otherLanguage = alternates.find((a) => a.locale !== locale);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex || !PUBLIC_INDEXABLE) && <meta name="robots" content="noindex" />}
     {hreflang.map((a) => <link rel="alternate" hreflang={a.locale} href={new URL(a.href, Astro.site)} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={new URL(xDefault.href, Astro.site)} />}
     <link rel="sitemap" href="/sitemap-index.xml" />

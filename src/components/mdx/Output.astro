@@ -1,0 +1,51 @@
+---
+import { t, toLocale } from '../../i18n/ui';
+
+// What the code right above it returns or prints. Goes after a code block, never alone.
+interface Props {
+  // Optional label, e.g. "Response (422)". Defaults to "Result".
+  label?: string;
+}
+
+const locale = toLocale(Astro.currentLocale);
+const { label = t(locale, 'code.result') } = Astro.props;
+---
+
+<figure class="output">
+  <div class="bar">{label}</div>
+  <div class="body"><slot /></div>
+</figure>
+
+<style>
+  .output {
+    margin-top: 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .bar {
+    padding: 8px 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line-strong);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .body :global(pre) {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--paper) !important;
+  }
+
+  .body :global(.code) {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .body :global(.code .bar) {
+    display: none;
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+title: "Vite vs Webpack: which build tool should you choose?"
+description: Vite 8 now uses Rolldown for every build. Webpack 5 keeps adding built-in features. Dev server, config, micro-frontends and when to migrate, compared.
+lede: For a new app, pick Vite. It needs almost no config and its dev server doesn't bundle your code. Keep Webpack if you run Module Federation micro-frontends or have a large build that works and isn't worth rewriting.
+kind: comparison
+method: research
+topic: Frontend and tooling
+tools: [Vite, Webpack]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on Vite's and webpack's official documentation, blogs and release notes, October 1, 2026. Config samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Vite, version: "8.1" }
+    - { tool: Webpack, version: "5.111" }
+  notes: Both tools are free and MIT licensed. Speed claims in this article come from the projects themselves, not our measurements.
+sources:
+  - { title: "Vite: why Vite", url: "https://vite.dev/guide/why" }
+  - { title: "Vite 8.0 is out", url: "https://vite.dev/blog/announcing-vite8" }
+  - { title: "Vite 8.1 is out", url: "https://vite.dev/blog/announcing-vite8-1" }
+  - { title: "Vite: building for production", url: "https://vite.dev/guide/build" }
+  - { title: "Vite: migration from v7", url: "https://vite.dev/guide/migration" }
+  - { title: "Webpack: concepts", url: "https://webpack.js.org/concepts/" }
+  - { title: "Webpack: Module Federation", url: "https://webpack.js.org/concepts/module-federation/" }
+  - { title: "Webpack 5.109 (built-in CSS, HTML and TypeScript)", url: "https://webpack.js.org/blog/2026-07-24-webpack-5-109/" }
+  - { title: "Webpack 5.111", url: "https://webpack.js.org/blog/2026-09-14-webpack-5-111" }
+  - { title: "Webpack roadmap 2026", url: "https://webpack.js.org/blog/2026-02-04-roadmap-2026/" }
+  - { title: "Module Federation 2.0", url: "https://module-federation.io/blog/announcement" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Vite" top why="Tiny config, an unbundled dev server and one Rust bundler for production builds." href="#vite-is-the-default-for-new-apps" />
+  <Pick tool="Webpack" label="Micro-frontends" why="Module Federation and full control over every step of a large build." href="#webpack-still-wins-on-control-and-federation" />
+</Picks>
+
+## The difference starts in development
+
+**Webpack** builds a bundle before it serves your app, even in development. It walks your whole dependency graph, runs loaders and writes the bundle into memory. The bigger the app, the more work happens before the first page loads.
+
+**Vite** doesn't bundle your source code in development. It serves files as native ES modules and lets the browser request what it needs. When you edit a file, only that module is replaced. Vite's docs say this keeps startup and updates fast as an app grows. That's their claim; we haven't benchmarked it.
+
+For production, Vite does bundle. Since Vite 8, released in March 2026, one Rust-based bundler, Rolldown, handles that. It replaced the old split of esbuild for some tasks and Rollup for the build.
+
+## The two side by side
+
+<Results
+  caption="Vite and webpack, from each project's own docs and release notes, October 2026"
+  tools={['Vite', 'Webpack']}
+  rows={[
+    { label: 'Dev server', values: ['Native ES modules, no bundling', 'Bundles first, then serves'] },
+    { label: 'Production bundler', values: ['Rolldown (Rust)', 'webpack itself'] },
+    { label: 'Config for a typical React app', values: ['A few lines', 'Longer, though 5.109+ handles CSS, HTML and TS natively'] },
+    { label: 'Module Federation 2.0 features', values: ['Partial, via plugin', 'Supported (also in Rspack)'] },
+    { label: 'Plugin ecosystem', values: ['Vite and Rollup-style plugins', 'Loaders and plugins built over a decade'] },
+    { label: 'License', values: ['MIT', 'MIT'] },
+  ]}
+/>
+
+## The config, side by side
+
+A React app with TypeScript in Vite:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
+TypeScript, CSS, the HTML entry and the dev server work with no extra setup. The classic webpack setup for the same app spells out each file type:
+
+```js
+// webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: './src/index.tsx',
+  output: { filename: '[name].[contenthash].js', clean: true },
+  resolve: { extensions: ['.tsx', '.ts', '.js'] },
+  module: {
+    rules: [
+      { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
+  },
+  plugins: [new HtmlWebpackPlugin({ template: './index.html' })],
+};
+```
+
+Webpack is closing that gap. Since 5.109, built-in CSS, HTML, TypeScript and async WebAssembly support are on by default when no loader is registered for them. That can remove several of those rules.
+
+## Vite is the default for new apps
+
+<ToolFacts tool="Vite" price="Free" runsOn="Node.js" license="Open source (MIT)" />
+
+Vite is the default build tool for many frameworks, including Vue, SvelteKit, Astro and React Router. You get a fast dev server, hot module replacement and sensible production defaults with almost no config.
+
+Vite 8 moved production builds to Rolldown and kept compatibility with existing Vite plugins. Vite's own announcement cites builds up to 10 to 30 times faster. That number is theirs. Vite 8.1 followed in June 2026.
+
+<ProsCons
+  pros={['you\'re starting a new app or library', 'you want minimal config', 'your framework already uses Vite']}
+  cons={['you depend on Module Federation 2.0 features', 'your build relies on webpack-only loaders with no Vite equivalent']}
+/>
+
+<Ad />
+
+## Webpack still wins on control and federation
+
+<ToolFacts tool="Webpack" price="Free" runsOn="Node.js" license="Open source (MIT)" />
+
+Webpack is far from abandoned. It shipped regular releases through 2026, up to 5.111 in September, with stable ES module output, native CSS and HTML handling and a published roadmap toward webpack 6. Its loader and plugin system gives you control over every step of the build, which large apps with unusual needs still rely on.
+
+Module Federation is its biggest reason to stay. Separately built apps load each other's code at runtime, which is the basis of many micro-frontend setups. The newer Module Federation 2.0 features run on webpack and Rspack, a webpack-compatible bundler written in Rust.
+
+<ProsCons
+  pros={['you run micro-frontends with Module Federation', 'you have a large, working webpack build', 'you need fine-grained control of the build pipeline']}
+  cons={['you\'re starting a new single-page app', 'your team spends real time maintaining webpack config']}
+/>
+
+## How I set up Vite on React projects
+
+All my recent React projects use Vite, and two settings cover most of what I need beyond the defaults. First, a dev proxy, so the frontend can call the API on the same origin and you skip CORS problems in development:
+
+```ts
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
+});
+```
+
+Second, environment variables. Only variables that start with `VITE_` reach browser code, through `import.meta.env.VITE_API_URL`. That prefix is a safety net: keep secrets without it, and they never ship to the browser.
+
+I still maintain webpack configs on older projects. My rule is simple: if the build works and nobody touches the config, leave it. If the dev server is slowing the team down every day, plan the move to Vite.
+
+## How to choose in 30 seconds
+
+- **A new app:** Vite.
+- **Micro-frontends with Module Federation:** webpack, or Rspack if you want webpack compatibility in Rust.
+- **A large webpack build that works:** keep it, and upgrade to the latest 5.x.
+- **Slow webpack dev server and no federation:** migrate to Vite.
+
+Organizing several apps in one repo? Read [Turborepo vs Nx](/turborepo-vs-nx/). Choosing state management for a React app? See [Zustand vs Redux](/zustand-vs-redux/).
+
+## FAQ
+
+### Does Vite bundle code for production?
+
+Yes. Vite serves unbundled modules in development and bundles for production. Since Vite 8 that bundler is Rolldown.
+
+### Is Vite faster than webpack?
+
+Vite's docs and its Vite 8 announcement say so, especially for dev server startup and updates. We haven't benchmarked them, so treat those numbers as the projects' own claims.
+
+### Can I use webpack plugins in Vite?
+
+No. Webpack plugins and loaders don't run in Vite. Vite has its own plugin system, compatible with many Rollup-style plugins, and equivalents exist for most common loaders.

@@ -1,0 +1,128 @@
+---
+title: "AppFlowy vs Notion: is the open-source option good enough?"
+description: AppFlowy copies Notion's pages and databases, works offline with no account and runs AI locally. Where it matches Notion and where it falls short.
+lede: For one person or a team of two, AppFlowy is good enough and keeps your data on your machine. For a bigger team that relies on integrations, sharing and polish, Notion still wins.
+kind: comparison
+method: research
+topic: Notes and docs
+tools: [AppFlowy, Notion]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, documentation, help center and code repository, October 1, 2026. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: AppFlowy, version: "Current release (October 2026)" }
+    - { tool: Notion, version: "Current plans (October 2026)" }
+  notes: Prices in USD. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "AppFlowy pricing", url: "https://appflowy.com/pricing" }
+  - { title: "AppFlowy: self-hosted plans and pricing", url: "https://appflowy.com/docs/Self-hosted-Plans-and-Pricing" }
+  - { title: "AppFlowy docs: import from Notion", url: "https://docs.appflowy.io/docs/guides/import-from-notion" }
+  - { title: "AppFlowy: local AI with Ollama", url: "https://appflowy.com/blog/appflowy_local_ai_ollama" }
+  - { title: "AppFlowy source code (AGPL-3.0)", url: "https://github.com/AppFlowy-IO/AppFlowy" }
+  - { title: "AppFlowy self-hosted server repository", url: "https://github.com/AppFlowy-IO/AppFlowy-SelfHost-Commercial" }
+  - { title: "Notion pricing", url: "https://www.notion.com/pricing" }
+  - { title: "Notion Help: use pages offline", url: "https://www.notion.com/help/use-pages-offline" }
+  - { title: "Notion Help: understanding block usage", url: "https://www.notion.com/help/understanding-block-usage" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="AppFlowy" top why="Notion-style pages and databases, fully offline with no account, AGPL open source." href="#appflowy-is-good-enough-for-one-or-two-people" />
+  <Pick tool="Notion" label="Bigger teams" why="Mature sharing, permissions and integrations that AppFlowy doesn't match yet." href="#notion-is-still-ahead-for-teams" />
+</Picks>
+
+## What "good enough" means here
+
+AppFlowy is built to feel like Notion: block-based pages, slash commands, and databases you view as a grid, board or calendar. So the question isn't whether it looks the same. It's whether it covers your daily work. That depends on three things: who edits with you, whether you need your data local, and which integrations you rely on.
+
+One outdated argument first: Notion does work offline now. Since August 2025 you can mark pages as available offline in its desktop and mobile apps. AppFlowy's advantage is different. In local mode it never needs a server or an account at all.
+
+## The two side by side
+
+<Results
+  caption="AppFlowy and Notion, from each vendor's own pricing pages, docs and help center, October 2026"
+  tools={['AppFlowy', 'Notion']}
+  rows={[
+    { label: 'Free plan for two people', values: ['1 workspace, 2 members, 5 GB', '1,000 blocks in total'] },
+    { label: 'Paid, per member / month', values: ['$10 yearly, $12.50 monthly', '$10 yearly, $12 monthly'] },
+    { label: 'Use with no account', values: ['Yes, local mode', false] },
+    { label: 'Offline', values: ['Everything, in local mode', 'Pages you download'] },
+    { label: 'AI on your own machine', values: ['Yes, with Ollama', false] },
+    { label: 'Self-host', values: ['Free for 1 seat, then $10/seat/mo', false] },
+    { label: 'License', values: ['AGPL-3.0 (app)', 'Proprietary'] },
+  ]}
+/>
+
+## AppFlowy is good enough for one or two people
+
+<ToolFacts tool="AppFlowy" price="Free; Pro $10/user/mo, yearly" runsOn="Windows, macOS, Linux, iOS, Android, web" license="AGPL-3.0 (app)" />
+
+Download the desktop app, pick local mode and everything stays in a folder on your machine. No sign-up. You need an account to sync between devices or invite someone.
+
+The cloud Free plan covers one shared workspace with 2 members and 5 GB of storage, with unlimited pages and blocks. For a pair working together, that's more room than Notion's Free plan. Pro is $10 per member per month yearly and allows up to 50 members.
+
+AppFlowy's AI features can run locally through Ollama, for free: chat, summarize, fix grammar, continue writing. Install Ollama, pull a model, and connect it in AppFlowy's settings:
+
+```sh
+ollama pull llama3.1
+```
+
+Moving from Notion works best on the cloud version. AppFlowy imports Notion's full ZIP export into a new cloud workspace. In local mode you can bulk-import the Markdown and CSV files from that export instead.
+
+Self-hosting is free for one seat. Team self-hosting is $10 per seat per month, billed yearly, using AppFlowy's commercial server.
+
+<ProsCons
+  pros={['you work alone or with one other person', 'you want everything local with no account', 'you want AI that never sends your notes to a cloud']}
+  cons={['your team is growing past a few people', 'you depend on Notion integrations and automations']}
+/>
+
+<Ad />
+
+## Notion is still ahead for teams
+
+<ToolFacts tool="Notion" price="Free; Plus $10/member/mo, yearly" runsOn="Web, Windows, macOS, iOS, Android" license="Proprietary" />
+
+Notion's lead is everything around the editor: granular sharing and permissions, guests, a large template gallery, and integrations with the tools teams already use. Many people can edit the same page at once. For a company wiki or shared project docs, that maturity matters more than where the data sits.
+
+The Free plan is great alone, but tight for teams. Once two or more people share a Free workspace, it gets a lifetime limit of 1,000 blocks. Plus costs $10 per member per month yearly, or $12 monthly.
+
+<ProsCons
+  pros={['a team of several people writes together', 'you need fine-grained sharing and guests', 'you rely on integrations with other work tools']}
+  cons={['you want your data on your own machine or server', 'two people want a free shared workspace that won\'t hit a limit']}
+/>
+
+## How I'd test AppFlowy before committing
+
+I like AppFlowy's direction, and I'd still never move a team on day one. My approach is a short pilot. Import a real slice of your Notion workspace, ideally a project with databases and linked pages, and work in it for two weeks.
+
+Watch for what doesn't come over: integrations, automations and some database views. Those are where Notion is still ahead. If you run AppFlowy in local mode, remember the data lives in a folder on your machine. Back it up like any other important folder, because there's no cloud copy to save you.
+
+## How to choose in 30 seconds
+
+- **Just you, data stays local:** AppFlowy in local mode.
+- **Two people, free:** AppFlowy's cloud Free plan.
+- **A real team with sharing and integrations:** Notion.
+- **You want AI without sending notes to the cloud:** AppFlowy with Ollama.
+
+Want more options? See our [best Notion alternatives](/notion-alternatives/), including AFFiNE and Anytype.
+
+Prefer notes as plain files on your disk? Read [Obsidian vs Notion](/obsidian-vs-notion/).
+
+## FAQ
+
+### Is AppFlowy really free?
+
+The desktop app is free and open source under AGPL-3.0, and local mode needs no account. The cloud Free plan covers 2 members and 5 GB. Bigger teams pay $10 per member per month, billed yearly.
+
+### Can I import my Notion workspace into AppFlowy?
+
+Yes. On AppFlowy Cloud you can import Notion's full ZIP export into a new workspace. In local mode, bulk-import the Markdown and CSV files from that export.
+
+### Is AppFlowy cheaper than Notion?
+
+On paid plans they cost the same: $10 per member per month, billed yearly. AppFlowy is cheaper for a pair, because its Free plan covers two members without Notion's 1,000-block limit.

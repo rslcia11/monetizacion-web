@@ -1,0 +1,180 @@
+---
+title: "The best Supabase alternatives in 2026, compared"
+description: Appwrite, Firebase, Neon and PocketBase compared on free tiers, pausing, pricing and self-hosting, from each vendor's own pages.
+lede: If you want the same all-in-one backend with flat pricing, Appwrite is the closest match. If you only need Postgres that never pauses, use Neon. Want to host it all yourself on a $5 server? PocketBase.
+kind: alternatives
+method: research
+topic: Backend
+tools: [Supabase, Appwrite, Neon, PocketBase, Firebase]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, changelog, documentation and code repository, October 1, 2026. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Appwrite, version: "2.x (cloud and self-hosted)" }
+    - { tool: Neon, version: "Hosted platform (October 2026)" }
+    - { tool: PocketBase, version: "Latest release (pre-1.0)" }
+    - { tool: Firebase, version: "Hosted platform (October 2026)" }
+  notes: Prices change often. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Supabase pricing", url: "https://supabase.com/pricing" }
+  - { title: "Supabase docs: free project pausing", url: "https://supabase.com/docs/guides/platform/free-project-pausing" }
+  - { title: "Supabase docs: compute usage and credits", url: "https://supabase.com/docs/guides/platform/manage-your-usage/compute" }
+  - { title: "Appwrite pricing", url: "https://appwrite.io/pricing" }
+  - { title: "Appwrite: new pricing plans", url: "https://appwrite.io/blog/post/appwrite-pricing-update" }
+  - { title: "Appwrite changelog: automatic pausing of inactive Free projects", url: "https://appwrite.io/changelog/entry/2026-02-20-1" }
+  - { title: "Appwrite changelog: paused free projects deleted after 90 days", url: "https://appwrite.io/changelog/entry/2026-06-29" }
+  - { title: "Appwrite changelog: native PostgreSQL and MySQL in every region", url: "https://appwrite.io/changelog/entry/2026-09-24-2" }
+  - { title: "Appwrite docs: managed PostgreSQL", url: "https://appwrite.io/docs/products/databases/postgresql" }
+  - { title: "Appwrite source code (BSD 3-Clause)", url: "https://github.com/appwrite/appwrite" }
+  - { title: "Neon pricing", url: "https://neon.com/pricing" }
+  - { title: "Neon docs: plans", url: "https://neon.com/docs/introduction/plans" }
+  - { title: "Neon source code (Apache 2.0)", url: "https://github.com/neondatabase/neon" }
+  - { title: "PocketBase", url: "https://pocketbase.io/" }
+  - { title: "PocketBase source code (MIT)", url: "https://github.com/pocketbase/pocketbase" }
+  - { title: "Firebase pricing plans", url: "https://firebase.google.com/docs/projects/billing/firebase-pricing-plans" }
+  - { title: "Cloud Firestore usage and limits", url: "https://firebase.google.com/docs/firestore/quotas" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Appwrite" top why="Auth, database, storage and functions in one place, with Postgres and a fixed base price." href="#appwrite-is-the-closest-all-in-one-replacement" />
+  <Pick tool="Neon" label="Just the database" why="Serverless Postgres that scales to zero instead of pausing." href="#neon-is-postgres-that-sleeps-instead-of-pausing" />
+  <Pick tool="PocketBase" label="Host it yourself" why="One file with a database, auth and an admin UI. Free under MIT." href="#pocketbase-runs-your-whole-backend-from-one-file" />
+  <Pick tool="Firebase" label="Fully managed" why="Google runs everything and the free quota resets daily." href="#firebase-if-you-want-google-to-run-it" />
+</Picks>
+
+## Why people look for something else
+
+Supabase is a good product, so first be clear about which problem you have.
+
+**Free projects pause.** Supabase pauses Free projects after one week of inactivity, and you can only have two active ones. **Compute is billed on top.** Pro costs $25 a month per organization and includes $10 of compute credits, enough for one Micro instance. Each extra project or bigger instance adds to the bill.
+
+If pausing is your problem, check the free tier rules below carefully: Appwrite pauses free projects too.
+
+## The alternatives side by side
+
+<Results
+  caption="Supabase and four alternatives, from each vendor's own pricing pages, changelogs and docs, October 2026"
+  tools={['Supabase', 'Appwrite', 'Neon', 'PocketBase', 'Firebase']}
+  winner="Appwrite"
+  rows={[
+    { label: 'What you get', values: ['Full backend', 'Full backend', 'Postgres only', 'Full backend', 'Full backend'] },
+    { label: 'Database', values: ['PostgreSQL', 'PostgreSQL, MySQL, built-in', 'PostgreSQL', 'SQLite', 'Firestore (NoSQL)'] },
+    { label: 'Free projects pause when idle', values: ['After 1 week', 'After 7 days', 'Scales to zero, wakes on query', 'You run it', 'No'] },
+    { label: 'Paid plan starts at', values: ['$25/mo + compute', '$25/mo + $15 per extra project', 'Pay per use, no minimum', 'Free, you pay the server', 'Pay per operation'] },
+    { label: 'Open source', values: ['Yes (Apache 2.0)', 'Yes (BSD 3-Clause)', 'Yes', 'Yes (MIT)', false] },
+    { label: 'Self-hostable', values: [true, true, null, true, false] },
+  ]}
+/>
+
+## Appwrite is the closest all-in-one replacement
+
+<ToolFacts tool="Appwrite" price="Free; Pro $25/mo, +$15 per extra project" runsOn="Cloud or self-hosted (Docker)" license="Open source (BSD 3-Clause)" />
+
+Appwrite covers the same ground as Supabase: auth, databases, file storage, functions, messaging and realtime. Pro costs $25 a month and includes 2 TB of bandwidth per project. Each extra project adds $15. Extra bandwidth is $15 per 100 GB.
+
+Since Appwrite 2.0 you can create native PostgreSQL or MySQL databases inside a project, in all six cloud regions since September 2026. They're dedicated instances you size yourself: from $10 a month for 1 vCPU and 1 GB of memory, and Pro includes $10 a month in database credits. Self-hosted Appwrite 2.0 uses PostgreSQL by default.
+
+The Free plan pauses projects with no development activity for seven days. API traffic from your users doesn't count as activity. If a project stays paused for 90 days, Appwrite deletes it with its data.
+
+<ProsCons
+  pros={['you want one backend for auth, data, files and functions', 'you want Postgres without managing a server', 'you may self-host later under a permissive license']}
+  cons={['your free project has users but no one opens the console', 'you need many projects, since each one adds $15']}
+/>
+
+<Ad />
+
+## Neon is Postgres that sleeps instead of pausing
+
+<ToolFacts tool="Neon" price="Free; Launch is pay per use" runsOn="Managed cloud" license="Open source (Apache 2.0)" />
+
+Neon is only the database: serverless Postgres, with no file storage or functions. Its Free plan includes 100 projects, 100 compute-hours per project each month and 0.5 GB of storage per project. When nobody queries the database, compute scales to zero. The next query wakes it up. You don't have to restore anything by hand.
+
+The Launch plan has no monthly minimum. You pay $0.106 per compute-hour and $0.35 per GB-month of storage.
+
+Moving your tables from Supabase is a standard Postgres dump. This copies the `public` schema only, which is where your app's tables usually live:
+
+```sh
+pg_dump --no-owner --no-acl --schema=public -Fc "$SUPABASE_DB_URL" -f app.dump
+pg_restore --no-owner --no-acl -d "$NEON_DB_URL" app.dump
+```
+
+Supabase Auth, Storage and Realtime don't come with it. You'll need replacements for those.
+
+<ProsCons
+  pros={['you mainly use Supabase as a Postgres database', 'you have many small projects that sit idle', 'you want a bill that drops close to zero when nothing runs']}
+  cons={['you rely on Supabase Auth, Storage or Realtime', 'you want one dashboard for the whole backend']}
+/>
+
+## PocketBase runs your whole backend from one file
+
+<ToolFacts tool="PocketBase" price="Free (you pay for the server)" runsOn="Any Linux, macOS or Windows server" license="Open source (MIT)" />
+
+PocketBase is a single Go executable with an embedded SQLite database, realtime subscriptions, users, file storage and an admin dashboard. There's no cloud plan. You download it and run it:
+
+```sh
+./pocketbase serve
+```
+
+You can also import it as a Go package and add your own logic, and still end up with one executable to deploy.
+
+The trade-off is that you run it. Backups, updates and uptime are on you. PocketBase is also still before version 1.0, and its README warns that full backward compatibility isn't guaranteed until then.
+
+<ProsCons
+  pros={['you\'re fine managing a small server', 'your app fits a single SQLite database', 'you want zero platform fees']}
+  cons={['you need Postgres features or horizontal scaling', 'nobody on your team wants to own backups and updates']}
+/>
+
+## Firebase if you want Google to run it
+
+<ToolFacts tool="Firebase" price="Free Spark plan; Blaze pay-as-you-go" runsOn="Google Cloud" license="Proprietary" />
+
+Firebase doesn't pause projects. Firestore's free quota resets every day: 1 GiB stored, 50,000 document reads, 20,000 writes and 20,000 deletes. Past that, the Blaze plan charges per operation.
+
+Coming from Supabase, the big change is the data model. Firestore stores documents, not tables, so joins and foreign keys don't carry over. Plan for a rewrite of your data layer, not a migration. Our [Supabase vs Firebase](/supabase-vs-firebase/) comparison shows the same query in both.
+
+<ProsCons
+  pros={['you want a free project that never pauses', 'your data fits documents and collections']}
+  cons={['you want to keep SQL', 'you need predictable monthly costs']}
+/>
+
+## How I keep the exit door open on Supabase
+
+I like Supabase and use it in client work, so when someone asks me about alternatives, I first ask which part hurts: pausing, cost, or lock-in. Each one has a different answer, and sometimes the answer is just upgrading one project to Pro.
+
+What makes any move painless later is keeping your schema in migrations from day one, instead of clicking tables together in the dashboard:
+
+```sh
+supabase migration new create_orders
+supabase db push
+```
+
+With every change in versioned SQL files, moving the database to Neon or any Postgres host is a dump and a restore. The parts that take real work are the ones Supabase gives you for free: Auth, Storage and Realtime. List the ones you actually use before you decide. That list usually picks the alternative for you.
+
+## How to choose in 30 seconds
+
+- **Same all-in-one backend, fixed base price:** Appwrite.
+- **You only use Supabase for Postgres:** Neon.
+- **You want to host it yourself on a small server:** PocketBase.
+- **A free project that must never pause:** Firebase, or a paid plan anywhere.
+
+Coming from Firebase instead? See the [best Firebase alternatives](/firebase-alternatives/).
+
+## FAQ
+
+### Is there a Supabase alternative that doesn't pause free projects?
+
+Neon's free databases scale to zero and wake on the next query, with no manual restore. Firebase doesn't pause projects. Appwrite pauses free projects after seven days without development activity, just like Supabase does after one week.
+
+### Is Appwrite cheaper than Supabase?
+
+Both Pro plans start at $25 a month. Appwrite adds $15 per extra project and charges for dedicated Postgres instances, with $10 of credits included. Supabase adds compute per project, also with $10 of credits. The cheaper one depends on how many projects you run and how big they are.
+
+### Can I self-host a Supabase alternative?
+
+Yes. Appwrite (BSD 3-Clause) and PocketBase (MIT) are both made to be self-hosted. Supabase itself can also be self-hosted with Docker.

@@ -22,7 +22,7 @@ const featured = size === 'featured';
 <div class:list={['cover', size]} style={{ background }} aria-hidden="true">
   <ToolLogo name={first} size={featured ? 92 : 64} />
   {joiner && rest.length > 0 && <span class="joiner">{joiner}</span>}
-  {rest.slice(0, 3).map((tool) => <ToolLogo name={tool} size={featured ? 56 : 44} tone="outline" />)}
+  {rest.slice(0, featured ? 3 : 2).map((tool) => <ToolLogo name={tool} size={featured ? 56 : 44} tone="outline" />)}
 </div>
 
 <style>

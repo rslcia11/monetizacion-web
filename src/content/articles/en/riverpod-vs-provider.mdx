@@ -1,0 +1,171 @@
+---
+title: "Riverpod vs Provider: which Flutter state manager to use?"
+description: Riverpod is the rewrite of Provider by the same author, with no ProviderNotFoundException and state outside the widget tree. Same counter in both.
+lede: For a new app, pick Riverpod. It removes Provider's most common runtime error and handles async state better. Stay on Provider if your app already uses it and works, or while you learn Flutter from its official docs.
+kind: comparison
+method: research
+topic: Mobile
+tools: [Riverpod, Provider]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on Riverpod's documentation, both packages' pub.dev pages and changelogs, and Flutter's docs, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Riverpod, version: "3.x" }
+    - { tool: Provider, version: "6.x" }
+  notes: Both packages are free and open source, written by the same author.
+sources:
+  - { title: "Riverpod: what's new in 3.0", url: "https://riverpod.dev/docs/whats_new" }
+  - { title: "Riverpod: Provider vs Riverpod", url: "https://riverpod.dev/docs/from_provider/provider_vs_riverpod" }
+  - { title: "Riverpod: motivation (coming from Provider)", url: "https://riverpod.dev/docs/from_provider/motivation" }
+  - { title: "Riverpod: getting started", url: "https://riverpod.dev/docs/introduction/getting_started" }
+  - { title: "Riverpod: consumers", url: "https://riverpod.dev/docs/concepts2/consumers" }
+  - { title: "Riverpod source code", url: "https://github.com/rrousselGit/riverpod" }
+  - { title: "provider on pub.dev", url: "https://pub.dev/packages/provider" }
+  - { title: "Flutter docs: simple app state management", url: "https://docs.flutter.dev/data-and-backend/state-mgmt/simple" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Riverpod" top why="Same author, fewer runtime errors, and async loading and error states built in." href="#riverpod-fixes-providers-weak-spots" />
+  <Pick tool="Provider" label="Existing apps" why="Simple, stable and taught in Flutter's own docs. No need to migrate a working app." href="#provider-is-simple-and-still-fine" />
+</Picks>
+
+## One author, two designs
+
+Remi Rousselet wrote both. Provider wraps Flutter's `InheritedWidget`, so state lives in the widget tree and you read it through `BuildContext`. Riverpod's docs describe it as a rewrite of Provider, made to fix problems that couldn't be fixed inside Provider's design.
+
+The best-known problem is `ProviderNotFoundException`. With Provider, if you read a provider from a widget that isn't below it in the tree, the app compiles but fails at runtime. That's easy to cause during a refactor. In Riverpod, providers are global objects, so that exception can't happen.
+
+## The same counter in both
+
+With **Provider**, you put a `ChangeNotifier` in the tree and read it through `context`:
+
+```dart
+class Counter extends ChangeNotifier {
+  int value = 0;
+
+  void increment() {
+    value++;
+    notifyListeners();
+  }
+}
+
+void main() => runApp(
+  ChangeNotifierProvider(create: (_) => Counter(), child: const MyApp()),
+);
+
+// Inside a widget's build method:
+final count = context.watch<Counter>().value;
+context.read<Counter>().increment();
+```
+
+With **Riverpod 3** and code generation, you declare a notifier class and read it through `ref`:
+
+```dart
+part 'counter.g.dart';
+
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+}
+
+void main() => runApp(const ProviderScope(child: MyApp()));
+
+class CounterText extends ConsumerWidget {
+  const CounterText({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(counterProvider);
+    return Text('$count');
+  }
+}
+
+// Anywhere you have a ref:
+ref.read(counterProvider.notifier).increment();
+```
+
+Riverpod has a few more concepts: `ProviderScope`, `ConsumerWidget`, `ref` and the generated `counterProvider`. In return, `counterProvider` is available everywhere with no tree position to get wrong. Code generation is optional, and you can declare providers by hand.
+
+## The two side by side
+
+<Results
+  caption="Riverpod and Provider, from Riverpod's docs, pub.dev and Flutter's documentation, October 2026"
+  tools={['Riverpod', 'Provider']}
+  winner="Riverpod"
+  rows={[
+    { label: 'Where state lives', values: ['Global providers, stored in a ProviderScope', 'In the widget tree'] },
+    { label: 'Read state through', values: ['ref (WidgetRef or Ref)', 'BuildContext'] },
+    { label: 'ProviderNotFoundException', values: ['Can\'t happen', 'Possible at runtime'] },
+    { label: 'Async loading and error states', values: ['Built in (AsyncValue)', 'Handle yourself'] },
+    { label: 'Use outside Flutter widgets', values: ['Yes, plain Dart', 'Tied to the widget tree'] },
+    { label: 'Code generation', values: ['Optional (recommended)', 'Not used'] },
+  ]}
+/>
+
+## Riverpod fixes Provider's weak spots
+
+<ToolFacts tool="Riverpod" price="Free" runsOn="Flutter and plain Dart" license="Open source (MIT)" />
+
+Because providers aren't widgets, you can read them in tests, background code or plain Dart with no UI. Async data gets an `AsyncValue` with loading, data and error states, so a screen that fetches from an API handles all three cases without extra flags.
+
+Riverpod 3.0, stable since September 2025, simplified the API. The separate AutoDispose interfaces were merged into the regular ones. Failing providers now retry automatically with exponential backoff, and `Ref.mounted` tells you whether a provider is still alive. Offline persistence and mutations arrived as experimental features.
+
+<ProsCons
+  pros={['you\'re starting a new app', 'your app loads a lot of async data', 'you want to test business logic without building widgets']}
+  cons={['your team is still learning Flutter basics', 'you don\'t want a code generation step in your build']}
+/>
+
+<Ad />
+
+## Provider is simple and still fine
+
+<ToolFacts tool="Provider" price="Free" runsOn="Flutter" license="Open source (MIT)" />
+
+Provider is easy to pick up because it is Flutter's own `InheritedWidget` made easier. Flutter's official docs use it to teach app state management, so many developers already know it. For a small app, or one that already works on Provider, there's no urgent reason to migrate.
+
+Its limits show as an app grows. Errors from reading a provider in the wrong place only appear at runtime. Logic tied to `BuildContext` is harder to reuse outside widgets. And async states are yours to model.
+
+<ProsCons
+  pros={['your app already uses it and works well', 'you\'re learning Flutter with the official docs', 'the app is small and will stay small']}
+  cons={['you\'re starting a large app from scratch', 'you keep hitting ProviderNotFoundException during refactors']}
+/>
+
+## What changed for me moving to Riverpod
+
+My earlier Flutter projects used Provider for state and get_it to inject services like API clients and repositories. It works, but it's two systems to learn and keep in sync. With Riverpod, providers handle both state and dependency injection, so the service locator goes away.
+
+If you're migrating, don't rewrite everything. Both packages can live in the same app. I'd start by writing new features with Riverpod, then move shared services, like the HTTP client or auth, into providers, and finally replace the old ChangeNotifiers one screen at a time. Write tests for each screen before you touch it. Riverpod makes those tests easier to write, which is half the reason to migrate.
+
+## How to choose in 30 seconds
+
+- **A new app:** Riverpod.
+- **Lots of async data from APIs:** Riverpod.
+- **An existing app that works on Provider:** stay on Provider.
+- **You're learning Flutter:** Provider first, as Flutter's docs teach it, then Riverpod.
+
+Building the backend too? Compare [Supabase vs Firebase](/supabase-vs-firebase/), both of which have Flutter SDKs.
+
+Still deciding between Flutter and React Native tooling? See [Expo vs React Native CLI](/expo-vs-react-native/).
+
+## FAQ
+
+### Is Provider deprecated?
+
+No. Provider is still published, still used in Flutter's official docs and still works. Its author built Riverpod as the successor that fixes design limits Provider couldn't.
+
+### Do I have to use code generation with Riverpod?
+
+No. Code generation with `@riverpod` is recommended because it cuts boilerplate, but you can declare providers by hand.
+
+### Can I migrate from Provider to Riverpod gradually?
+
+Yes. Both can run in the same app. Riverpod's docs have a "From Provider" section that walks through moving one piece at a time.

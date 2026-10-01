@@ -1,0 +1,118 @@
+---
+title: "Notion vs Confluence: which is better for team docs?"
+description: Confluence is free for 10 users with unlimited pages. Notion's free plan caps teams at 1,000 blocks. Pricing, permissions, structure and Jira compared.
+lede: For a team of up to 10 that wants a free wiki, or any team already on Jira, pick Confluence. For a team that wants flexible pages and databases for docs, projects and processes in one place, pick Notion.
+kind: comparison
+method: research
+topic: Notes and docs
+tools: [Notion, Confluence]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page and help center, October 1, 2026. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Notion, version: "Current plans (October 2026)" }
+    - { tool: Confluence, version: "Confluence Cloud (October 2026)" }
+  notes: Prices in USD. Confluence's monthly price per user drops as you add seats, so we list the starting price. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Notion pricing", url: "https://www.notion.com/pricing" }
+  - { title: "Notion Help: understanding block usage", url: "https://www.notion.com/help/understanding-block-usage" }
+  - { title: "Notion Help: images, files and media", url: "https://www.notion.com/help/images-files-and-media" }
+  - { title: "Notion Help: use pages offline", url: "https://www.notion.com/help/use-pages-offline" }
+  - { title: "Confluence pricing", url: "https://www.atlassian.com/software/confluence/pricing" }
+  - { title: "Confluence Cloud plans and features", url: "https://support.atlassian.com/confluence-cloud/docs/learn-about-confluence-cloud-plans/" }
+  - { title: "Confluence: edit content offline", url: "https://support.atlassian.com/confluence-cloud/docs/edit-content-offline/" }
+  - { title: "Confluence and Jira together", url: "https://www.atlassian.com/software/confluence/resources/guides/extend-functionality/confluence-jira" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Confluence" top why="Free for up to 10 users with unlimited pages, and the natural home for Jira teams." href="#confluence-is-free-for-10-and-built-for-structure" />
+  <Pick tool="Notion" label="Flexible workspace" why="Docs, databases and project tracking in one place, shaped however you like." href="#notion-is-the-more-flexible-workspace" />
+</Picks>
+
+## Structure versus flexibility
+
+**Confluence** organizes docs into spaces with page trees. Every team gets a space, and every page has a parent. That keeps a growing wiki easy to navigate. **Notion** gives you blank pages that can hold text, databases and embeds. You can build a wiki, a task board and a hiring tracker in the same workspace. That flexibility helps, but without someone keeping order it can get messy.
+
+Pricing is where small teams notice the difference first, and the free plans work very differently.
+
+## The two side by side
+
+<Results
+  caption="Notion and Confluence, from each vendor's own pricing pages and help centers, October 2026"
+  tools={['Notion', 'Confluence']}
+  winner="Confluence"
+  rows={[
+    { label: 'Free plan for a team', values: ['1,000 blocks total (2+ people)', 'Up to 10 users, unlimited pages'] },
+    { label: 'Free plan storage', values: ['5 MB per upload', '2 GB total'] },
+    { label: 'Page permissions on Free', values: [null, 'Not customizable'] },
+    { label: 'Cheapest paid plan, per user / month', values: ['$10 yearly, $12 monthly', 'From $5.42'] },
+    { label: 'Structure', values: ['Free-form pages and databases', 'Spaces and page trees'] },
+    { label: 'Works offline', values: ['Downloaded pages (desktop, mobile)', 'Keeps edits when connection drops; mobile offline'] },
+    { label: 'Jira integration', values: ['Via integrations', 'Native'] },
+  ]}
+/>
+
+## Confluence is free for 10 and built for structure
+
+<ToolFacts tool="Confluence" price="Free up to 10 users; Standard from $5.42/user/mo" runsOn="Web, iOS, Android" license="Proprietary" />
+
+The Free plan covers up to 10 users with unlimited spaces and pages, 2 GB of file storage and community support. There's no block counting, so a small team can write as much as it wants. The catch: on Free you can't set space or page permissions, and anonymous access isn't available. Everyone in the site sees everything.
+
+Standard starts at $5.42 per user per month, and the per-user price drops as you add seats. It adds permissions, 250 GB of storage and business-hours support. Premium starts at $10.44.
+
+With Jira, Confluence is hard to beat. Type `/jira` on a page to insert or create issues, and highlight text to turn it into an issue. Jira links pasted into a page become Smart Links that show status and let you change it from Confluence.
+
+<ProsCons
+  pros={['your team has 10 people or fewer and wants a free wiki', 'your team already uses Jira', 'you want a clear page hierarchy as the wiki grows']}
+  cons={['you need private pages on the Free plan', 'you want databases and custom views like a project tracker']}
+/>
+
+<Ad />
+
+## Notion is the more flexible workspace
+
+<ToolFacts tool="Notion" price="Free; Plus $10/member/mo, yearly" runsOn="Web, Windows, macOS, iOS, Android" license="Proprietary" />
+
+Notion's databases are its strength. One database of tasks can show up as a table, a board or a calendar, filtered differently for each team. Docs and data live together, so a spec can link to the tasks that implement it.
+
+The Free plan is meant for individuals. Once two or more people share a Free workspace, it has a lifetime limit of 1,000 blocks. Every paragraph, image or list item is a block, and deleting blocks doesn't reduce the count. Free also limits uploads to 5 MB per file and keeps 7 days of page history. Plus costs $10 per member per month yearly, or $12 monthly.
+
+<ProsCons
+  pros={['you want docs, tasks and databases in one tool', 'teams outside engineering will use it too', 'you want to shape the workspace to your process']}
+  cons={['a team wants to stay on a free plan', 'nobody will own the structure of the workspace']}
+/>
+
+## What makes a team wiki work in either tool
+
+I've worked with team docs in both, and the tool matters less than three habits. Every page has an owner. Every page has a "last reviewed" date. And there's an archive where outdated pages go instead of being deleted.
+
+In Confluence, that means one space per team and page templates for the documents you write often, like specs, runbooks and meeting notes. In Notion, it means one docs database with Owner, Status and Last reviewed as properties, and views filtered per team. Set this up in the first week. Retrofitting structure onto 300 pages is a project nobody wants.
+
+## How to choose in 30 seconds
+
+- **Up to 10 people, free wiki:** Confluence.
+- **You already use Jira:** Confluence.
+- **Docs plus project tracking in one place:** Notion.
+- **Working alone:** Notion's Free plan, with no block limit for a single person.
+
+Looking at open-source options instead? See the [best Notion alternatives](/notion-alternatives/). For personal notes, read [Obsidian vs Notion](/obsidian-vs-notion/).
+
+## FAQ
+
+### Is Notion free for teams?
+
+Partly. When two or more people share a Free workspace, it's limited to 1,000 blocks in total, and Notion gives a three-day grace period when you hit it. After that you need a paid plan to keep adding content.
+
+### How much does Confluence cost after 10 users?
+
+Standard starts at $5.42 per user per month, and the per-user price falls as you add seats. Paying yearly costs less than paying monthly.
+
+### Can I use Confluence or Notion offline?
+
+Somewhat, both. Confluence keeps your edits if your connection drops and syncs them later, and its mobile app has an offline mode. Notion lets you download pages for offline use in its desktop and mobile apps.

@@ -1,0 +1,169 @@
+---
+title: "NestJS vs Express: when is the extra structure worth it?"
+description: NestJS adds modules, dependency injection and decorators on top of Express. Same endpoint in both, what Express 5 fixed, and when Nest pays off.
+lede: Pick Express for small services and when your team already has its own conventions. Pick NestJS when several developers share one large codebase and you want every module to look the same. Nest runs on Express by default, so it isn't one or the other.
+kind: comparison
+method: research
+topic: Backend
+tools: [NestJS, Express]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: NestJS, version: "12.x" }
+    - { tool: Express, version: "5.x" }
+  notes: Both frameworks are free and MIT licensed. We make no speed claims because we didn't benchmark them.
+sources:
+  - { title: "NestJS documentation: first steps", url: "https://docs.nestjs.com/first-steps" }
+  - { title: "NestJS documentation: controllers", url: "https://docs.nestjs.com/controllers" }
+  - { title: "NestJS documentation: performance (Fastify)", url: "https://docs.nestjs.com/techniques/performance" }
+  - { title: "NestJS 12 is now available (Trilon, the NestJS core team)", url: "https://trilon.io/blog/nestjs-12-is-now-available" }
+  - { title: "Announcing NestJS 11 (Express v5 by default)", url: "https://trilon.io/blog/announcing-nestjs-11-whats-new" }
+  - { title: "NestJS source code (MIT)", url: "https://github.com/nestjs/nest" }
+  - { title: "Express 5.1.0: now the default on npm", url: "https://expressjs.com/en/blog/2025-03-31-v5-1-latest-release/" }
+  - { title: "Express: upgrade to v5", url: "https://expressjs.com/en/guide/migrating-5/" }
+  - { title: "Express: version support", url: "https://expressjs.com/en/support/" }
+  - { title: "Express source code (MIT)", url: "https://github.com/expressjs/express" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Express" top why="Small, well known and enough for most services. Express 5 fixed async error handling." href="#express-is-small-and-everyone-knows-it" />
+  <Pick tool="NestJS" label="Large teams" why="Modules, dependency injection and one structure every developer follows." href="#nestjs-gives-a-large-team-one-structure" />
+</Picks>
+
+## Nest runs on top of Express
+
+This comparison gets framed as a rivalry, but it isn't one. Express is a minimal HTTP framework: routing, middleware, request and response. NestJS is an application framework that uses Express underneath by default. Since NestJS 11 it uses Express 5. You can switch it to Fastify with one adapter.
+
+So the real question is whether you want Nest's structure on top: modules, controllers, providers, dependency injection and decorators, all in TypeScript.
+
+## The two side by side
+
+<Results
+  caption="NestJS and Express, from each project's own documentation, October 2026"
+  tools={['NestJS', 'Express']}
+  rows={[
+    { label: 'What it is', values: ['Application framework', 'HTTP framework'] },
+    { label: 'License', values: ['MIT', 'MIT'] },
+    { label: 'Project structure', values: ['Modules, controllers, providers', 'Up to you'] },
+    { label: 'Dependency injection', values: ['Built in', false] },
+    { label: 'TypeScript', values: ['Default', 'Works, you set it up'] },
+    { label: 'HTTP layer', values: ['Express 5 (default) or Fastify', 'Itself'] },
+    { label: 'Async errors reach the error handler', values: [true, 'Yes, since Express 5'] },
+  ]}
+/>
+
+## The same endpoint in both
+
+A `POST /books` that creates a book. In Express 5:
+
+```js
+import express from 'express';
+import { createBook } from './books.js';
+
+const app = express();
+app.use(express.json());
+
+app.post('/books', async (req, res) => {
+  const book = await createBook(req.body);
+  res.status(201).json(book);
+});
+
+app.listen(3000);
+```
+
+If `createBook` throws, Express 5 sends the error to your error-handling middleware on its own. In Express 4 you had to catch it and call `next(err)`, and forgetting to do that was a classic bug.
+
+In NestJS you write a controller, and the service is injected:
+
+```ts
+import { Body, Controller, Post } from '@nestjs/common';
+import { BooksService } from './books.service';
+import { CreateBookDto } from './dto/create-book.dto';
+
+@Controller('books')
+export class BooksController {
+  constructor(private readonly booksService: BooksService) {}
+
+  @Post()
+  create(@Body() dto: CreateBookDto) {
+    return this.booksService.create(dto);
+  }
+}
+```
+
+There's more code, plus a module that registers both classes. In return, every endpoint in the codebase follows this pattern, POST returns 201 by default, and you can test the controller by passing a fake `BooksService`.
+
+## Express is small and everyone knows it
+
+<ToolFacts tool="Express" price="Free" runsOn="Node.js" license="Open source (MIT)" />
+
+Express 5.1 became the default on npm in March 2025, with an official support schedule. Version 5 handles rejected promises in async handlers, so you can drop the try/catch boilerplate. It also updated path matching, which can break some route patterns when you upgrade from v4.
+
+Express doesn't decide your folder structure, validation library or how services talk to each other. That's freeing in a small service. In a big codebase, someone has to write those rules down and enforce them in reviews.
+
+<ProsCons
+  pros={['you\'re building a small service or a prototype', 'your team already has its own conventions', 'you want the smallest possible framework']}
+  cons={['many developers share one large codebase with no agreed structure', 'you want dependency injection without adding a library']}
+/>
+
+<Ad />
+
+## NestJS gives a large team one structure
+
+<ToolFacts tool="NestJS" price="Free" runsOn="Node.js (Express or Fastify)" license="Open source (MIT)" />
+
+Nest organizes code into modules. Each one has controllers for HTTP and providers for logic, connected by dependency injection. Guards, pipes and interceptors handle auth, validation and logging in the same place every time. A new developer who knows Nest can find their way in a Nest project they've never seen.
+
+NestJS 12 came out in August 2026. Its core packages now ship as ESM, and route decorators like `@Body()` accept Standard Schema validators. It needs Node.js 20.19+ or 22.12+.
+
+The cost is the learning curve: decorators, modules, providers and how injection scopes work. For a three-endpoint service, that's more framework than code.
+
+<ProsCons
+  pros={['several developers or teams share one backend', 'you want dependency injection and easy unit tests', 'you want the option to switch to Fastify later']}
+  cons={['your service is small and will stay small', 'your team doesn\'t want decorators and classes everywhere']}
+/>
+
+## What I configure first in a NestJS backend
+
+My most recent NestJS backend uses Prisma for the database, Passport with JWT for auth, Swagger for docs and rate limiting on public routes. That's a lot of moving parts, and Nest's modules keep them in order in a way I'd have to enforce by hand in Express.
+
+The first line I add to `main.ts` is a global validation pipe, so every DTO is validated and unknown fields are stripped before they reach a service:
+
+```ts
+const app = await NestFactory.create(AppModule);
+app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+```
+
+In Express, I get the same safety with a validation library like Zod at each route, one error-handling middleware at the end, and a folder structure the team agrees on in writing. Both work. The difference is whether the framework enforces the rules or your code reviews do.
+
+## How to choose in 30 seconds
+
+- **A small service or prototype:** Express.
+- **A large codebase shared by many developers:** NestJS.
+- **You want Nest's structure with a faster HTTP layer:** NestJS with the Fastify adapter.
+- **You're still on Express 4:** upgrade to Express 5 before you decide anything else.
+
+Starting a TypeScript backend from scratch? Our [pnpm vs npm](/pnpm-vs-npm/) comparison helps you pick a package manager.
+
+Weighing Python instead? Read [FastAPI vs Django](/fastapi-vs-django/).
+
+## FAQ
+
+### Does NestJS replace Express?
+
+No. NestJS uses Express 5 as its default HTTP layer and adds structure on top. You can use Fastify instead with `@nestjs/platform-fastify`.
+
+### Do both work with TypeScript?
+
+Yes. NestJS uses TypeScript by default. Express works with TypeScript too, but you set up the compiler and install the type definitions yourself.
+
+### Is Express still maintained?
+
+Yes. Express 5.1 is the default version on npm, and the project publishes a support schedule for the v4 and v5 lines.

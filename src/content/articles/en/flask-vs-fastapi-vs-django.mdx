@@ -1,0 +1,190 @@
+---
+title: "Flask vs FastAPI vs Django: which one fits your project?"
+description: Flask gives you a small core, FastAPI gives you typed APIs, Django gives you a full app. One endpoint in all three and a 30-second way to choose.
+lede: Pick Django for a full product with users and an admin. Pick FastAPI for a typed JSON API. Pick Flask for a small app or service where you want to choose every piece yourself.
+kind: comparison
+method: research
+topic: Backend
+tools: [Flask, FastAPI, Django]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs. Advice and examples come from the author's own work with these tools.
+  versions:
+    - { tool: Flask, version: "3.1.x" }
+    - { tool: FastAPI, version: "0.14x (October 2026)" }
+    - { tool: Django, version: "6.1" }
+  notes: All three are free and open source. We make no speed claims because we didn't benchmark them.
+sources:
+  - { title: "Flask documentation", url: "https://flask.palletsprojects.com/en/stable/" }
+  - { title: "Flask docs: using async and await", url: "https://flask.palletsprojects.com/en/stable/async-await/" }
+  - { title: "Flask docs: design decisions", url: "https://flask.palletsprojects.com/en/stable/design/" }
+  - { title: "Flask source code (BSD 3-Clause)", url: "https://github.com/pallets/flask" }
+  - { title: "FastAPI documentation", url: "https://fastapi.tiangolo.com/" }
+  - { title: "FastAPI source code (MIT)", url: "https://github.com/fastapi/fastapi" }
+  - { title: "Django 6.1 released", url: "https://www.djangoproject.com/weblog/2026/aug/05/django-61-released/" }
+  - { title: "Django docs: asynchronous support", url: "https://docs.djangoproject.com/en/6.1/topics/async/" }
+  - { title: "Django docs: FAQ (license)", url: "https://docs.djangoproject.com/en/6.1/faq/general/" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Django" top why="The safest default for a product: ORM, auth and admin included." href="#django-includes-the-whole-application" />
+  <Pick tool="FastAPI" label="Typed APIs" why="Validation and OpenAPI docs generated from your type hints." href="#fastapi-turns-type-hints-into-an-api" />
+  <Pick tool="Flask" label="Small and flexible" why="A tiny core and you choose every other piece." href="#flask-gives-you-a-small-core-and-your-choices" />
+</Picks>
+
+## How much do you want the framework to decide?
+
+That's the real difference. **Django** decides the most: it ships an ORM, migrations, auth, sessions, templates and an admin site. **FastAPI** decides how requests and responses work, using type hints and Pydantic, and leaves the database to you. **Flask** decides the least: routing, requests and Jinja templates. Everything else is an extension you pick.
+
+None of these is "better". More decisions made for you means less setup and more consistency. Fewer means more freedom and more wiring.
+
+## The three side by side
+
+<Results
+  caption="Flask, FastAPI and Django, from each project's own documentation, October 2026"
+  tools={['Flask', 'FastAPI', 'Django']}
+  rows={[
+    { label: 'Built for', values: ['Small apps and services', 'APIs and services', 'Full web applications'] },
+    { label: 'License', values: ['BSD 3-Clause', 'MIT', 'BSD 3-Clause'] },
+    { label: 'Server standard', values: ['WSGI', 'ASGI', 'WSGI or ASGI'] },
+    { label: 'Async views', values: ['Yes, with flask[async] (one worker per request)', 'Native', 'Yes, best under ASGI'] },
+    { label: 'Request validation', values: ['Extension', 'Built in (Pydantic)', 'Forms, or DRF/Ninja for APIs'] },
+    { label: 'Automatic OpenAPI docs', values: ['Extension', true, 'Via a package'] },
+    { label: 'ORM, auth, admin', values: ['Extensions', 'Bring your own', true] },
+  ]}
+/>
+
+## One endpoint in all three
+
+The same `POST /books` that checks for a text `title` and a number `year`.
+
+**Flask** gives you the request and lets you decide how to validate it:
+
+```python
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+@app.post("/books")
+def create_book():
+    data = request.get_json(silent=True) or {}
+    if not isinstance(data.get("title"), str) or not isinstance(data.get("year"), int):
+        return jsonify(error="title (text) and year (number) are required"), 422
+    return jsonify(title=data["title"], year=data["year"]), 201
+```
+
+**FastAPI** validates from the types and documents the endpoint at `/docs`:
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Book(BaseModel):
+    title: str
+    year: int
+
+@app.post("/books", status_code=201)
+async def create_book(book: Book) -> Book:
+    return book
+```
+
+**Django** starts from the model. The table, its migration and the admin screen all come from it. For the JSON endpoint you add Django REST framework or Django Ninja on top. Our [FastAPI vs Django](/fastapi-vs-django/) comparison shows that part in full.
+
+```python
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    year = models.IntegerField()
+```
+
+## Flask gives you a small core and your choices
+
+<ToolFacts tool="Flask" price="Free" runsOn="Python, WSGI servers" license="Open source (BSD 3-Clause)" />
+
+Flask started as a small wrapper around Werkzeug and Jinja, and it still feels that way. It doesn't impose a project layout or a database. Most teams add SQLAlchemy for data and other extensions as needed.
+
+Flask supports `async def` views if you install `flask[async]`. Its docs are clear about the limits: Flask is still WSGI, so each request ties up one worker, and the async support is slower than async-first frameworks. If your codebase is mostly async, Flask's own docs suggest Quart, a Flask reimplementation on ASGI.
+
+<ProsCons
+  pros={['you want a small app or internal tool running quickly', 'you want to choose each library yourself', 'you render HTML with Jinja templates']}
+  cons={['you want validation and API docs without extensions', 'your app is mostly async I/O']}
+/>
+
+<Ad />
+
+## FastAPI turns type hints into an API
+
+<ToolFacts tool="FastAPI" price="Free" runsOn="Python, ASGI servers" license="Open source (MIT)" />
+
+FastAPI uses Starlette for the web layer and Pydantic v2 for data. The types you declare drive request validation, response serialization, your editor's autocomplete and the interactive docs. It's async from the start.
+
+Like Flask, it leaves the database, migrations and auth to you. Unlike Flask, validation and API docs are built in.
+
+<ProsCons
+  pros={['you\'re building a JSON API for a frontend or other services', 'you want docs that can\'t drift from the code', 'your workload is mostly async I/O']}
+  cons={['you need an admin screen or user accounts out of the box', 'you mainly render HTML pages']}
+/>
+
+## Django includes the whole application
+
+<ToolFacts tool="Django" price="Free" runsOn="Python, WSGI or ASGI servers" license="Open source (BSD 3-Clause)" />
+
+Django 6.1 came out in August 2026. You get an ORM with migrations, user accounts, sessions, forms, templates and the admin site, plus built-in background tasks since 6.0. Every Django project follows the same structure, so new developers find their way around quickly.
+
+Async views are supported. Django's docs say to run under ASGI to get the benefit. For APIs, add Django REST framework, or Django Ninja for a FastAPI-style approach.
+
+<ProsCons
+  pros={['you\'re building a product with users, data and an admin', 'you want one structure across every project', 'you\'d rather not choose and wire a dozen libraries']}
+  cons={['you only need one small service', 'you want a minimal dependency footprint']}
+/>
+
+## How I structure a Flask app so it scales
+
+I still use Flask for small services and internal tools, and the one thing I'd tell any team is to start with an application factory and blueprints, even if the app is tiny today. It's the pattern Flask's own docs use, and it makes testing and growing the app much easier:
+
+```python
+from flask import Flask
+
+def create_app(config_object="config.Settings"):
+    app = Flask(__name__)
+    app.config.from_object(config_object)
+
+    from .books import bp as books_bp
+    app.register_blueprint(books_bp)
+
+    return app
+```
+
+My honest take after working with all three: if you catch yourself adding Flask extensions for auth, admin and migrations one by one, you're rebuilding Django. And if most of your endpoints just validate JSON in and out, FastAPI does that work for you.
+
+## How to choose in 30 seconds
+
+- **A product with accounts, data and an admin:** Django.
+- **A JSON API with validation and docs:** FastAPI.
+- **A small app, prototype or internal tool where you pick each piece:** Flask.
+- **A mostly async service:** FastAPI.
+
+Weighing Node.js instead? Read [NestJS vs Express](/nestjs-vs-express/).
+
+## FAQ
+
+### Which is the fastest?
+
+FastAPI is async-first and its docs describe it as one of the fastest Python frameworks. We haven't benchmarked these three, so we don't publish a number. In real apps, database queries usually matter more than the framework.
+
+### Does Flask come with a database?
+
+No. Flask has no ORM. Most projects add SQLAlchemy, often through the Flask-SQLAlchemy extension.
+
+### Are they free for commercial use?
+
+Yes. Flask and Django use the BSD 3-Clause license, and FastAPI uses MIT. All three are permissive and allow commercial use.
