@@ -127,25 +127,25 @@ Todo se resuelve al compilar. En producción no hay servidor, base de datos ni A
 ```mermaid
 flowchart LR
   subgraph Contenido
-    A[articles/*.mdx]
-    B[authors/*.json]
-    C[pages/*.mdx]
-    L[assets/logos]
+    A["articles/*.mdx"]
+    B["authors/*.json"]
+    C["pages/*.mdx"]
+    L["assets/logos"]
   end
 
   subgraph Build["npm run build"]
-    V{{Zod + reglas<br/>editoriales}}
-    R[Astro: HTML estático]
-    O[Satori: 80 imágenes OG]
-    P[Pagefind: índice de búsqueda]
+    V{{"Zod + reglas editoriales"}}
+    R["Astro: HTML estático"]
+    O["Satori: 80 imágenes OG"]
+    P["Pagefind: índice de búsqueda"]
   end
 
   A & B & C --> V --> R --> P
   A & L --> O
-  R & O & P --> D[(dist/)]
-  D --> CF[Cloudflare<br/>CDN global]
-  CF --> U((Lector))
-  CF -. ads.txt + AdSense .-> G[Google]
+  R & O & P --> D[("dist/")]
+  D --> CF["Cloudflare CDN global"]
+  CF --> U(("Lector"))
+  CF -.->|"ads.txt y AdSense"| G["Google"]
 ```
 
 ---
