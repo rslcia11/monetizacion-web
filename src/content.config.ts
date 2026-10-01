@@ -19,6 +19,10 @@ const authors = defineCollection({
       // Optional: without it, the author's initials are shown.
       photo: image().optional(),
       links: z.array(z.object({ label: z.string(), url: webUrl })).default([]),
+      // Technologies the author works with, grouped by area. Shown under the bio.
+      stack: z
+        .array(z.object({ area: z.object({ en: z.string(), es: z.string().optional() }), items: z.array(z.string()).min(1) }))
+        .default([]),
     }),
 });
 

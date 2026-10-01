@@ -13,7 +13,7 @@ interface Props {
 
 const { author, locale, showTitle = true } = Astro.props;
 const headingId = `author-${author.id}`;
-const { name, photo, links } = author.data;
+const { name, photo, links, stack } = author.data;
 const role = inLocale(author.data.role, locale, `the role of author "${author.id}"`);
 const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`);
 ---
@@ -24,6 +24,18 @@ const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`
     {showTitle && <h2 class="title">{t(locale, 'author.title')}</h2>}
     <p class="name" id={headingId}>{name}, {role}</p>
     <p>{bio}</p>
+    {
+      stack.length > 0 && (
+        <dl class="stack">
+          {stack.map((group) => (
+            <div>
+              <dt>{inLocale(group.area, locale, `a stack area of author "${author.id}"`)}</dt>
+              <dd>{group.items.join(' · ')}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
     <div class="links">
       <a class="method" href={localePath(locale, 'how-we-test')}>{t(locale, 'footer.howWeTest')}</a>
       {
@@ -71,6 +83,27 @@ const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`
     margin-top: 4px;
   }
 
+  .stack {
+    display: grid;
+    gap: 6px;
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  .stack div {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .stack dt {
+    font-weight: 600;
+  }
+
+  .stack dd {
+    color: var(--ink-2);
+  }
+
   .links {
     display: flex;
     flex-wrap: wrap;
@@ -107,6 +140,11 @@ const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`
     .author {
       flex-direction: column;
       padding: 20px;
+    }
+
+    .stack div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
     }
   }
 </style>

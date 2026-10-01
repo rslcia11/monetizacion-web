@@ -9,7 +9,107 @@
     "es": "Wilson es desarrollador full-stack en Loja, Ecuador y fundador de Kriterio. Construye backends en producción con FastAPI, Django y NestJS, pipelines de datos sobre PostgreSQL y TimescaleDB, y servicios de machine learning que sirven predicciones en vivo. También entrega apps Flutter sobre Supabase y frontends en React y Next.js, a menudo dentro de monorepos con Turborepo y pnpm. Desde 2023 desarrolla sistemas web y móviles para empresas y clientes independientes, con foco en arquitectura limpia, tests automatizados y autenticación segura. Se formó en Ingeniería en Tecnologías de la Información en la UIDE y escribe cada comparativa del sitio desde ese trabajo diario."
   },
   "links": [
-    { "label": "GitHub", "url": "https://github.com/rslcia11" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/wilson-martinez-50097a220/" }
+    {
+      "label": "GitHub",
+      "url": "https://github.com/rslcia11"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/wilson-martinez-50097a220/"
+    }
+  ],
+  "stack": [
+    {
+      "area": {
+        "en": "Frontend",
+        "es": "Frontend"
+      },
+      "items": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "TanStack Router",
+        "TanStack Query",
+        "Vite",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Radix UI"
+      ]
+    },
+    {
+      "area": {
+        "en": "Backend",
+        "es": "Backend"
+      },
+      "items": [
+        "FastAPI",
+        "Django",
+        "NestJS",
+        "Node.js",
+        "Express",
+        "SQLAlchemy",
+        "Prisma",
+        "REST",
+        "WebSockets",
+        "SSE"
+      ]
+    },
+    {
+      "area": {
+        "en": "Data and ML",
+        "es": "Datos y ML"
+      },
+      "items": [
+        "PostgreSQL",
+        "TimescaleDB",
+        "Redis",
+        "Supabase",
+        "Firebase",
+        "Polars",
+        "LightGBM",
+        "scikit-learn"
+      ]
+    },
+    {
+      "area": {
+        "en": "Mobile",
+        "es": "Móvil"
+      },
+      "items": [
+        "Flutter",
+        "Dart",
+        "Riverpod",
+        "Provider"
+      ]
+    },
+    {
+      "area": {
+        "en": "Security",
+        "es": "Seguridad"
+      },
+      "items": [
+        "JWT with rotation",
+        "Argon2id",
+        "Row Level Security",
+        "OWASP Mobile Top 10"
+      ]
+    },
+    {
+      "area": {
+        "en": "DevOps and testing",
+        "es": "DevOps y testing"
+      },
+      "items": [
+        "Docker",
+        "Turborepo",
+        "pnpm",
+        "Prometheus",
+        "Grafana",
+        "pytest",
+        "testcontainers",
+        "Vitest",
+        "React Testing Library"
+      ]
+    }
   ]
 }
