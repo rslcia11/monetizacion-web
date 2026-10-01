@@ -164,6 +164,8 @@ const tiles = [
 
   :global(.slide.active) .tile::before {
     animation: breathe 4s ease-in-out infinite;
+    /* Own compositor layer: the pulse only changes opacity, so the GPU handles it with no repaint. */
+    will-change: opacity;
   }
 
   :global(.slide.active) .hook {

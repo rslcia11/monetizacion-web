@@ -8,6 +8,10 @@ export default defineConfig({
   // URLs like /postman-alternatives/ (plan 9.5): one canonical form, always with trailing slash.
   trailingSlash: 'always',
 
+  // The whole stylesheet is ~5 KB compressed: inlined, the first paint doesn't wait for a CSS
+  // request, which matters most on slow mobile connections.
+  build: { inlineStylesheets: 'always' },
+
   // English at /, Spanish at /es/ (plan 9.4).
   i18n: {
     locales: ['en', 'es'],
@@ -30,9 +34,10 @@ export default defineConfig({
     },
   },
 
-  // Code samples in articles: light theme on the --surface background (DESIGN.md 1).
+  // Code samples in articles: the high-contrast light theme keeps every token at 4.5:1 or more on
+  // the --surface background (WCAG AA), readable on low-quality screens too.
   markdown: {
-    shikiConfig: { theme: 'github-light' },
+    shikiConfig: { theme: 'github-light-high-contrast' },
   },
 
   integrations: [
