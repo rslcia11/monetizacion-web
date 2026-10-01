@@ -1,12 +1,12 @@
 {
   "name": "Wilson Martínez",
   "role": {
-    "en": "Full-stack developer and founder",
-    "es": "Desarrollador full-stack y fundador"
+    "en": "Full-stack developer, backend and data systems",
+    "es": "Desarrollador full-stack, backend y sistemas de datos"
   },
   "bio": {
-    "en": "Wilson is a full-stack developer in Loja, Ecuador, and the founder of Kriterio. He builds web and mobile products for clients with React, Next.js, NestJS, Supabase, Firebase and Flutter, and writes every comparison on the site from that day-to-day work.",
-    "es": "Wilson es desarrollador full-stack en Loja, Ecuador, y fundador de Kriterio. Construye productos web y móviles para clientes con React, Next.js, NestJS, Supabase, Firebase y Flutter, y escribe cada comparativa del sitio desde ese trabajo diario."
+    "en": "Wilson is a full-stack developer in Loja, Ecuador and the founder of Kriterio. He builds production backends with FastAPI, Django and NestJS, data pipelines on PostgreSQL and TimescaleDB, and machine learning services that serve live predictions. He also ships Flutter apps on Supabase and React and Next.js frontends, often inside Turborepo and pnpm monorepos. Since 2023 he has delivered web and mobile systems for companies and freelance clients, with a focus on clean architecture, automated tests and secure authentication. He trained in IT Engineering at UIDE and writes every comparison on the site from that day-to-day work.",
+    "es": "Wilson es desarrollador full-stack en Loja, Ecuador y fundador de Kriterio. Construye backends en producción con FastAPI, Django y NestJS, pipelines de datos sobre PostgreSQL y TimescaleDB, y servicios de machine learning que sirven predicciones en vivo. También entrega apps Flutter sobre Supabase y frontends en React y Next.js, a menudo dentro de monorepos con Turborepo y pnpm. Desde 2023 desarrolla sistemas web y móviles para empresas y clientes independientes, con foco en arquitectura limpia, tests automatizados y autenticación segura. Se formó en Ingeniería en Tecnologías de la Información en la UIDE y escribe cada comparativa del sitio desde ese trabajo diario."
   },
   "links": [
     { "label": "GitHub", "url": "https://github.com/rslcia11" },
