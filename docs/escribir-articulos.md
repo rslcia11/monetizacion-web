@@ -18,10 +18,18 @@ Un archivo por autor en `src/content/authors/<id>.json`. La foto va en `src/asse
     "en": "Real, verifiable bio (80+ characters): what you build and the tools you use every day.",
     "es": "Bio real y verificable (mínimo 80 caracteres). Obligatoria cuando se active el español."
   },
+  "about": {
+    "en": "Opcional. Bio larga solo para la página About: trayectoria completa."
+  },
+  "stack": [
+    { "area": { "en": "Frontend", "es": "Frontend" }, "items": ["React", "Next.js"] }
+  ],
   "photo": "../../assets/authors/nombre-apellido.jpg",
   "links": [{ "label": "GitHub", "url": "https://github.com/usuario" }]
 }
 ```
+
+`bio` es corta (2–3 frases) y sale al final de cada artículo. `about` y `stack` solo salen en la página About.
 
 El `<id>` es el nombre del archivo sin `.json` y es lo que va en `author:` de cada artículo.
 

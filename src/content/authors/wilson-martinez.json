@@ -5,6 +5,10 @@
     "es": "Desarrollador full-stack, backend y sistemas de datos"
   },
   "bio": {
+    "en": "Wilson is a full-stack developer in Loja, Ecuador, and the founder of Kriterio. Since 2023 he has built web, mobile and machine learning systems for companies and clients, working daily with React, Next.js, FastAPI, NestJS, Supabase and Flutter, and shipping them with Docker.",
+    "es": "Wilson es desarrollador full-stack en Loja, Ecuador, y fundador de Kriterio. Desde 2023 construye sistemas web, móviles y de machine learning para empresas y clientes, trabajando a diario con React, Next.js, FastAPI, NestJS, Supabase y Flutter, y desplegándolos con Docker."
+  },
+  "about": {
     "en": "Wilson is a full-stack developer in Loja, Ecuador and the founder of Kriterio. He builds production backends with FastAPI, Django and NestJS, data pipelines on PostgreSQL and TimescaleDB, and machine learning services that serve live predictions. He also ships Flutter apps on Supabase and React and Next.js frontends, often inside Turborepo and pnpm monorepos. Since 2023 he has delivered web and mobile systems for companies and freelance clients, with a focus on clean architecture, automated tests and secure authentication. He trained in IT Engineering at UIDE and writes every comparison on the site from that day-to-day work.",
     "es": "Wilson es desarrollador full-stack en Loja, Ecuador y fundador de Kriterio. Construye backends en producción con FastAPI, Django y NestJS, pipelines de datos sobre PostgreSQL y TimescaleDB, y servicios de machine learning que sirven predicciones en vivo. También entrega apps Flutter sobre Supabase y frontends en React y Next.js, a menudo dentro de monorepos con Turborepo y pnpm. Desde 2023 desarrolla sistemas web y móviles para empresas y clientes independientes, con foco en arquitectura limpia, tests automatizados y autenticación segura. Se formó en Ingeniería en Tecnologías de la Información en la UIDE y escribe cada comparativa del sitio desde ese trabajo diario."
   },

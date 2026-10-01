@@ -15,11 +15,14 @@ const authors = defineCollection({
       // Per language. Spanish becomes required once a Spanish page shows this author.
       // Short line under the name: "Backend developer".
       role: z.object({ en: z.string(), es: z.string().optional() }),
+      // Short bio shown at the end of every article: who writes and why they're credible.
       bio: z.object({ en: z.string().min(80), es: z.string().min(80).optional() }),
+      // Longer bio for the About page. Falls back to the short one.
+      about: z.object({ en: z.string().min(80), es: z.string().min(80).optional() }).optional(),
       // Optional: without it, the author's initials are shown.
       photo: image().optional(),
       links: z.array(z.object({ label: z.string(), url: webUrl })).default([]),
-      // Technologies the author works with, grouped by area. Shown under the bio.
+      // Technologies the author works with, grouped by area. Shown on the About page only.
       stack: z
         .array(z.object({ area: z.object({ en: z.string(), es: z.string().optional() }), items: z.array(z.string()).min(1) }))
         .default([]),

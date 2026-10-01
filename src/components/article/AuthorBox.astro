@@ -7,15 +7,18 @@ import { inLocale, localePath, t, type Locale } from '../../i18n/ui';
 interface Props {
   author: CollectionEntry<'authors'>;
   locale: Locale;
-  // "About the author" heading: on at the end of an article, off in the About page's list.
-  showTitle?: boolean;
+  // End of an article: heading, short bio. About page: no heading, long bio and the stack.
+  variant?: 'article' | 'about';
 }
 
-const { author, locale, showTitle = true } = Astro.props;
+const { author, locale, variant = 'article' } = Astro.props;
+const showTitle = variant === 'article';
 const headingId = `author-${author.id}`;
-const { name, photo, links, stack } = author.data;
+const { name, photo, links } = author.data;
 const role = inLocale(author.data.role, locale, `the role of author "${author.id}"`);
-const bio = inLocale(author.data.bio, locale, `the bio of author "${author.id}"`);
+const bioText = variant === 'about' ? (author.data.about ?? author.data.bio) : author.data.bio;
+const bio = inLocale(bioText, locale, `the bio of author "${author.id}"`);
+const stack = variant === 'about' ? author.data.stack : [];
 ---
 
 <section class="author" aria-labelledby={headingId}>

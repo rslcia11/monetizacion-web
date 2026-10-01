@@ -39,7 +39,7 @@ const authors = showAuthors ? await getCollection('authors') : [];
             {t(locale, 'page.authors')}
           </h2>
           {authors.map((author) => (
-            <AuthorBox author={author} locale={locale} showTitle={false} />
+            <AuthorBox author={author} locale={locale} variant="about" />
           ))}
         </section>
       )
