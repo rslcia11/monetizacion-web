@@ -1,0 +1,148 @@
+---
+title: "The best Notion alternatives in 2026, free and open source"
+description: AppFlowy, AFFiNE, Anytype and Obsidian compared with Notion on free plans, offline use, self-hosting and what their licenses really allow.
+lede: AppFlowy is the closest open-source copy of Notion. AFFiNE has the most generous free cloud plan for small teams. For notes only you keep, Obsidian. If privacy matters most, Anytype. Check each license before you self-host for a team.
+kind: alternatives
+method: research
+topic: Notes and docs
+tools: [Notion, AppFlowy, AFFiNE, Anytype, Obsidian]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, documentation, license files and code repository, October 1, 2026.
+  versions:
+    - { tool: AppFlowy, version: "Current release (October 2026)" }
+    - { tool: AFFiNE, version: "Current release (October 2026)" }
+    - { tool: Anytype, version: "Current release (October 2026)" }
+    - { tool: Obsidian, version: "1.9+" }
+  notes: '"Open source" here means the license lets anyone read, change and share the code. Source-available licenses are marked as such.'
+sources:
+  - { title: "Notion pricing", url: "https://www.notion.com/pricing" }
+  - { title: "Notion Help: use pages offline", url: "https://www.notion.com/help/use-pages-offline" }
+  - { title: "Notion Help: understanding block usage", url: "https://www.notion.com/help/understanding-block-usage" }
+  - { title: "AppFlowy pricing", url: "https://appflowy.com/pricing" }
+  - { title: "AppFlowy: self-hosted plans and pricing", url: "https://appflowy.com/docs/Self-hosted-Plans-and-Pricing" }
+  - { title: "AppFlowy source code (AGPL-3.0)", url: "https://github.com/AppFlowy-IO/AppFlowy" }
+  - { title: "AppFlowy self-hosted server repository", url: "https://github.com/AppFlowy-IO/AppFlowy-SelfHost-Commercial" }
+  - { title: "AFFiNE pricing", url: "https://affine.pro/pricing" }
+  - { title: "AFFiNE self-hosting", url: "https://affine.pro/self-host" }
+  - { title: "AFFiNE source code", url: "https://github.com/toeverything/AFFiNE" }
+  - { title: "Anytype FAQ", url: "https://anytype.io/faq/" }
+  - { title: "Anytype docs: memberships", url: "https://doc.anytype.io/anytype/resources/memberships" }
+  - { title: "Anytype docs: sync and backup", url: "https://doc.anytype.io/anytype/data/sync-and-backup" }
+  - { title: "Obsidian pricing", url: "https://obsidian.md/pricing" }
+  - { title: "Obsidian Help: import from Notion", url: "https://obsidian.md/help/import/notion" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="AppFlowy" top why="Looks and works like Notion: pages, blocks and databases. The app is AGPL open source." href="#appflowy-is-the-closest-thing-to-notion" />
+  <Pick tool="AFFiNE" label="Free for small teams" why="10 GB of cloud storage and up to 3 members per workspace for free." href="#affine-has-the-most-generous-free-team-plan" />
+  <Pick tool="Obsidian" label="Personal notes" why="Markdown files on your disk, free for any use." href="#obsidian-if-the-notes-are-only-yours" />
+  <Pick tool="Anytype" label="Privacy first" why="Local-first, end-to-end encrypted, synced peer to peer." href="#anytype-is-built-around-privacy" />
+</Picks>
+
+## Why people look beyond Notion
+
+Notion is good at what it does, and some old complaints no longer hold. It has worked offline in its desktop and mobile apps since August 2025.
+
+Three reasons still push people away. **Your data lives in Notion's cloud**, in a format only Notion opens directly. **You can't self-host it.** And **the Free plan gets tight for teams**: once two or more people share a Free workspace, it's limited to 1,000 blocks in total, and deleting blocks doesn't lower the count.
+
+## The alternatives side by side
+
+<Results
+  caption="Notion and four alternatives, from each vendor's own pricing pages, docs and license files, October 2026"
+  tools={['Notion', 'AppFlowy', 'AFFiNE', 'Anytype', 'Obsidian']}
+  winner="AppFlowy"
+  rows={[
+    { label: 'Free plan for a small team', values: ['1,000 blocks total', '2 members, 5 GB', '3 members, 10 GB', 'Shared spaces, limited storage', 'Personal use'] },
+    { label: 'Paid, per user / month', values: ['$10 (yearly)', '$10 (yearly)', 'Team $10 per seat', 'Memberships', 'Sync $4 (optional)'] },
+    { label: 'Works offline', values: ['Downloaded pages', true, 'Local workspaces', true, true] },
+    { label: 'License', values: ['Proprietary', 'AGPL-3.0 app', 'MIT editor, source-available server', 'Source-available', 'Proprietary, free'] },
+    { label: 'Self-host for a team', values: [false, 'Free for 1 seat, then paid', 'Free up to 10 seats', 'Your own sync network', 'Not needed'] },
+  ]}
+/>
+
+## AppFlowy is the closest thing to Notion
+
+<ToolFacts tool="AppFlowy" price="Free; Pro $10/user/mo, yearly" runsOn="Windows, macOS, Linux, iOS, Android, web" license="AGPL-3.0 (app)" />
+
+If you want Notion without Notion, start here. AppFlowy uses the same ideas: block-based pages, slash commands, and databases you can view as a grid, board or calendar. The desktop app works fully offline in local mode, with no account. You need an account to sync between devices.
+
+The cloud Free plan includes one shared workspace with up to 2 members and 5 GB of storage. Pro costs $10 per user per month yearly, or $12.50 monthly, and allows up to 50 members.
+
+Self-hosting has changed. The self-hosted server now comes from AppFlowy's commercial self-host repository. Its free tier covers one user seat. Team self-hosting costs $10 per seat per month, billed yearly. The app itself stays AGPL-3.0.
+
+<ProsCons
+  pros={['you want the Notion way of working without Notion', 'you want to work offline with no account', 'a team of two wants to share a workspace for free']}
+  cons={['you want to self-host for a team without paying', 'you rely on Notion\'s integrations']}
+/>
+
+## AFFiNE has the most generous free team plan
+
+<ToolFacts tool="AFFiNE" price="Free; Pro $6.75/mo; Team $10/seat/mo" runsOn="Windows, macOS, Linux, web" license="MIT editor, source-available server" />
+
+AFFiNE mixes documents and a whiteboard in one workspace, so it also covers part of what Miro does. The Free cloud plan includes 10 GB of storage, real-time collaboration with up to 3 members per workspace and 7 days of history. Local workspaces are unlimited. Pro is $6.75 a month for 100 GB and up to 10 members.
+
+Read the license before self-hosting. The editor and most of the code are MIT. The self-hosted backend uses AFFiNE's own source-available license: you can read it, but modifying or redistributing it needs permission. Self-hosting is free for up to 10 seats per workspace.
+
+<ProsCons
+  pros={['a team of three wants a free shared workspace', 'you want docs and a whiteboard in one place', 'you want to self-host for a small team at no cost']}
+  cons={['you need a fully open-source server you can modify', 'you want the most Notion-like databases']}
+/>
+
+<Ad />
+
+## Obsidian if the notes are only yours
+
+<ToolFacts tool="Obsidian" price="Free; Sync from $4/mo, yearly" runsOn="Windows, macOS, Linux, iOS, Android" license="Proprietary, free for any use" />
+
+Obsidian isn't a team wiki, and that's fine if your notes are personal. It stores everything as Markdown files in a folder on your disk, it's free for any use including work, and since version 1.9 its Bases plugin gives you table, card and Kanban views over your notes. The official Importer plugin converts a Notion export into Markdown.
+
+The catch for a list titled "open source": Obsidian is closed source. Your files are fully open, but the app isn't. For open-source options in the same style, read our [Obsidian alternatives](/obsidian-alternatives/).
+
+<ProsCons
+  pros={['the notes are only for you', 'you want plain files you can open anywhere', 'you want no subscription']}
+  cons={['a team needs to edit together', 'you want open-source code']}
+/>
+
+## Anytype is built around privacy
+
+<ToolFacts tool="Anytype" price="Free; paid memberships add storage" runsOn="Windows, macOS, Linux, iOS, Android" license="Source-available (Any Source Available License)" />
+
+Anytype keeps your data on your devices, encrypts it end to end and syncs it peer to peer. Every user gets a free remote backup node with limited storage. Only files like images and videos count toward that limit. Text and objects don't. Paid memberships add storage and more shared spaces. It's free with no limits if you run your own sync network.
+
+Anytype's data model is different from Notion's: everything is an object with a type and relations. It's powerful, but it takes a while to learn. Its clients are source-available, not open source. You can read the code, but the license limits commercial use outside networks Anytype authorizes.
+
+<ProsCons
+  pros={['privacy and end-to-end encryption come first', 'you want local-first with sync between your devices', 'you\'re willing to learn a new way to organize']}
+  cons={['you want an OSI-approved open-source license', 'you want a familiar Notion-style workspace on day one']}
+/>
+
+## How to choose in 30 seconds
+
+- **The closest Notion replacement:** AppFlowy.
+- **A free shared workspace for up to 3 people:** AFFiNE.
+- **Personal notes as plain files:** Obsidian.
+- **Privacy and encryption above everything:** Anytype.
+- **Self-host for a team for free:** AFFiNE, up to 10 seats.
+
+Going deeper on one option? Read [AppFlowy vs Notion](/appflowy-vs-notion/) or [Obsidian vs Notion](/obsidian-vs-notion/).
+
+## FAQ
+
+### Is there a free open-source Notion alternative?
+
+Yes. AppFlowy's app is open source under AGPL-3.0 and has a free cloud plan for two members. AFFiNE's editor is MIT, though its self-hosted server uses a source-available license.
+
+### Can I self-host a Notion alternative for my team?
+
+AFFiNE is free to self-host for up to 10 seats per workspace. AppFlowy's self-hosted server is free for one seat and then costs $10 per seat per month, billed yearly.
+
+### Does Notion work offline now?
+
+Yes. Since August 2025 you can mark pages as available offline in the desktop and mobile apps. It doesn't work in the browser.

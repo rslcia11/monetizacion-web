@@ -1,0 +1,125 @@
+---
+title: "Obsidian vs Notion: which one should you use?"
+description: Obsidian keeps Markdown files on your disk. Notion is a shared cloud workspace. Offline use, databases, pricing and teams compared.
+lede: Pick Obsidian if the notes are yours and you want plain files that work offline for free. Pick Notion if a team writes together and needs shared databases and permissions.
+kind: comparison
+method: research
+topic: Notes and docs
+tools: [Obsidian, Notion]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, help center and release notes, October 1, 2026.
+  versions:
+    - { tool: Obsidian, version: "1.9+ (Bases available)" }
+    - { tool: Notion, version: "Current plans (October 2026)" }
+  notes: Prices in USD. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Obsidian pricing", url: "https://obsidian.md/pricing" }
+  - { title: "Obsidian is now free for work", url: "https://obsidian.md/blog/free-for-work/" }
+  - { title: "Obsidian Help: how Obsidian stores data", url: "https://obsidian.md/help/data-storage" }
+  - { title: "Obsidian Help: Bases views", url: "https://obsidian.md/help/bases/views" }
+  - { title: "Obsidian Help: import from Notion", url: "https://obsidian.md/help/import/notion" }
+  - { title: "Obsidian Sync Standard plan", url: "https://obsidian.md/blog/standard-plan/" }
+  - { title: "Notion pricing", url: "https://www.notion.com/pricing" }
+  - { title: "Notion Help: use pages offline", url: "https://www.notion.com/help/use-pages-offline" }
+  - { title: "Notion Help: understanding block usage", url: "https://www.notion.com/help/understanding-block-usage" }
+  - { title: "Notion Help: billing", url: "https://www.notion.com/help/billing" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Obsidian" top why="Your notes are Markdown files on your own disk. Free for personal and work use." href="#obsidian-keeps-your-notes-as-files-you-own" />
+  <Pick tool="Notion" label="Teams writing together" why="Shared pages, databases and permissions with nothing to set up." href="#notion-is-built-for-shared-work" />
+</Picks>
+
+## Where your notes live
+
+This is the decision that matters. **Obsidian** stores every note as a Markdown file in a folder on your computer, called a vault. Any text editor can open those files, and they stay usable if Obsidian disappears. **Notion** stores pages in its cloud. That's what makes real-time collaboration and shared permissions easy.
+
+Two things changed recently, so older comparisons get them wrong. Since February 2025, Obsidian is free for work, with no license required. And since August 2025, Notion works offline in its desktop and mobile apps.
+
+## The two side by side
+
+<Results
+  caption="Obsidian and Notion, from each vendor's own pricing page and help center, October 2026"
+  tools={['Obsidian', 'Notion']}
+  rows={[
+    { label: 'Where data lives', values: ['Markdown files on your disk', 'Notion\'s cloud'] },
+    { label: 'Works offline', values: ['Always', 'Downloaded pages, desktop and mobile apps'] },
+    { label: 'Free for work', values: [true, 'Yes, with limits for 2+ people'] },
+    { label: 'Paid plan', values: ['Sync from $4/mo, yearly (optional)', 'Plus $10/member/mo, yearly'] },
+    { label: 'Database views', values: ['Bases (table, cards, list, Kanban)', 'Databases (table, board, calendar, more)'] },
+    { label: 'Real-time co-editing', values: [false, true] },
+  ]}
+/>
+
+## Obsidian keeps your notes as files you own
+
+<ToolFacts tool="Obsidian" price="Free; Sync from $4/mo, yearly" runsOn="Windows, macOS, Linux, iOS, Android" license="Proprietary, free for any use" />
+
+The app is free for personal, commercial and non-profit use. You pay only for optional services. Sync starts at $4 a month on a yearly plan, or $5 monthly. Sync Plus is $8 a month yearly. Publish costs $8 per site per month yearly. You can also sync your vault for free with iCloud, Syncthing or Git, because it's just a folder.
+
+Since version 1.9, the Bases core plugin turns a set of notes into a database view: table, cards, list or Kanban. The data is still in your files, as properties at the top of each note:
+
+```markdown
+---
+type: book
+status: reading
+author: Cal Newport
+rating: 4
+---
+
+Notes on chapter 3...
+```
+
+A Base can then show every note where `type` is `book` as a table, sorted by `rating`. Moving from Notion? The official Importer plugin converts a Notion export to Markdown files.
+
+<ProsCons
+  pros={['the notes are yours: research, journaling, a personal wiki', 'you want plain files that work with any editor', 'you don\'t want a subscription']}
+  cons={['several people need to edit the same page at once', 'you want permissions and sharing managed for you']}
+/>
+
+<Ad />
+
+## Notion is built for shared work
+
+<ToolFacts tool="Notion" price="Free; Plus $10/member/mo, yearly" runsOn="Web, Windows, macOS, iOS, Android" license="Proprietary" />
+
+Notion combines pages, databases and comments in one shared workspace. Several people can edit a page at the same time, and you control who sees what. Plus costs $10 per member per month on a yearly plan, or $12 monthly. Business is $20 per member per month, yearly.
+
+The Free plan works well alone. When two or more people share a Free workspace, it has a limit of 1,000 blocks in total, and deleting blocks doesn't reduce the count. Free also limits uploads to 5 MB per file and keeps 7 days of page history.
+
+Offline works in the desktop and mobile apps, not in the browser. You mark pages as available offline, one device at a time. Databases download their first 50 rows. On paid plans, recent and favorite pages download automatically.
+
+<ProsCons
+  pros={['a team writes and edits together', 'you want shared databases with permissions', 'nobody on the team should have to manage files or sync']}
+  cons={['you want your notes as plain files you can take anywhere', 'you need full offline access to a large workspace']}
+/>
+
+## How to choose in 30 seconds
+
+- **Personal notes, research, journaling:** Obsidian.
+- **No subscription, ever:** Obsidian, with your own sync.
+- **A team wiki or shared project docs:** Notion.
+- **You want both:** Obsidian for your own thinking, Notion for team docs.
+
+Comparing team wikis? Read [Notion vs Confluence](/notion-vs-confluence/). Want an open-source Notion? See the [best Notion alternatives](/notion-alternatives/).
+
+## FAQ
+
+### Is Obsidian free for commercial use?
+
+Yes. Since February 2025, Obsidian is free for work. The commercial license, $50 per user per year, is optional for companies that want to support the project.
+
+### Can I use Notion offline?
+
+Yes, since August 2025, in the desktop and mobile apps. You turn on "Available offline" for the pages you need. Paid plans also download recent and favorite pages automatically.
+
+### Can I move from Notion to Obsidian?
+
+Yes. Export your Notion workspace and use Obsidian's official Importer plugin. It converts pages to Markdown files in your vault.

@@ -1,0 +1,144 @@
+---
+title: "The best Obsidian alternatives in 2026, free and open source"
+description: Obsidian is free but closed source. Logseq, Joplin, Zettlr and Trilium compared on license, how they store notes, sync and what's changing in 2026.
+lede: Want plain Markdown files like Obsidian, but open source? Use Zettlr. Want free sync through Dropbox or Nextcloud? Joplin. Do you think in outlines? Logseq, but pick its version carefully. For a big, deeply nested knowledge base, Trilium.
+kind: alternatives
+method: research
+topic: Notes and docs
+tools: [Obsidian, Logseq, Joplin, Zettlr, Trilium]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's website, documentation, announcements, license files and code repository, October 1, 2026.
+  versions:
+    - { tool: Logseq, version: "OG (Markdown) and 2.0 beta (database)" }
+    - { tool: Joplin, version: "Current release (October 2026)" }
+    - { tool: Zettlr, version: "Current release (October 2026)" }
+    - { tool: Trilium, version: "Current release (October 2026)" }
+  notes: All four alternatives are free, open-source apps with no account required.
+sources:
+  - { title: "Obsidian is now free for work", url: "https://obsidian.md/blog/free-for-work/" }
+  - { title: "Obsidian license overview", url: "https://obsidian.md/license" }
+  - { title: "Obsidian Help: how Obsidian stores data", url: "https://obsidian.md/help/data-storage" }
+  - { title: "Logseq source code (AGPL-3.0)", url: "https://github.com/logseq/logseq" }
+  - { title: "Logseq docs: the DB version", url: "https://github.com/logseq/docs/blob/master/db-version.md" }
+  - { title: "Logseq forum: OG (Markdown) vs DB (SQLite)", url: "https://discuss.logseq.com/t/logseq-og-markdown-vs-logseq-db-sqlite/34608" }
+  - { title: "Logseq forum: what's new with Logseq DB, May 2026", url: "https://discuss.logseq.com/t/whats-new-with-logseq-db-may-16th-2026/35020" }
+  - { title: "Joplin switches to AGPL-3.0", url: "https://joplinapp.org/news/20221221-agpl/" }
+  - { title: "Joplin Cloud plans", url: "https://joplinapp.org/plans/" }
+  - { title: "Joplin help: Nextcloud sync", url: "https://joplinapp.org/help/apps/sync/nextcloud/" }
+  - { title: "Zettlr", url: "https://www.zettlr.com/" }
+  - { title: "Trilium Notes", url: "https://triliumnotes.org/" }
+  - { title: "Trilium source code (AGPL-3.0)", url: "https://github.com/TriliumNext/trilium" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Zettlr" top why="Edits plain Markdown files in your own folders, like Obsidian, under GPL-3.0." href="#zettlr-is-the-closest-to-obsidians-plain-files" />
+  <Pick tool="Joplin" label="Free sync" why="Sync for free through Dropbox, OneDrive, Nextcloud, WebDAV or S3, with encryption." href="#joplin-gives-you-free-encrypted-sync" />
+  <Pick tool="Logseq" label="Outliners" why="Every bullet is a block you can link and reference." href="#logseq-is-for-outliners-but-choose-the-version" />
+  <Pick tool="Trilium" label="Large knowledge bases" why="Deep hierarchies, scripting and your own sync server." href="#trilium-handles-deep-hierarchies" />
+</Picks>
+
+## Why look past Obsidian at all?
+
+First, the good news: since February 2025 Obsidian is free for work, so cost isn't a reason to leave. Your notes are plain Markdown files in a folder you control.
+
+The reason people look elsewhere is the app itself. Obsidian is closed source. Your files are safe either way, but if you want software you can inspect, fork or keep running no matter what the company decides, you need an open-source app. That's what this list covers.
+
+## The alternatives side by side
+
+<Results
+  caption="Obsidian and four open-source alternatives, from each project's own site, docs and license files, October 2026"
+  tools={['Obsidian', 'Zettlr', 'Joplin', 'Logseq', 'Trilium']}
+  winner="Zettlr"
+  rows={[
+    { label: 'License', values: ['Proprietary, free', 'GPL-3.0', 'AGPL-3.0', 'AGPL-3.0', 'AGPL-3.0'] },
+    { label: 'How notes are stored', values: ['Markdown files', 'Markdown files', 'Database, exports Markdown', 'Markdown (OG) or SQLite (2.0 beta)', 'Database'] },
+    { label: 'Organized by', values: ['Folders and links', 'Folders and links', 'Notebooks and tags', 'Outline blocks', 'Note tree'] },
+    { label: 'Free sync', values: ['Your own (iCloud, Git…)', 'Your own (it\'s files)', 'Dropbox, OneDrive, Nextcloud, WebDAV, S3', 'Your own (OG)', 'Your own server'] },
+    { label: 'Mobile app', values: [true, false, true, true, null] },
+  ]}
+/>
+
+## Zettlr is the closest to Obsidian's plain files
+
+<ToolFacts tool="Zettlr" price="Free" runsOn="Windows, macOS, Linux" license="Open source (GPL-3.0)" />
+
+Zettlr is a Markdown editor that works on the folders you already have. It doesn't create its own file structure or invent special syntax, so your notes stay ordinary `.md` files that Obsidian, VS Code or any editor can open. That also makes switching back and forth painless.
+
+It leans toward writing and research: citations, a Zettelkasten-style workflow and exporting to other formats. It's desktop only and funded by donations.
+
+<ProsCons
+  pros={['you want Obsidian-style plain Markdown files with an open-source app', 'you write long documents and need citations', 'you want to keep your existing folder of notes']}
+  cons={['you need a mobile app', 'you depend on Obsidian\'s plugin ecosystem']}
+/>
+
+## Joplin gives you free, encrypted sync
+
+<ToolFacts tool="Joplin" price="Free; optional Joplin Cloud plans" runsOn="Windows, macOS, Linux, iOS, Android, terminal" license="Open source (AGPL-3.0)" />
+
+Joplin organizes notes into notebooks and tags, closer to Evernote than Obsidian. Its strongest point is sync: you can sync for free through Dropbox, OneDrive, Nextcloud, WebDAV, S3 or a local folder, with end-to-end encryption. If you'd rather not manage that, Joplin Cloud is a paid service from the same team.
+
+The trade-off is storage. Joplin keeps notes in its own database, not as loose files in your folders. You write in Markdown and can export everything as Markdown, but you don't edit the files directly.
+
+<ProsCons
+  pros={['you want free sync across desktop and phone', 'you want end-to-end encryption', 'you like notebooks and tags']}
+  cons={['you want your notes as plain files you edit in place', 'you rely on a graph of linked notes']}
+/>
+
+<Ad />
+
+## Logseq is for outliners, but choose the version
+
+<ToolFacts tool="Logseq" price="Free" runsOn="Windows, macOS, Linux, iOS, Android" license="Open source (AGPL-3.0)" />
+
+In Logseq every bullet is a block. You can link to it, reference it somewhere else or embed it, which suits daily journaling and connecting small ideas.
+
+Logseq is in the middle of a big change, so check which version you install. **Logseq OG**, the original app, stores your graph as Markdown files. It's now in maintenance mode, with fixes but no new features. **Logseq 2.0**, the database version, stores everything in SQLite. It adds a new mobile app and real-time collaboration, but it's still in beta, and the team recommends regular backups because data loss is possible. A "Markdown Mirror" feature writes a Markdown copy of a database graph to disk. Edits made in those files don't flow back yet.
+
+<ProsCons
+  pros={['you think in bullet points and daily notes', 'you want to reference individual blocks, not just pages', 'you\'re fine with Logseq OG\'s feature freeze']}
+  cons={['you need a stable app with active development and plain files at the same time', 'you prefer long-form documents to outlines']}
+/>
+
+## Trilium handles deep hierarchies
+
+<ToolFacts tool="Trilium" price="Free" runsOn="Windows, macOS, Linux, self-hosted server" license="Open source (AGPL-3.0)" />
+
+Trilium is built for large personal knowledge bases. Notes form a tree with no separate folders, since any note can hold sub-notes. One note can also appear in several places in the tree. Sync runs through a server you host yourself.
+
+The project now lives on as the community-led successor to the original Trilium, under the same name and license. There are no paid tiers, accounts or paywalls. Like Joplin, it stores notes in its own database rather than as plain files.
+
+<ProsCons
+  pros={['you\'re building a large, deeply nested knowledge base', 'you want to self-host your own sync server', 'you like scripting and customizing your tools']}
+  cons={['you want plain Markdown files', 'you don\'t want to run a server for sync']}
+/>
+
+## How to choose in 30 seconds
+
+- **Plain Markdown files with an open-source app:** Zettlr.
+- **Free, encrypted sync to your phone:** Joplin.
+- **Outlines and daily notes:** Logseq, OG for files, 2.0 if you can live with a beta.
+- **A big knowledge base on your own server:** Trilium.
+- **You don't care about open source:** stay on Obsidian. It's free for work.
+
+Comparing the two most popular options head-to-head? Read [Logseq vs Obsidian](/logseq-vs-obsidian/).
+
+## FAQ
+
+### Is Obsidian free for commercial use?
+
+Yes. Since February 2025 anyone can use Obsidian at work for free. The commercial license is optional.
+
+### Does Logseq still store notes as Markdown?
+
+Logseq OG does, and it's in maintenance mode. Logseq 2.0, the database version, stores notes in SQLite and can write a Markdown copy to disk with its Markdown Mirror feature.
+
+### Can I sync Joplin for free?
+
+Yes. Joplin syncs for free through Dropbox, OneDrive, Nextcloud, WebDAV, S3 or a local folder, with optional end-to-end encryption.

@@ -1,0 +1,131 @@
+---
+title: "Logseq vs Obsidian: which note-taking app should you use?"
+description: Logseq is an open-source outliner in the middle of a big rewrite. Obsidian is a stable, closed-source app for Markdown files. How they differ and who each fits.
+lede: Pick Obsidian if you want a stable app, long-form notes and plain Markdown files. Pick Logseq if you think in bullet points and want open source, and know that it's switching from Markdown files to a database that's still in beta.
+kind: comparison
+method: research
+topic: Notes and docs
+tools: [Logseq, Obsidian]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's website, help docs, announcements, license files and code repository, October 1, 2026.
+  versions:
+    - { tool: Logseq, version: "OG (Markdown) and 2.0 beta (database)" }
+    - { tool: Obsidian, version: "1.9+" }
+  notes: Both apps are free to use. Syntax examples follow each project's own docs.
+sources:
+  - { title: "Logseq source code (AGPL-3.0)", url: "https://github.com/logseq/logseq" }
+  - { title: "Logseq docs: the DB version", url: "https://github.com/logseq/docs/blob/master/db-version.md" }
+  - { title: "Logseq docs: properties", url: "https://github.com/logseq/docs/blob/master/pages/Properties.md" }
+  - { title: "Logseq forum: OG (Markdown) vs DB (SQLite)", url: "https://discuss.logseq.com/t/logseq-og-markdown-vs-logseq-db-sqlite/34608" }
+  - { title: "Logseq forum: what's new with Logseq DB, May 2026", url: "https://discuss.logseq.com/t/whats-new-with-logseq-db-may-16th-2026/35020" }
+  - { title: "Obsidian is now free for work", url: "https://obsidian.md/blog/free-for-work/" }
+  - { title: "Obsidian pricing", url: "https://obsidian.md/pricing" }
+  - { title: "Obsidian Help: how Obsidian stores data", url: "https://obsidian.md/help/data-storage" }
+  - { title: "Obsidian Help: internal links and block links", url: "https://obsidian.md/help/links" }
+  - { title: "Obsidian Help: Bases views", url: "https://obsidian.md/help/bases/views" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Obsidian" top why="Stable, fast and built on plain Markdown files. Free for personal and work use." href="#obsidian-is-the-stable-choice-for-markdown-files" />
+  <Pick tool="Logseq" label="Outliners" why="Open source, and every bullet is a block you can reference anywhere." href="#logseq-is-an-outliner-in-transition" />
+</Picks>
+
+## Pages versus blocks
+
+**Obsidian** works like a folder of documents. You write a note, put it in a folder and link it to other notes. Long paragraphs and headings feel natural. **Logseq** is an outliner. Everything is a bullet, and every bullet is a block you can link to, reference or embed somewhere else. Daily journal pages are the default way in.
+
+Here's the same reading note in each. In Obsidian, properties go at the top of the file and a block gets an ID you link to:
+
+```markdown
+---
+type: book
+author: Cal Newport
+---
+
+Deep work needs long, uninterrupted blocks of time. ^deep-work-time
+```
+
+Elsewhere you link to that exact paragraph with `[[Deep Work#^deep-work-time]]`. In Logseq, properties use `::` and a block is referenced by its ID in double parentheses:
+
+```markdown
+- type:: book
+  author:: Cal Newport
+- Deep work needs long, uninterrupted blocks of time.
+```
+
+Elsewhere you write `((block-id))` and Logseq shows that block's text inline. Both styles are Markdown underneath, but neither link syntax is standard Markdown. Other editors will show it as plain text.
+
+## The two side by side
+
+<Results
+  caption="Logseq and Obsidian, from each project's own docs, announcements and license files, October 2026"
+  tools={['Logseq', 'Obsidian']}
+  rows={[
+    { label: 'Structure', values: ['Outline of blocks', 'Documents in folders'] },
+    { label: 'License', values: ['AGPL-3.0', 'Proprietary, free for any use'] },
+    { label: 'How notes are stored', values: ['Markdown (OG) or SQLite (2.0 beta)', 'Markdown files'] },
+    { label: 'Development status', values: ['OG: maintenance only. 2.0: beta', 'Stable, active'] },
+    { label: 'Database views', values: ['Queries', 'Bases (table, cards, list, Kanban)'] },
+    { label: 'Paid sync', values: ['2.0 adds its own sync (RTC)', 'Sync from $4/mo, yearly'] },
+  ]}
+/>
+
+## Logseq is an outliner in transition
+
+<ToolFacts tool="Logseq" price="Free" runsOn="Windows, macOS, Linux, iOS, Android" license="Open source (AGPL-3.0)" />
+
+Logseq's strength is the block. Write a thought once, reference it from any page, and every reference stays in sync. Its query language lets you pull blocks by tag, property or date into any page. Daily journals make it easy to capture first and organize later.
+
+The issue in 2026 is which Logseq to use. **Logseq OG** stores your graph as Markdown files and now gets only fixes, no new features. **Logseq 2.0**, the database version, stores everything in SQLite and adds a new mobile app and real-time collaboration. It's still in beta, and the team says data loss is possible, so back up regularly. Its Markdown Mirror writes a Markdown copy of your graph to disk. Edits in those files don't sync back yet.
+
+<ProsCons
+  pros={['you think in bullets and daily notes', 'you want to reference individual blocks across pages', 'you want open-source software']}
+  cons={['you need a stable app with plain files and active development at the same time', 'you mostly write long-form documents']}
+/>
+
+<Ad />
+
+## Obsidian is the stable choice for Markdown files
+
+<ToolFacts tool="Obsidian" price="Free; Sync from $4/mo, yearly" runsOn="Windows, macOS, Linux, iOS, Android" license="Proprietary, free for any use" />
+
+Obsidian stores notes as Markdown files in a folder on your disk, and it's free for any use, including work since February 2025. Optional Sync starts at $4 a month on a yearly plan. You can also sync the folder yourself with iCloud, Syncthing or Git.
+
+Links, backlinks and a graph view connect notes. Since version 1.9, the Bases plugin turns notes into database views: table, cards, list or Kanban, all built from the properties in your files. A large plugin community covers almost anything else, including outlining.
+
+The trade-off is that Obsidian is closed source. Your files stay fully readable without it, but you can't inspect or fork the app.
+
+<ProsCons
+  pros={['you want a stable app on top of plain files', 'you write long notes, articles or documentation', 'you want plugins for almost any workflow']}
+  cons={['open-source software is a requirement', 'you want block references to be the main way you work']}
+/>
+
+## How to choose in 30 seconds
+
+- **Long-form notes in plain files:** Obsidian.
+- **Bullets, journals and block references:** Logseq.
+- **Open source required:** Logseq, or Zettlr if you want files like Obsidian's.
+- **You can't risk beta software:** Obsidian, or Logseq OG with its feature freeze.
+
+For more open-source options, see the [best Obsidian alternatives](/obsidian-alternatives/).
+
+## FAQ
+
+### Is Logseq still Markdown-based?
+
+The original app, now called Logseq OG, is, and it's in maintenance mode. Logseq 2.0, the database version, stores notes in SQLite and can mirror them to Markdown files on disk.
+
+### Is Obsidian free for work?
+
+Yes. Since February 2025 anyone can use Obsidian at work for free. A commercial license is optional.
+
+### Can I move my notes between them?
+
+With Logseq OG and Obsidian, mostly yes, because both read Markdown files. Block references and property syntax differ, so those links need fixing after a move.
