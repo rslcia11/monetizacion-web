@@ -59,6 +59,7 @@ description: Postman's Free plan now covers one user. We measured the alternativ
 lede: Entradilla bajo el título. Qué pasó y qué medimos.
 kind: alternatives        # comparison | alternatives | guide
 topic: API clients        # clúster temático
+hook: "Free for 3 users"   # 2–4 palabras para la imagen del artículo (máx. 28 caracteres): el gancho, no el título
 tools: [Postman, Bruno, Hoppscotch, Insomnia]  # portada; una comparison necesita 2 o más
 author: nombre-apellido   # id del archivo en src/content/authors/
 publishedAt: 2026-10-01

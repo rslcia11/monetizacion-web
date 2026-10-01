@@ -82,8 +82,8 @@ const jsonLd = [
     inLanguage: locale,
     datePublished: publishedAt.toISOString(),
     dateModified: updatedAt.toISOString(),
-    // Same 1200x630 share image as og:image. Google recommends an image for Article results.
-    image: absoluteUrl(`/og/${article.id}.png`),
+    // Google asks for 16:9, 4:3 and 1:1 versions, at least 1200 px wide (Article and Discover docs).
+    image: ['16x9', '4x3', '1x1'].map((shape) => absoluteUrl(`/og/${article.id}-${shape}.png`)),
     author: {
       '@type': 'Person',
       name: author.data.name,

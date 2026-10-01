@@ -57,7 +57,14 @@ const otherLanguage = alternates.find((a) => a.locale !== locale);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {(noindex || !PUBLIC_INDEXABLE) && <meta name="robots" content="noindex" />}
+    {
+      noindex || !PUBLIC_INDEXABLE ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        // Lets Google Discover and Search show large image previews (Discover docs).
+        <meta name="robots" content="max-image-preview:large" />
+      )
+    }
     {hreflang.map((a) => <link rel="alternate" hreflang={a.locale} href={new URL(a.href, Astro.site)} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={new URL(xDefault.href, Astro.site)} />}
     <link rel="sitemap" href="/sitemap-index.xml" />

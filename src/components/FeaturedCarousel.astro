@@ -44,7 +44,7 @@ const slides = await Promise.all(
           data-slide
         >
           <a class="featured" href={articleUrl(article)}>
-            <ArticleCover tools={article.data.tools} kind={article.data.kind} size="featured" />
+            <ArticleCover tools={article.data.tools} kind={article.data.kind} hook={article.data.hook} size="featured" />
             <div>
               <p class="topic-label">{article.data.topic}</p>
               <h2 class="featured-title">{article.data.title}</h2>

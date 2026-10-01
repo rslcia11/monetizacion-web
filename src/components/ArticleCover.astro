@@ -1,60 +1,212 @@
 ---
 import ToolLogo from './ToolLogo.astro';
-import { coverBackground } from '../lib/cover';
+import { glowColor } from '../lib/brand';
+import { toolSlug } from '../lib/tools';
 import { kinds, type Kind } from '../lib/kinds';
 
 interface Props {
   tools: string[];
   kind: Kind;
+  // 2-4 words that tell the reader why to click ("Free for 3 users"). Not the title.
+  hook?: string;
   size?: 'card' | 'featured';
 }
 
-const { tools, kind, size = 'card' } = Astro.props;
+const { tools, kind, hook, size = 'card' } = Astro.props;
 
-// Generated from frontmatter, never stock or AI images (DESIGN.md 4).
-const background = coverBackground(tools).css;
-
+// Thumbnail rules from CTR research and Google Discover: 16:9, high contrast, two or three
+// visual elements (logos + a short hook), no stock or AI images (DESIGN.md 4).
+const featured = size === 'featured';
 const [first, ...rest] = tools;
 const { joiner } = kinds[kind];
-const featured = size === 'featured';
+const others = rest.slice(0, featured ? 3 : 2);
+const tiles = [
+  { name: first, size: featured ? 96 : 64 },
+  ...others.map((name) => ({ name, size: featured ? 64 : 46 })),
+];
 ---
 
-<div class:list={['cover', size]} style={{ background }} aria-hidden="true">
-  <ToolLogo name={first} size={featured ? 92 : 64} />
-  {joiner && rest.length > 0 && <span class="joiner">{joiner}</span>}
-  {rest.slice(0, featured ? 3 : 2).map((tool) => <ToolLogo name={tool} size={featured ? 56 : 44} tone="outline" />)}
+<div class:list={['cover', size]} aria-hidden="true">
+  <div class="row">
+    {
+      tiles.map((tile, i) => (
+        <>
+          {i === 1 && joiner && <span class:list={['joiner', { vs: joiner === 'vs' }]}>{joiner}</span>}
+          <span class="tile" style={`--glow: ${glowColor(toolSlug(tile.name))}; --i: ${i}`}>
+            <ToolLogo name={tile.name} size={tile.size} tone="outline" />
+          </span>
+        </>
+      ))
+    }
+  </div>
+  {hook && <span class="hook">{hook}</span>}
 </div>
 
 <style>
   .cover {
-    height: 190px;
-    border-radius: var(--radius-lg);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    background-color: var(--ink);
+    /* Dot grid: texture without a gradient wash. */
+    background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
+    background-size: 18px 18px;
   }
 
   .cover.featured {
-    height: 330px;
     border-radius: 14px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12%;
+  }
+
+  .featured .row {
     gap: 22px;
+    margin-bottom: 10%;
+  }
+
+  .tile {
+    position: relative;
+    display: inline-flex;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: calc(var(--i) * 50ms);
+  }
+
+  /* Brand-colored halo behind each logo. */
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    z-index: 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--glow), transparent);
+    opacity: 0.4;
+    transition: opacity 0.35s ease;
+  }
+
+  .tile > :global(*) {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
   }
 
   .joiner {
-    font-size: 16px;
+    position: relative;
+    z-index: 1;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.12);
+    color: var(--paper);
+    font-size: 14px;
     font-weight: 700;
-    color: var(--muted);
+    transition: transform 0.35s ease;
+  }
+
+  .joiner.vs {
+    padding: 6px 10px;
+    background: var(--warm);
+    color: var(--ink);
   }
 
   .featured .joiner {
-    font-size: 18px;
+    font-size: 17px;
+  }
+
+  .hook {
+    position: absolute;
+    left: 16px;
+    bottom: 14px;
+    max-width: calc(100% - 32px);
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--warm);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .featured .hook {
+    left: 24px;
+    bottom: 22px;
+    padding: 8px 16px;
+    font-size: 24px;
+  }
+
+  /* Hover on the card or the featured link: logos lift one after another, halos brighten. */
+  :global(a:hover) .tile,
+  :global(a:focus-visible) .tile {
+    transform: translateY(-6px);
+  }
+
+  :global(a:hover) .tile::before,
+  :global(a:focus-visible) .tile::before {
+    opacity: 0.75;
+  }
+
+  :global(a:hover) .joiner.vs {
+    transform: scale(1.1) rotate(-6deg);
+  }
+
+  /* Carousel: each new slide's logos rise in, and the halos breathe while it shows. */
+  :global(.slide.active) .tile {
+    animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 90ms);
+  }
+
+  :global(.slide.active) .tile::before {
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  :global(.slide.active) .hook {
+    animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.94);
+    }
+  }
+
+  @keyframes breathe {
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile,
+    .tile::before,
+    .joiner {
+      transition: none;
+    }
+
+    :global(a:hover) .tile,
+    :global(a:hover) .joiner.vs {
+      transform: none;
+    }
+
+    :global(.slide.active) .tile,
+    :global(.slide.active) .tile::before,
+    :global(.slide.active) .hook {
+      animation: none;
+    }
   }
 
   @media (max-width: 640px) {
-    .cover.featured {
-      height: 220px;
+    .featured .hook {
+      left: 16px;
+      bottom: 14px;
+      font-size: 18px;
     }
   }
 </style>

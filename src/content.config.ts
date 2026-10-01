@@ -44,6 +44,8 @@ const articles = defineCollection({
       kind: z.enum(['comparison', 'alternatives', 'guide']),
       // Topic cluster (plan 9): "API clients", "Backend", "Monorepos"...
       topic: z.string(),
+      // 2-4 words on the cover image: the hook, not the title. "Free for 3 users", "SQL vs NoSQL".
+      hook: z.string().max(28).optional(),
       // Tool names for the generated cover, e.g. ["Bruno", "Postman"].
       tools: z.array(z.string()).min(1),
       author: reference('authors'),

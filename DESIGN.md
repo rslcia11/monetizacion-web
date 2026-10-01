@@ -77,15 +77,17 @@ Reglas: el color siempre significa algo. Verde = navegar/positivo. Amarillo = de
 
 **Buscador (portada, junto al título):** formulario GET a /search/ (funciona sin JS). Input redondeado (alto 50px, radio 25px, borde `#C9D3CF`), placeholder "Search a tool, like Postman or Supabase", botón circular `--accent` con lupa. Label accesible oculto.
 
-**Artículo destacado (portada):** grilla 2 columnas: portada (330px alto) + tema en `--accent`, h2 serif 36px, resumen 18px, autor y fecha. Todo el bloque es un link.
+**Artículo destacado (portada):** carrusel con todos los artículos (rota cada 7 s, empieza en uno al azar, se pausa con hover, foco o botón, quieto con reduced-motion). Cada slide: grilla 2 columnas, imagen 16:9 + tema en `--accent`, h2 serif 36px, resumen 18px, autor y fecha. Todo el bloque es un link.
 
-**Grilla de artículos:** tarjeta = portada 190px + tema (14px, `--accent`, 700) + título (20px, 700) + resumen de una línea (16px, `--muted`). Sin sombras.
+**Grilla de artículos:** tarjeta = imagen 16:9 + tema (14px, `--accent`, 700) + título (20px, 700) + resumen de una línea (16px, `--muted`). Sin sombras.
 
 **Filtro por tema ("Latest" en portada):** aparece solo con 2 temas o más; sin JS no se muestra y se ven todas las tarjetas. Botones de texto; activo = fondo `--ink`, texto blanco, radio 8px. `aria-pressed`. Estado vacío con mensaje útil.
 
 **Búsqueda:** Pagefind, índice generado en el build (`astro build && pagefind`); solo indexa el cuerpo del artículo (`data-pagefind-body`), sin navegación, anuncios ni caja de autor. La página /search/ es `noindex` y no va al sitemap. En `astro dev` no hay índice: muestra "no disponible".
 
-**Imagen para compartir (og:image):** PNG 1200×630 generado en el build (satori + resvg) en /og/<locale>/<slug>.png: logo, título, tema y logos de las herramientas sobre el mismo fondo que la portada. Portada y páginas usan /og/default.png.
+**Imagen de cada artículo (actualizado 1 oct 2026, tras investigar CTR y Google Discover):** fondo `--ink` con trama de puntos, logos oficiales en baldosas blancas con un halo del color de cada marca (`lib/brand.ts`), "vs" en `--warm` y un gancho de 2–4 palabras (`hook` en el frontmatter) en un rótulo `--warm`. Excepción documentada a "nada de gradientes": solo el halo radial detrás de cada logo. Animación: al pasar el mouse, los logos suben y el halo se intensifica; en el carrusel, entran escalonados y el halo "respira". Todo se desactiva con `prefers-reduced-motion`.
+
+**Imagen para compartir y datos estructurados:** PNG generados en el build (satori + resvg) con el mismo diseño: /og/<locale>/<slug>.png (1200×630, og:image) y -16x9, -4x3 y -1x1 (1200 px de ancho, los tres formatos que pide Google para Article). Sin el título: Discover recomienda imágenes con poco texto. Meta `max-image-preview:large` en páginas indexables. Portada y páginas usan /og/default.png.
 
 **Portadas generadas (sistema propio):** fondo de la paleta + logos oficiales de las herramientas enfrentados ("vs") o logo + "alternatives". Se generan por código a partir del frontmatter del artículo (sin imágenes de IA ni stock).
 
