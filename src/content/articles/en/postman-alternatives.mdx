@@ -1,0 +1,183 @@
+---
+title: The best Postman alternatives in 2026, compared
+description: Postman's Free plan now covers one user. Here's what Bruno, Insomnia, Hoppscotch, Yaak, Thunder Client and Apidog cost and where each falls short.
+lede: If your team works in Git, switch to Bruno. It's free and has no user limit. If you want something that feels like Postman, Insomnia is free for up to three people. Below is what each option costs and where it falls short, checked on each vendor's own pages.
+kind: alternatives
+method: research
+topic: API clients
+tools: [Postman, Bruno, Insomnia, Hoppscotch, Yaak, Thunder Client, Apidog]
+author: wilson-martinez
+publishedAt: 2026-09-28
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, documentation and code repository, checked again on October 1, 2026. The author uses Postman every day.
+  versions:
+    - { tool: Postman, version: "Current plans (October 2026)" }
+    - { tool: Bruno, version: "3.x" }
+  notes: Prices are per user per month and change often. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Postman: about plans (March 2026 changes)", url: "https://learning.postman.com/docs/billing/about-plans" }
+  - { title: "Postman pricing", url: "https://www.postman.com/pricing/" }
+  - { title: "Bruno pricing", url: "https://usebruno.com/pricing" }
+  - { title: "Insomnia pricing", url: "https://insomnia.rest/pricing" }
+  - { title: "Insomnia source code (Apache 2.0)", url: "https://github.com/Kong/insomnia" }
+  - { title: "Hoppscotch pricing", url: "https://hoppscotch.com/pricing" }
+  - { title: "Hoppscotch self-host editions", url: "https://docs.hoppscotch.io/documentation/self-host/getting-started" }
+  - { title: "Bruno docs: Git collaboration", url: "https://docs.usebruno.com/git-integration/overview" }
+  - { title: "Bruno docs: CLI", url: "https://docs.usebruno.com/bru-cli/overview" }
+  - { title: "Yaak licensing and pricing", url: "https://yaak.app/pricing" }
+  - { title: "Yaak blog: simplifying pricing", url: "https://yaak.app/blog/simplifying-pricing" }
+  - { title: "Thunder Client pricing", url: "https://thunderclient.com/pricing" }
+  - { title: "Thunder Client docs", url: "https://docs.thunderclient.com/get-started" }
+  - { title: "Apidog pricing", url: "https://apidog.com/pricing" }
+  - { title: "Postman docs: Native Git", url: "https://learning.postman.com/docs/use/native-git/overview/" }
+  - { title: "Postman blog: March 2026 plan changes", url: "https://blog.postman.com/new-capabilities-march-2026/" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Bruno" top why="Free for any team size. Your requests are plain files that live in your Git repo." href="#bruno-free-for-any-team-that-uses-git" />
+  <Pick tool="Insomnia" label="Feels most like Postman" why="Same way of working. Free for up to three people with Git Sync." href="#insomnia-the-easiest-move-from-postman" />
+  <Pick tool="Hoppscotch" label="Nothing to install" why="Works in a browser tab. You can also run your own copy." href="#hoppscotch-works-in-your-browser" />
+  <Pick tool="Yaak" label="Solo developers" why="Local, no account, free for personal use. Work use costs $50 a year." href="#yaak-free-for-you-paid-at-work" />
+  <Pick tool="Thunder Client" label="Stay in your editor" why="An extension for VS Code and JetBrains, not another app." href="#thunder-client-inside-vs-code" />
+</Picks>
+
+## Why teams are leaving Postman
+
+In March 2026 Postman changed its plans to Free, Solo, Team and Enterprise. The Free plan now works for one person only. As soon as a second person needs your collections, you pay for Team: $19 per user per month. For a team of five, that's $95 a month for something that used to be free.
+
+I've used Postman every day since university to build requests and check responses on every project. It's a great tool, but paying $19 per user just so a small team can share collections pushed us to look at local, Git-based alternatives.
+
+## The alternatives side by side
+
+<Results
+  caption="Postman and six alternatives, from each vendor's own pricing page and docs, September 2026"
+  tools={['Postman', 'Bruno', 'Insomnia', 'Hoppscotch', 'Yaak', 'Thunder Client', 'Apidog']}
+  winner="Bruno"
+  rows={[
+    { label: 'Free for a team', values: ['No, 1 user', 'Yes, any size', 'Up to 3 users', 'Yes, self-hosted', 'Personal use only', 'Limited plan', 'Up to 4 users'] },
+    { label: 'Paid, per user / month', values: ['$19', '$6 (yearly)', '$12', '$6 (cloud, yearly)', '$50 per year', '$3 (yearly)', '$9 (yearly)'] },
+    { label: 'Open source', values: [false, true, true, true, 'Code only', false, false] },
+    { label: 'Requests saved as files in your repo', values: ['Desktop app', true, true, null, true, 'Paid plans', null] },
+    { label: 'Where it runs', values: ['Desktop, web', 'Desktop', 'Desktop', 'Web, desktop', 'Desktop', 'VS Code, JetBrains', 'Desktop, web'] },
+  ]}
+/>
+
+An empty cell means the vendor's own pages don't state it clearly, so we left it out rather than guess.
+
+## Bruno: free for any team that uses Git
+
+<ToolFacts tool="Bruno" price="Free; Pro $6/user/mo, yearly" runsOn="Windows, macOS, Linux" license="Open source (MIT)" />
+
+Bruno saves each request as a small text file inside your project. You share requests the same way you share code: commit, push, review. That's why the free version has no user limit. There's no cloud account counting seats.
+
+The free app handles REST, GraphQL and gRPC, with scripts, tests and environments. Inside the app, the free version can clone, pull and show diffs. Committing, pushing and branching from Bruno's own Git screen are paid features, but nothing stops you from using plain `git` in a terminal, which is free.
+
+The same files run in CI with the free command-line tool:
+
+```sh
+npm install -g @usebruno/cli
+cd api-collection
+bru run --env staging
+```
+
+Since version 3.1, new collections are saved as OpenCollection YAML files by default. Older `.bru` collections still work.
+
+<ProsCons
+  pros={['your team already uses Git and pull requests', 'you want API requests reviewed next to the code', 'you need a free option for more than four people']}
+  cons={['someone on your team doesn\'t use Git', 'your Postman collections have complex scripts, which may need fixing after import']}
+/>
+
+## Insomnia: the easiest move from Postman
+
+<ToolFacts tool="Insomnia" price="Free; Pro $12/user/mo" runsOn="Windows, macOS, Linux" license="Open source (Apache 2.0)" />
+
+Insomnia is made by Kong, and it works a lot like Postman: collections, environments, a collection runner, and support for REST, GraphQL, gRPC and WebSockets. The free plan includes Git Sync for up to three users, unlimited collection runs and a command-line tool for CI.
+
+One thing to know: in 2023 an update pushed people toward accounts and cloud sync, and many left. Today you can choose local, Git or cloud storage, and a local-only Scratch Pad works with no login at all.
+
+<ProsCons
+  pros={['you want the smallest change from Postman', 'your team is three people or fewer']}
+  cons={['your team is bigger than three and wants to stay free', 'you want a tool that never asks for an account']}
+/>
+
+<Ad />
+
+## Hoppscotch: works in your browser
+
+<ToolFacts tool="Hoppscotch" price="Free; Organization $6/user/mo, yearly" runsOn="Web, desktop" license="Open source (MIT)" />
+
+Hoppscotch opens in a browser tab. If your work laptop won't let you install apps, that alone decides it. The Community Edition is open source under the MIT license, so your company can run its own copy for free and keep API traffic on its own servers. On Hoppscotch's own cloud, the Organization plan adds an admin dashboard for $6 per user per month, billed yearly. The self-hosted Enterprise Edition, at $19 per user per month, adds single sign-on and audit logs.
+
+<ProsCons
+  pros={['you can\'t install software on your work computer', 'your company wants to host the tool itself']}
+  cons={['you want requests saved as files in your repo', 'you prefer a desktop app that works fully offline']}
+/>
+
+## Yaak: free for you, paid at work
+
+<ToolFacts tool="Yaak" price="Free personal; $50/user/year at work" runsOn="Windows, macOS, Linux" license="MIT code, licensed app" />
+
+Yaak is a local desktop app with no account and no cloud. It can save your workspace as plain files for Git, and it imports Postman collections and environments.
+
+Check the license before you use it at work. The code is open source under MIT, but the ready-to-install app needs a license for work use: $50 per user per year. You get a 30-day trial with no sign-up. For personal projects it's free.
+
+<ProsCons
+  pros={['you work alone on your own projects', 'you want everything on your machine, with no account']}
+  cons={['you\'ll use it at a company and don\'t want another license to manage']}
+/>
+
+## Thunder Client: inside VS Code
+
+<ToolFacts tool="Thunder Client" price="Free plan; Starter $3/user/mo, yearly" runsOn="VS Code, JetBrains IDEs" license="Proprietary" />
+
+Thunder Client is an extension, so you never leave your editor. It imports collections from Postman, Insomnia, Hoppscotch and OpenAPI.
+
+The free plan is small. Git Sync and the command-line tool for CI are on paid plans, and the free plan limits how many collections you can keep.
+
+<ProsCons
+  pros={['you spend your whole day in VS Code or a JetBrains IDE', 'you only send quick requests while you code']}
+  cons={['you need Git Sync or CI without paying']}
+/>
+
+## Apidog: more than an API client
+
+<ToolFacts tool="Apidog" price="Free up to 4 users; paid from $9/user/mo, yearly" runsOn="Desktop, web" license="Proprietary" />
+
+Apidog puts API design, documentation, mock servers and testing in one tool, and its free plan allows up to four users in its cloud.
+
+Worth knowing: Apidog publishes many of the "Postman alternatives" articles you'll find on Google, and they usually rank Apidog first. We don't sell or earn from any tool on this page, Apidog included.
+
+<ProsCons
+  pros={['a team of up to four wants free shared workspaces', 'you want design, docs and testing in one place']}
+  cons={['you just want a light client to send requests', 'you want your requests saved as files in your repo']}
+/>
+
+If you're comparing just the two biggest names, read our [Insomnia vs Postman](/insomnia-vs-postman/) breakdown.
+
+## How to choose in 30 seconds
+
+- **Your team uses Git:** Bruno.
+- **You want it to feel like Postman and you're three people or fewer:** Insomnia.
+- **You can't install anything:** Hoppscotch.
+- **You work alone:** Yaak, or stay on Postman's Free plan.
+- **You live in your editor:** Thunder Client.
+- **Up to four people want a shared cloud workspace:** Apidog.
+
+## FAQ
+
+### Is Postman still free?
+
+Yes, for one person. Since March 2026 the Free plan is single-user. To share a workspace with anyone else, you need the Team plan at $19 per user per month.
+
+### What's the best free Postman alternative for a team?
+
+Bruno, if your team uses Git. The free version has no user limit because your requests live in your repo. Insomnia is free for up to three users with Git Sync, and Apidog is free for up to four in its cloud.
+
+### Can I bring my Postman collections?
+
+Yes. Bruno, Insomnia, Hoppscotch, Yaak, Thunder Client and Apidog can all import Postman collections. Complex pre-request scripts may need small fixes afterward.

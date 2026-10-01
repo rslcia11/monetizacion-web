@@ -21,7 +21,8 @@ interface Props {
 
 const { article, all } = Astro.props;
 const locale = articleLocale(article);
-const { title, description, lede, kind, topic, publishedAt, updatedAt, testedAt, testing, sources } = article.data;
+const { title, description, lede, kind, topic, publishedAt, updatedAt, testedAt, method, testing, sources } = article.data;
+const researched = method === 'research';
 const { Content, headings } = await render(article);
 const author = await getEntry(article.data.author);
 if (!author) {
@@ -36,7 +37,7 @@ const url = absoluteUrl(Astro.url.pathname);
 
 // Sections every article gets from its frontmatter, after the body. Fixed ids in every language.
 const autoSections = [
-  { depth: 2, slug: 'how-we-tested', text: t(locale, 'testing.title') },
+  { depth: 2, slug: 'how-we-tested', text: t(locale, researched ? 'research.title' : 'testing.title') },
   { depth: 2, slug: 'sources', text: t(locale, 'sources.title') },
 ];
 const toc = [...headings.filter((h) => h.depth === 2), ...autoSections];
@@ -128,7 +129,7 @@ const jsonLd = [
             {inLocale(author.data.role, locale, `the role of author "${author.id}"`)}
           </p>
           <p class="dates">
-          {t(locale, 'article.tested')} <time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time>.
+          {t(locale, researched ? 'article.researched' : 'article.tested')} <time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time>.
           {t(locale, 'article.updated')} <time datetime={updatedAt.toISOString()}>{formatDate(locale, updatedAt)}</time>.
           {t(locale, 'article.independence')}
           </p>
@@ -144,7 +145,7 @@ const jsonLd = [
         <Content components={mdxComponents} />
       </div>
       <div class="after" data-pagefind-ignore>
-        <HowWeTested id="how-we-tested" locale={locale} testing={testing} testedAt={testedAt} />
+        <HowWeTested id="how-we-tested" locale={locale} testing={testing} testedAt={testedAt} method={method} />
         <Sources id="sources" locale={locale} sources={sources} />
         <AuthorBox author={author} locale={locale} />
       </div>

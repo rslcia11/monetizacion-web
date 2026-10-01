@@ -1,0 +1,159 @@
+---
+title: "FastAPI vs Django: which Python framework should you choose?"
+description: FastAPI builds typed APIs with docs generated for you. Django ships an ORM, admin and auth. Same endpoint in both, and when each one wins.
+lede: Building an API that other apps call? Pick FastAPI. Building a product with users, a database and an admin panel? Pick Django. Want both? Django Ninja gives Django a FastAPI-style API layer.
+kind: comparison
+method: research
+topic: Python frameworks
+tools: [FastAPI, Django]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each project's official documentation, release notes and repository, October 1, 2026. Code samples follow each project's own docs.
+  versions:
+    - { tool: FastAPI, version: "0.14x (October 2026)" }
+    - { tool: Django, version: "6.1" }
+  notes: Both frameworks are free and open source. We make no speed claims because we didn't benchmark them.
+sources:
+  - { title: "FastAPI documentation", url: "https://fastapi.tiangolo.com/" }
+  - { title: "FastAPI release notes", url: "https://fastapi.tiangolo.com/release-notes/" }
+  - { title: "FastAPI: migrate from Pydantic v1 to v2", url: "https://fastapi.tiangolo.com/how-to/migrate-from-pydantic-v1-to-pydantic-v2/" }
+  - { title: "FastAPI source code (MIT)", url: "https://github.com/fastapi/fastapi" }
+  - { title: "Django 6.1 released", url: "https://www.djangoproject.com/weblog/2026/aug/05/django-61-released/" }
+  - { title: "Django 6.0 released", url: "https://www.djangoproject.com/weblog/2025/dec/03/django-60-released/" }
+  - { title: "Django docs: asynchronous support", url: "https://docs.djangoproject.com/en/6.1/topics/async/" }
+  - { title: "Django docs: FAQ (license)", url: "https://docs.djangoproject.com/en/6.1/faq/general/" }
+  - { title: "Django docs: security", url: "https://docs.djangoproject.com/en/6.1/topics/security/" }
+  - { title: "Django REST framework", url: "https://www.django-rest-framework.org/" }
+  - { title: "Django Ninja", url: "https://django-ninja.dev/" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="FastAPI" top why="For APIs: typed requests, validation and interactive docs with very little code." href="#fastapi-is-built-for-apis" />
+  <Pick tool="Django" label="Full products" why="ORM, migrations, auth and an admin panel from day one." href="#django-gives-you-the-whole-application" />
+</Picks>
+
+## The real question: how much should the framework decide?
+
+FastAPI handles one layer very well: HTTP requests and responses. You describe your data with Python type hints and FastAPI validates input, converts output and generates OpenAPI docs. The database, migrations and admin are your choice.
+
+Django handles the whole application. It comes with an ORM, migrations, user accounts, sessions, forms, templates and an admin site. Django 6.0 added built-in background tasks. For a JSON API you add a package on top, usually Django REST framework or Django Ninja.
+
+## The two side by side
+
+<Results
+  caption="FastAPI and Django, from each project's own documentation, October 2026"
+  tools={['FastAPI', 'Django']}
+  rows={[
+    { label: 'Built for', values: ['APIs and services', 'Full web applications'] },
+    { label: 'License', values: ['MIT', 'BSD 3-Clause'] },
+    { label: 'Async views', values: ['Native (ASGI)', 'Supported, best under ASGI'] },
+    { label: 'Validation and OpenAPI docs', values: ['Built in (Pydantic)', 'Via a package (DRF, Django Ninja)'] },
+    { label: 'ORM and migrations', values: ['Bring your own', true] },
+    { label: 'Admin panel', values: [false, true] },
+    { label: 'User accounts and sessions', values: ['Bring your own', true] },
+  ]}
+/>
+
+## The same endpoint in both
+
+A `POST /books` endpoint that validates a title and a year. In FastAPI:
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Book(BaseModel):
+    title: str
+    year: int
+
+@app.post("/books")
+async def create_book(book: Book) -> Book:
+    # Save it with the database library you chose.
+    return book
+```
+
+Run `fastapi dev main.py` and open `/docs`: the interactive documentation is already there. Send `"year": "soon"` and FastAPI returns a 422 error that explains which field failed. Saving the book is up to you. FastAPI doesn't include a database layer.
+
+In Django with Django REST framework, you write a model, a serializer and a viewset:
+
+```python
+# models.py
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    year = models.IntegerField()
+
+# api.py
+from rest_framework import serializers, viewsets
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ["id", "title", "year"]
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+```
+
+It's more code, but you get more: the table and its migration, list, read, update and delete endpoints, and saving to the database. One line in `admin.py`, `admin.site.register(Book)`, gives your team a screen to manage books.
+
+## FastAPI is built for APIs
+
+<ToolFacts tool="FastAPI" price="Free" runsOn="Python, ASGI servers" license="Open source (MIT)" />
+
+FastAPI is built on Starlette for the web layer and Pydantic for data. It's async from the start, and since version 0.126 it requires Pydantic v2. The types you write feed your editor's autocomplete, the request validation and the OpenAPI docs, so they don't drift apart.
+
+The cost is the decisions you make yourself. Database library, migrations, auth and project structure are yours to pick. A small team that knows what it wants moves fast. A team that doesn't can end up with a different setup in every service.
+
+<ProsCons
+  pros={['other apps or a frontend consume your API', 'you want docs and validation generated from your types', 'you already know which database tools you want']}
+  cons={['you need an admin panel for non-developers', 'you want accounts, sessions and permissions ready-made']}
+/>
+
+<Ad />
+
+## Django gives you the whole application
+
+<ToolFacts tool="Django" price="Free" runsOn="Python, WSGI or ASGI servers" license="Open source (BSD 3-Clause)" />
+
+Django 6.1 came out in August 2026. Its ORM and migrations, the admin site and the auth system are the main reasons teams pick it. Its security defaults cover CSRF, SQL injection and clickjacking.
+
+Async views work, and the ORM has async methods such as `aget()` and `acreate()`. To get the benefit, Django's docs say to run under an ASGI server. Under WSGI, async views still work but with a performance penalty.
+
+For APIs, Django REST framework is the long-standing choice. Django Ninja is the middle ground. It uses type hints and Pydantic like FastAPI, generates OpenAPI docs, and keeps Django's ORM and admin.
+
+<ProsCons
+  pros={['you\'re building a product with users and a database', 'non-developers need an admin screen', 'you want one structure every Django developer recognizes']}
+  cons={['you only need a small API service', 'you want async everywhere without thinking about it']}
+/>
+
+## How to choose in 30 seconds
+
+- **An API for a frontend or other services:** FastAPI.
+- **A product with accounts, data and an admin:** Django.
+- **Django's ORM and admin with FastAPI-style endpoints:** Django with Django Ninja.
+- **Still considering Flask?** Read our [Flask vs FastAPI vs Django](/flask-vs-fastapi-vs-django/) comparison.
+
+## FAQ
+
+### Is FastAPI faster than Django?
+
+FastAPI's docs describe it as one of the fastest Python frameworks, and it's async from the start. We haven't benchmarked them, so we won't give you a number. For most apps, database queries matter more than the framework.
+
+### Does FastAPI include an ORM?
+
+No. You choose one, for example SQLAlchemy or SQLModel, which is made by FastAPI's author.
+
+### Can Django build REST APIs?
+
+Yes. Most teams add Django REST framework. Django Ninja is a lighter option that uses type hints and generates OpenAPI docs.

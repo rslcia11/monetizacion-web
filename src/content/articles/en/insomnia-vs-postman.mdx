@@ -1,0 +1,130 @@
+---
+title: "Insomnia vs Postman: which API client fits your team?"
+description: Postman's Free plan is one user since March 2026. Insomnia is free for three with Git Sync. Here's how they compare on price, storage and CI.
+lede: If your team is three people or fewer and wants to share requests for free, pick Insomnia. If your company already pays for Postman, or you need its monitors and API catalog, stay on Postman.
+kind: comparison
+method: research
+topic: API clients
+tools: [Insomnia, Postman]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on each vendor's pricing page, documentation and code repository, October 1, 2026. The author uses Postman every day.
+  versions:
+    - { tool: Insomnia, version: "Current release (October 2026)" }
+    - { tool: Postman, version: "Current plans (October 2026)" }
+  notes: Prices are per user per month. Every price links to the vendor's page in Sources.
+sources:
+  - { title: "Insomnia pricing", url: "https://insomnia.rest/pricing" }
+  - { title: "Insomnia docs: storage options", url: "https://developer.konghq.com/insomnia/storage/" }
+  - { title: "Insomnia docs: migrate from Postman", url: "https://developer.konghq.com/how-to/migrate-collections-and-environments-from-postman-to-insomnia/" }
+  - { title: "Insomnia docs: request collections and Inso CLI", url: "https://developer.konghq.com/insomnia/collections/" }
+  - { title: "Insomnia source code (Apache 2.0)", url: "https://github.com/Kong/insomnia" }
+  - { title: "Postman pricing", url: "https://www.postman.com/pricing/" }
+  - { title: "Postman docs: about plans", url: "https://learning.postman.com/docs/billing/about-plans" }
+  - { title: "Postman blog: March 2026 plan changes", url: "https://blog.postman.com/new-capabilities-march-2026/" }
+  - { title: "Postman docs: Native Git", url: "https://learning.postman.com/docs/use/native-git/overview/" }
+  - { title: "Postman docs: lightweight API Client", url: "https://learning.postman.com/docs/getting-started/basics/using-api-client" }
+  - { title: "Postman docs: Postman CLI collection commands", url: "https://learning.postman.com/docs/postman-cli/postman-cli-collections" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Insomnia" top why="Free Git Sync for up to three people, and it works a lot like Postman." href="#insomnia-is-free-for-a-team-of-three" />
+  <Pick tool="Postman" label="Your company pays" why="The most complete platform, and almost every developer already knows it." href="#postman-is-worth-it-when-someone-else-pays" />
+</Picks>
+
+## What changed in March 2026
+
+Postman moved to four plans: Free, Solo, Team and Enterprise. The Free plan now covers one user and can't create a team. Solo costs $9 a month for one person. As soon as a second person needs your collections, you need Team at $19 per user per month, billed yearly.
+
+That's why this comparison comes up so often now. Insomnia, made by Kong, has a free plan called Essentials that includes Git Sync for up to three users.
+
+## The two side by side
+
+<Results
+  caption="Insomnia and Postman, from each vendor's own pricing page and docs, October 2026"
+  tools={['Insomnia', 'Postman']}
+  rows={[
+    { label: 'Free for a team', values: ['Up to 3 users (Git Sync)', 'No, 1 user'] },
+    { label: 'Cheapest team plan, per user / month', values: ['$12 (Pro)', '$19 (Team, yearly)'] },
+    { label: 'Open source', values: ['Yes (Apache 2.0)', false] },
+    { label: 'Requests saved as files in your repo', values: ['Yes (Git Sync)', 'Desktop app (Native Git)'] },
+    { label: 'Works without an account', values: ['Scratch Pad', 'Lightweight API Client'] },
+    { label: 'Command-line runner for CI', values: ['Inso CLI, free', 'Postman CLI'] },
+  ]}
+/>
+
+## Insomnia is free for a team of three
+
+<ToolFacts tool="Insomnia" price="Free; Pro $12/user/mo" runsOn="Windows, macOS, Linux" license="Open source (Apache 2.0)" />
+
+Insomnia lets you choose where each project lives: only on your machine, in Kong's cloud, or in your own Git repository. On the free Essentials plan, Git Sync works for up to three users per organization. Cloud and local projects have no user limit. Essentials also includes unlimited collection runs, unlimited environments, end-to-end encryption and 1,000 mock server requests a month.
+
+It handles REST, GraphQL, gRPC and WebSockets. The Scratch Pad works with no account at all and keeps everything local. Pro, at $12 per user per month, removes the three-user limit on Git Sync and adds role-based access control.
+
+The Inso CLI runs a collection in CI on the free plan:
+
+```sh
+inso run collection "Orders API" --env "Staging"
+```
+
+<ProsCons
+  pros={['your team is three people or fewer', 'you want requests in your own Git repo', 'you want an open-source client']}
+  cons={['your team is bigger than three and wants to stay free with Git Sync', 'you rely on Postman monitors or its API catalog']}
+/>
+
+<Ad />
+
+## Postman is worth it when someone else pays
+
+<ToolFacts tool="Postman" price="Free for 1 user; Team $19/user/mo, yearly" runsOn="Windows, macOS, Linux, web" license="Proprietary" />
+
+Postman still does the most: collections, tests, mock servers, monitors, documentation and an API catalog for large companies. Collection runs and mock servers are unlimited on every plan, including Free. Monitors on the Free plan are limited to 1,000 requests a month.
+
+Two things people often miss. First, the desktop app can save collections as YAML files inside your repo with Native Git, on every plan. Second, you can use the lightweight API Client without signing in. It stores everything locally, but collections and environments aren't available in that mode.
+
+The Postman CLI runs collections in CI:
+
+```sh
+npm install -g postman-cli
+postman collection run postman/collections/orders-api
+```
+
+I've used Postman every day since university. The math changes when a small team has to pay $19 per person just to share collections.
+
+<ProsCons
+  pros={['your company already pays for the licenses', 'you need monitors, mocks and docs in one place', 'you work alone and the Free plan is enough']}
+  cons={['two or three people want to share requests for free', 'you want an open-source tool']}
+/>
+
+## How to switch from Postman to Insomnia
+
+Export your collections and environments from Postman as JSON (Collection v2.1). In Insomnia, open your project, click **Import** and pick the files or the full ZIP export. Insomnia understands Postman's format and brings over folders, environments and most pre-request scripts. Check any complex scripts by hand after the import.
+
+If you're still deciding, our list of the [best Postman alternatives](/postman-alternatives/) covers Bruno, Hoppscotch and four other options.
+
+## How to choose in 30 seconds
+
+- **Three people or fewer, no budget:** Insomnia.
+- **You want requests reviewed in pull requests:** Insomnia with Git Sync, or Postman Native Git if you already pay for Postman.
+- **You work alone:** either one. Postman Free and Insomnia Essentials both cover you.
+- **Your company provides the licenses:** Postman.
+
+## FAQ
+
+### Is Postman still free?
+
+Yes, for one person. Since March 2026 the Free plan is single-user and can't create a team. Sharing a workspace needs the Team plan at $19 per user per month, billed yearly.
+
+### Can Insomnia import Postman collections?
+
+Yes. Insomnia imports Postman collections and environments in the v2 format, as separate JSON files or as a ZIP of your full export. Complex pre-request scripts may need small fixes afterward.
+
+### Does Insomnia require an account?
+
+No, if you use the Scratch Pad, which stores everything on your machine. Git Sync, cloud projects and team features need an account.

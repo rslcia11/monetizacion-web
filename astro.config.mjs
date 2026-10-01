@@ -27,6 +27,11 @@ export default defineConfig({
     },
   },
 
+  // Code samples in articles: light theme on the --surface background (DESIGN.md 1).
+  markdown: {
+    shikiConfig: { theme: 'github-light' },
+  },
+
   integrations: [
     mdx(),
     sitemap({

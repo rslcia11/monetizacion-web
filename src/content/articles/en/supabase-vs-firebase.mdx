@@ -1,0 +1,148 @@
+---
+title: "Supabase vs Firebase: which backend should you pick?"
+description: Supabase is Postgres with a flat monthly fee. Firebase is Google's NoSQL backend billed per operation. Free tiers, pricing and lock-in compared.
+lede: Pick Supabase if your data is relational and you want a predictable monthly bill. Pick Firebase if you want Google to run everything, your data fits documents, and you're fine paying per read and write.
+kind: comparison
+method: research
+topic: Backend
+tools: [Supabase, Firebase]
+author: wilson-martinez
+publishedAt: 2026-10-01
+updatedAt: 2026-10-01
+testedAt: 2026-10-01
+testing:
+  environment: Research on Supabase's and Firebase's pricing pages, billing docs and code repositories, October 1, 2026.
+  versions:
+    - { tool: Supabase, version: "Hosted platform (October 2026)" }
+    - { tool: Firebase, version: "Hosted platform (October 2026)" }
+  notes: Supabase bills per organization plus compute per project. Firebase's Blaze plan bills per operation. Every number links to the vendor's page in Sources.
+sources:
+  - { title: "Supabase pricing", url: "https://supabase.com/pricing" }
+  - { title: "Supabase docs: free project pausing", url: "https://supabase.com/docs/guides/platform/free-project-pausing" }
+  - { title: "Supabase docs: compute usage and credits", url: "https://supabase.com/docs/guides/platform/manage-your-usage/compute" }
+  - { title: "Supabase docs: control your costs (spend cap)", url: "https://supabase.com/docs/guides/platform/cost-control" }
+  - { title: "Supabase docs: self-hosting with Docker", url: "https://supabase.com/docs/guides/self-hosting/docker" }
+  - { title: "Supabase license (Apache 2.0)", url: "https://github.com/supabase/supabase/blob/master/LICENSE" }
+  - { title: "Firebase pricing plans", url: "https://firebase.google.com/docs/projects/billing/firebase-pricing-plans" }
+  - { title: "Cloud Firestore usage and limits", url: "https://firebase.google.com/docs/firestore/quotas" }
+  - { title: "Firebase Authentication limits", url: "https://firebase.google.com/docs/auth/limits" }
+  - { title: "Firebase docs: avoid surprise bills", url: "https://firebase.google.com/docs/projects/billing/avoid-surprise-bills" }
+  - { title: "Firebase docs: spend caps", url: "https://firebase.google.com/docs/projects/billing/spend-caps" }
+  - { title: "Firebase SQL Connect pricing", url: "https://firebase.google.com/docs/sql-connect/pricing" }
+draft: false
+---
+
+## Our picks
+
+<Picks>
+  <Pick tool="Supabase" top why="Real Postgres, a fixed monthly base price, and you can host it yourself." href="#supabase-gives-you-postgres-and-a-fixed-base-price" />
+  <Pick tool="Firebase" label="Fully managed by Google" why="No servers or instance sizes to pick, and a daily free quota." href="#firebase-charges-for-what-you-use" />
+</Picks>
+
+## The real difference is how you pay
+
+Both give you a database, auth, file storage and server functions. The choice usually comes down to two things: the shape of your data and how your bill grows.
+
+Supabase is a Postgres database with tools around it. Its paid plan is a flat monthly fee, plus compute for each project. Firebase's main database is Firestore, a NoSQL document store. On the paid Blaze plan you pay for each document read, write and delete above the free quota. Budget alerts in Google Cloud only send emails. They don't stop Firestore from billing you.
+
+## The two side by side
+
+<Results
+  caption="Supabase and Firebase, from each vendor's own pricing pages and docs, October 2026"
+  tools={['Supabase', 'Firebase']}
+  rows={[
+    { label: 'Main database', values: ['PostgreSQL (SQL)', 'Firestore (NoSQL documents)'] },
+    { label: 'Free database size', values: ['500 MB', '1 GiB'] },
+    { label: 'Free auth users', values: ['50,000 MAU', '3,000 daily users*'] },
+    { label: 'Free projects pause', values: ['After 1 week inactive', 'No'] },
+    { label: 'Paid plan', values: ['$25/mo + compute', 'Pay per operation'] },
+    { label: 'Hard spend cap', values: ['Yes, on by default (not compute)', 'Some services only'] },
+    { label: 'Open source, self-hostable', values: ['Yes (Apache 2.0)', false] },
+  ]}
+/>
+
+\* Firebase Spark projects that use Authentication with Identity Platform are limited to 3,000 daily active users. On Blaze, the first 50,000 monthly active users are free.
+
+## Supabase gives you Postgres and a fixed base price
+
+<ToolFacts tool="Supabase" price="Free; Pro $25/mo per organization + compute" runsOn="Cloud or self-hosted (Docker)" license="Open source (Apache 2.0)" />
+
+You write SQL, use foreign keys and joins, and can add Postgres extensions. The Free plan gives you 500 MB of database, 50,000 monthly active users and two active projects. Free projects pause after one week without activity, so a side project can go offline until you restore it.
+
+Pro costs $25 a month per organization. It includes 8 GB of disk per project, 100,000 monthly active users and $10 of compute credits, enough for one Micro instance. Bigger instances cost more. Pro has a spend cap on by default, but the cap doesn't cover compute hours.
+
+The whole stack is open source, and Supabase documents how to run it yourself with Docker Compose.
+
+<ProsCons
+  pros={['your data has relations: users, orders, invoices', 'you want a bill that only grows when you choose a bigger instance', 'you want the option to leave and host it yourself']}
+  cons={['a free project you rarely touch must stay online', 'you don\'t want to think about instance sizes']}
+/>
+
+<Ad />
+
+## Firebase charges for what you use
+
+<ToolFacts tool="Firebase" price="Free Spark plan; Blaze pay-as-you-go" runsOn="Google Cloud" license="Proprietary" />
+
+Firestore's free quota is 1 GiB of stored data, 50,000 document reads, 20,000 writes and 20,000 deletes per day. It resets every day around midnight Pacific time. Past that, you move to Blaze and pay per operation. Blaze keeps the same free quota, so a small app can still cost nothing.
+
+The risk is an inefficient query or a loop that reads the same documents again and again. Firebase now offers spend caps that pause a service when it goes over budget, but only for Cloud Functions, App Hosting, AI Logic and Extensions. Firestore isn't on that list.
+
+If you want SQL inside Firebase, SQL Connect runs on Cloud SQL for PostgreSQL. It has a 90-day no-cost trial. After that, Cloud SQL is billed separately.
+
+<ProsCons
+  pros={['your data fits documents and collections', 'you want Google to run everything, with nothing to size', 'your app is small enough to live inside the daily free quota']}
+  cons={['your budget can\'t take a surprise bill', 'you need to host the backend yourself']}
+/>
+
+## The same query in both
+
+Here's how you get a user's ten latest orders. In Supabase you query a table:
+
+```js
+const { data, error } = await supabase
+  .from('orders')
+  .select('id, total, created_at')
+  .eq('user_id', userId)
+  .order('created_at', { ascending: false })
+  .limit(10);
+```
+
+In Firestore you query a collection. Combining a filter and a sort on different fields needs a composite index, and every document returned counts as one read:
+
+```js
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+
+const q = query(
+  collection(db, 'orders'),
+  where('userId', '==', userId),
+  orderBy('createdAt', 'desc'),
+  limit(10),
+);
+const snapshot = await getDocs(q);
+```
+
+On Supabase you aren't billed per row: you pay for the instance the query runs on. On Firestore it costs 10 reads each time it runs, so a page that runs it 5,000 times a day uses the whole free daily quota of 50,000 reads.
+
+## How to choose in 30 seconds
+
+- **Relational data and SQL:** Supabase.
+- **You may want to self-host later:** Supabase.
+- **Documents, real-time sync and zero servers:** Firebase.
+- **A tiny app that must never pause:** Firebase.
+
+Already leaning one way? See the [best Supabase alternatives](/supabase-alternatives/) or the [best Firebase alternatives](/firebase-alternatives/).
+
+## FAQ
+
+### Is Supabase free?
+
+Yes, with limits: 500 MB of database, 50,000 monthly active users and two active projects. Free projects pause after one week of inactivity.
+
+### Can I host Firebase on my own servers?
+
+No. Firebase is a proprietary Google service. Supabase publishes its full stack as open source and documents self-hosting with Docker.
+
+### Can I set a spending limit on Firebase?
+
+Partly. Budget alerts only send emails. Spend caps that pause a service exist for Cloud Functions, App Hosting, AI Logic and Extensions, but not for Firestore.

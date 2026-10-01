@@ -7,16 +7,18 @@ interface Props {
   locale: Locale;
   testing: Article['data']['testing'];
   testedAt: Date;
+  method: Article['data']['method'];
 }
 
-const { id, locale, testing, testedAt } = Astro.props;
+const { id, locale, testing, testedAt, method } = Astro.props;
+const researched = method === 'research';
 ---
 
 <section class="how" aria-labelledby={id}>
-  <h2 id={id} class="section-heading">{t(locale, 'testing.title')}</h2>
+  <h2 id={id} class="section-heading">{t(locale, researched ? 'research.title' : 'testing.title')}</h2>
   <dl class="setup">
     <div>
-      <dt>{t(locale, 'testing.date')}</dt>
+      <dt>{t(locale, researched ? 'research.date' : 'testing.date')}</dt>
       <dd><time datetime={testedAt.toISOString()}>{formatDate(locale, testedAt)}</time></dd>
     </div>
     <div>
@@ -28,7 +30,7 @@ const { id, locale, testing, testedAt } = Astro.props;
     <thead>
       <tr>
         <th scope="col">{t(locale, 'testing.tool')}</th>
-        <th scope="col">{t(locale, 'testing.version')}</th>
+        <th scope="col">{t(locale, researched ? 'research.version' : 'testing.version')}</th>
       </tr>
     </thead>
     <tbody>
@@ -42,6 +44,7 @@ const { id, locale, testing, testedAt } = Astro.props;
       }
     </tbody>
   </table>
+  {researched && <p>{t(locale, 'research.note')}</p>}
   {testing.notes && <p>{testing.notes}</p>}
   <p class="method">
     <a href={localePath(locale, 'how-we-test')}>{t(locale, 'testing.method')}</a>

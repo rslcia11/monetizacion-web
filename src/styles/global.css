@@ -149,6 +149,24 @@ table {
   border-radius: 4px;
 }
 
+/* Code samples: scroll sideways instead of widening the page on phones. */
+.prose pre {
+  margin-top: 24px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-size: 15px;
+  line-height: 1.55;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface) !important;
+}
+
+.prose pre code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+}
+
 /* Plain Markdown tables only (direct children): components like <Results> style their own. */
 .prose > table {
   display: block;

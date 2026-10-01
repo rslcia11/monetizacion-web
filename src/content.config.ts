@@ -43,6 +43,9 @@ const articles = defineCollection({
       publishedAt: z.coerce.date(),
       updatedAt: z.coerce.date(),
       testedAt: z.coerce.date(),
+      // "tested": hands-on tests with our own numbers. "research": built only from official
+      // pages (pricing, docs, repos), with no measurements. Changes the labels readers see.
+      method: z.enum(['tested', 'research']).default('tested'),
       // Rendered as the "How we tested" section (plan 9.3, point 3).
       testing: z.object({
         environment: z.string(),
