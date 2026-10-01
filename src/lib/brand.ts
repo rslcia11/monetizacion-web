@@ -43,11 +43,11 @@ const colors: Record<string, string> = {
   zustand: '#8B5E34',
 };
 
-export function brandColor(slug: string): string {
+function brandColor(slug: string): string {
   return colors[slug] ?? '#0B6E5E';
 }
 
-// Glow color on the dark cover. Near-black brands (Notion, Express…) would vanish, so they glow white.
+// Glow color on the dark cover. Near-black brands (Notion, Express) would vanish, so they glow white.
 export function glowColor(slug: string): string {
   const hex = brandColor(slug);
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));

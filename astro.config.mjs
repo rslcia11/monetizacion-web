@@ -61,6 +61,8 @@ export default defineConfig({
       weights: [400, 500, 600, 700],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
+      // Text shows right away in the fallback font and swaps when the file arrives.
+      display: 'swap',
       fallbacks: ['Helvetica', 'Arial', 'sans-serif'],
     },
     {
@@ -71,6 +73,7 @@ export default defineConfig({
       weights: [700],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
+      display: 'swap',
       fallbacks: ['Georgia', 'serif'],
     },
   ],

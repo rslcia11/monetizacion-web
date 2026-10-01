@@ -48,8 +48,9 @@ const { locale } = Astro.props;
   const text = output.dataset as Record<string, string>;
   const query = new URLSearchParams(location.search).get('q')?.trim() ?? '';
 
+  // Function replacers: a query like "$&" would otherwise be read as a replacement pattern.
   const message = (template: string, count = 0) =>
-    template.replace('{query}', query).replace('{count}', String(count));
+    template.replace('{query}', () => query).replace('{count}', () => String(count));
 
   // Pagefind marks matches with <mark>. The excerpt is parsed in an inert <template> and only
   // its text and <mark> tags are copied, so no other HTML from the index reaches the page.
