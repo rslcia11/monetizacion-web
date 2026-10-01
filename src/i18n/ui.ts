@@ -85,7 +85,8 @@ const en = {
   'author.title': 'About the author',
   'author.photo': 'Photo of',
   'author.on': 'on',
-  'ad.label': 'Advertisement',
+  // AdSense allows only "Advertisements" or "Sponsored Links" above ads (Ad placement policies).
+  'ad.label': 'Advertisements',
   'page.updated': 'Last updated',
   'page.authors': 'Who writes Kriterio',
   'nav.search': 'Search',
@@ -168,7 +169,7 @@ const es: Record<UIKey, string> = {
   'author.title': 'Sobre el autor',
   'author.photo': 'Foto de',
   'author.on': 'en',
-  'ad.label': 'Publicidad',
+  'ad.label': 'Anuncios',
   'page.updated': 'Última actualización',
   'page.authors': 'Quién escribe Kriterio',
   'nav.search': 'Buscar',

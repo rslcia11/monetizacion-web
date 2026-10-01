@@ -43,3 +43,57 @@ No uses `Disallow` en `robots.txt` para esconder el sitio: si Google no puede ra
 - [ ] Sitemap enviado en Search Console
 - [ ] Foto real del autor en `src/assets/authors/` y `"photo"` en `src/content/authors/wilson-martinez.json`
 - [ ] Correo del dominio en `src/lib/site.ts`
+
+---
+
+# Reglas de AdSense: cómo no ser penalizado
+
+Fuentes oficiales: [Políticas del programa AdSense](https://support.google.com/adsense/answer/48182), [Políticas de ubicación de anuncios](https://support.google.com/adsense/answer/1346295), [Tráfico inválido](https://support.google.com/adsense/answer/16737), [Cómo prevenir tráfico inválido](https://support.google.com/adsense/answer/1112983), [Anuncios en pantallas sin contenido](https://support.google.com/publisherpolicies/answer/11112688), [Contenido obligatorio (privacidad)](https://support.google.com/adsense/answer/1348695), [Consentimiento en EEE, Reino Unido y Suiza](https://support.google.com/adsense/answer/13554116) y [Anuncios fijos (sticky)](https://support.google.com/adsense/answer/10734935).
+
+## Lo que el sitio ya cumple (en el código)
+
+| Regla | Cómo se cumple |
+|---|---|
+| Etiqueta solo "Advertisements" o "Sponsored Links" | Cada anuncio dice "Advertisements" ("Anuncios" en español) |
+| Sin anuncios en páginas sin contenido (404, búsqueda, gracias, legales) | El script de AdSense solo se carga en la portada y en los artículos |
+| Anuncios lejos de botones y navegación (clics accidentales) | 48 px libres arriba y abajo del anuncio del artículo. El build falla si un anuncio queda pegado a un bloque de código, a "Our picks" o a un "Result" |
+| Nunca antes del veredicto, máximo 3 por artículo, nunca dos seguidos | El build lo verifica en cada artículo |
+| Más contenido que anuncios | 1 anuncio en el texto + 1 en la barra lateral por artículo |
+| Anuncio fijo (sticky): uno solo, solo en escritorio, máximo 300 px, sin tapar contenido | Solo la barra lateral de 300×600, desde 1120 px de ancho y 760 px de alto |
+| Sin pop-ups, intersticiales ni anuncios que tapen la página (Better Ads Standards) | No existen en el sitio |
+| Espacio reservado (la página no "salta" al cargar el anuncio) | Alto mínimo fijo por ubicación |
+| Política de privacidad con cookies de Google, terceros y enlaces de exclusión | `/privacy/` |
+| `ads.txt` | Se genera solo con `ADSENSE_CLIENT` |
+| Nada que invite a hacer clic | Sin textos como "click the ads" o "support us", sin flechas ni imágenes junto a los anuncios |
+
+## Lo que haces tú en la cuenta de AdSense
+
+1. **Anuncios automáticos (Auto ads): apagados.** El sitio ya tiene sus ubicaciones. Si algún día los activas, excluye `/search/` en **Anuncios → Exclusiones de páginas**.
+2. **Mensaje de consentimiento** en **Privacy & messaging**: crea el de **European regulations** (EEE, Reino Unido y Suiza) y el de **US state regulations**. Es la plataforma de consentimiento certificada de Google, gratis. Sin ella, en Europa solo se muestran anuncios limitados.
+3. **Verifica `ads.txt`** en **Sites** unos días después del lanzamiento: debe decir "Authorized".
+
+## Tráfico inválido: lo que nunca debes hacer
+
+- **Nunca hagas clic en tus propios anuncios**, ni para "probar". Si te interesa un anunciante, escribe su dirección en el navegador.
+- **No recargues** las páginas una y otra vez para ver anuncios. Para revisar el sitio, ábrelo en modo incógnito o usa `npm run dev` en local, donde no hay anuncios.
+- **No pidas a amigos ni familiares** que hagan clic o que visiten el sitio en masa.
+- **No compres tráfico** ni uses intercambios de visitas, bots, sitios de "tráfico garantizado" o redes de anuncios pop-under.
+- **No publiques enlaces en grupos de "apoyo mutuo"** de clics.
+- Comparte en redes y comunidades solo donde el artículo aporte de verdad (Reddit, dev.to, foros técnicos).
+
+## Qué vigilar cada semana
+
+| Métrica | Normal | Señal de alerta | Qué hacer |
+|---|---|---|---|
+| CTR de anuncios | 0,5 % – 3 % | Más de 5 %, o que se duplique de un día a otro | Revisa en **Informes** de dónde viene el tráfico. Si es raro, bloquéalo en Cloudflare |
+| Tráfico | Sube de forma gradual | Picos de un solo país, una sola página o a horas raras | Cloudflare → **Security → Analytics**. Activa **Bot Fight Mode** (deja pasar a Googlebot) |
+| Tráfico inválido | Ajustes pequeños en los pagos | Avisos en **Policy center** | Responde rápido. Si alguien te ataca con clics, repórtalo con el [formulario de actividad inválida](https://support.google.com/adsense/contact/invalid_clicks_contact) |
+
+**Sobre la tasa de rebote:** AdSense no la usa como regla, pero un rebote alto indica que el lector no encontró lo que buscaba. El sitio ya la reduce con el veredicto arriba, el índice, los enlaces internos y el carrusel en la portada. Lo importante es que cada artículo responda bien la búsqueda.
+
+## Antes de cambiar algo de los anuncios
+
+- No agregues más de 3 `<Ad />` por artículo, y siempre entre secciones de texto.
+- No cambies la etiqueta "Advertisements" por otra palabra.
+- No pongas anuncios dentro de tablas, junto a botones, en el menú ni en el pie de página.
+- No hagas que un anuncio se vea como contenido del sitio: mismo color de fondo que los enlaces, títulos falsos, etc.

@@ -23,6 +23,9 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   // Pages that shouldn't appear in Google, like internal search results.
   noindex?: boolean;
+  // Loads the AdSense script. Only pages with real content and ad units (home, articles), so Auto
+  // ads can never land on 404, search, legal or contact pages ("screens without content" policy).
+  ads?: boolean;
 }
 
 const {
@@ -35,6 +38,7 @@ const {
   ogImage = '/og/default.png',
   jsonLd = [],
   noindex = false,
+  ads = false,
 } = Astro.props;
 
 // JSON-LD carries frontmatter text into a script tag: escape "<" so a closing script tag
@@ -89,7 +93,7 @@ const otherLanguage = alternates.find((a) => a.locale !== locale);
     <Font cssVariable="--font-serif" preload />
 
     {
-      adsenseClient && (
+      ads && adsenseClient && (
         <script
           is:inline
           async
