@@ -1,0 +1,99 @@
+title: "Flask vs FastAPI vs Django: which one fits your project?"
+description: Compare Flask, FastAPI, and Django based on database tools, built-in features, and async support to pick the right Python framework.
+lede: Django gives you a full-stack environment with a built-in ORM and admin panel. FastAPI is built for high-speed APIs with automatic docs. Flask is a lightweight micro-framework that lets you choose your own components.
+kind: vs
+method: research
+topic: Python frameworks
+tools: [Flask, FastAPI, Django]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on official documentation and GitHub repositories, September 2026.
+versions:
+- { tool: Flask, version: "Latest (3.1.x, September 2026)" }
+- { tool: FastAPI, version: "Latest (September 2026)" }
+- { tool: Django, version: "Latest (September 2026)" }
+notes: Licensing and feature sets checked directly in official repositories.
+sources:
+
+{ title: "Flask official documentation", url: "https://flask.palletsprojects.com/" }
+
+{ title: "FastAPI official documentation", url: "https://fastapi.tiangolo.com/" }
+
+{ title: "Django official documentation", url: "https://www.djangoproject.com/" }
+draft: false
+
+The verdict
+How much structure do you need?
+Choosing a Python framework comes down to how many decisions you want the framework to make for you.
+
+Django is highly opinionated. It provides the database tools, folder structure, and security defaults so you can start writing business logic immediately. Flask goes the opposite way. It is a minimal micro-framework that leaves project layout and library choices entirely up to you.   
+
+FastAPI sits in the middle. It dictates how you handle data validation and routing for APIs using Python type hints, but it leaves database and templating decisions open.   
+
+The tools side by side
+<Results
+caption="Flask, FastAPI, and Django feature comparison, based on official 2026 documentation"
+tools={['Flask', 'FastAPI', 'Django']}
+winner="Tie"
+rows={[
+{ label: 'Primary focus', values: ['Web apps and microservices', 'APIs and microservices', 'Full-stack web applications'] },
+{ label: 'License', values: ['BSD 3-Clause', 'MIT', 'BSD 3-Clause'] },
+{ label: 'Async support', values: ['Requires setup / extensions', 'Native (built-in)', 'Added in recent versions'] },
+{ label: 'Automatic API docs', values: ['No', 'Yes (Swagger UI)', 'No (requires DRF)'] },
+{ label: 'Built-in ORM', values: ['No', 'No', 'Yes'] },
+]}
+/>
+
+Flask: a lightweight blank slate
+Flask is a WSGI web application framework. It began as a simple wrapper around Werkzeug and Jinja. The core package is very small and does not enforce a specific project layout or require specific dependencies.   
+
+Because Flask does not include an ORM or form validation by default, you have to select and configure these tools yourself. Most teams use SQLAlchemy for database management. This flexibility is great if you know exactly what components you want, but it requires more setup time than Django.
+
+<ProsCons
+pros={['you have total control over which libraries and tools you add', 'the minimal core is easy to learn for small scripts', 'it has a massive ecosystem of community extensions']}
+cons={['you have to wire up your own database and authentication systems', 'different developers might organize projects in completely different ways']}
+/>
+
+FastAPI: async native and API focused
+FastAPI is built specifically to create APIs based on standard Python type hints. It uses Starlette for routing and Pydantic for data validation. It is fully asynchronous by design, allowing it to handle concurrent requests very efficiently.   
+
+The biggest advantage is the automatic documentation. When you write your code, FastAPI instantly generates an interactive Swagger UI interface where you can test your endpoints. Like Flask, it does not include an ORM, so you must bring your own database tools.   
+
+<ProsCons
+pros={['native asynchronous support makes it very fast', 'generates interactive OpenAPI documentation automatically', 'reduces errors by relying heavily on Python type hints']}
+cons={['no built-in admin panel or database ORM', 'the ecosystem of third-party packages is smaller than Django and Flask']}
+/>
+
+Django: batteries included by default
+Django is designed to help you build web applications rapidly. It includes everything you need out of the box: an Object-Relational Mapper (ORM), an admin interface, and a system for managing users and passwords.   
+
+This framework enforces a specific way of organizing your files. If you want to build REST APIs, you usually need to install the Django REST Framework (DRF). While recent updates have added async support, the core of Django was built for synchronous execution.   
+
+<ProsCons
+pros={['the built-in ORM and admin panel save days of setup time', 'it provides secure defaults for authentication and session management', 'enforces a consistent structure across all projects']}
+cons={['it is too heavy if you only need a single-endpoint microservice', 'building modern APIs usually requires learning an extra tool like DRF']}
+/>
+
+How to choose in 30 seconds
+You want to start with an empty canvas: Flask.
+
+You are building an API and want automatic docs: FastAPI.
+
+You need native async execution: FastAPI.
+
+You want the framework to handle the database ORM: Django.
+
+You need a ready-to-use admin panel: Django.
+
+FAQ
+Does Flask come with a database?
+No. Flask is a micro-framework and does not include a database ORM. You must install and configure an external library, such as SQLAlchemy, to interact with a database.   
+
+Which framework is the fastest?
+FastAPI is generally the fastest for processing API requests. It is built entirely on asynchronous foundations, allowing it to handle many concurrent connections with lower latency than traditional synchronous frameworks.   
+
+Do I have to pay to use these frameworks?
+No. Flask, FastAPI, and Django are all free, open-source projects. Flask uses the BSD 3-Clause license. FastAPI uses the MIT license. Django uses the BSD 3-Clause license.

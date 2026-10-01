@@ -1,0 +1,82 @@
+title: "Notion vs Confluence: which is better for team docs?"
+description: Compare Notion and Confluence based on free tier limits, pricing, and wiki organization to find the best tool for your team's documentation.
+lede: Notion gives you flexible databases and an intuitive editor, but team collaboration requires a paid plan. Confluence is a structured wiki that is completely free for up to 10 users.
+kind: vs
+method: research
+topic: Productivity
+tools: [Notion, Confluence]
+author: wilson-martinez
+publishedAt: 2026-09-30
+updatedAt: 2026-09-30
+testedAt: 2026-09-30
+testing:
+environment: Research on vendor pricing pages and official documentation, September 2026.
+versions:
+- { tool: Notion, version: "Latest (September 2026)" }
+- { tool: Confluence, version: "Latest (September 2026)" }
+notes: Prices are per user per month. Free tier limits checked directly on official pricing pages.
+sources:
+
+{ title: "Notion official pricing", url: "https://www.notion.com/pricing" }
+
+{ title: "Confluence official pricing", url: "https://www.atlassian.com/software/confluence/pricing" }
+draft: false
+
+The verdict
+The free tier limits
+Many teams start building their documentation on a free plan, only to hit a hard limit weeks later. If you use Notion's Free plan with two or more people, you are restricted to a total of 1,000 blocks. A block is a single paragraph, image, or list item. A team will consume 1,000 blocks very quickly, forcing an upgrade.   
+
+Confluence takes a different approach. Its Free plan gives you unlimited pages, but it caps your workspace at 10 users and 2 GB of total file storage. If your team is small and mostly writes text, you can use Confluence for free indefinitely.   
+
+The tools side by side
+<Results
+caption="Notion and Confluence features and pricing limits, September 2026"
+tools={['Notion', 'Confluence']}
+winner="Tie"
+rows={[
+{ label: 'Free plan user limit', values: ['Unlimited (but 1,000 blocks)', '10 users'] },
+{ label: 'Free plan storage', values: ['5 MB per file', '2 GB total workspace'] },
+{ label: 'Cheapest paid plan', values: ['$10 / user / month', '$5.42 / user / month'] },
+{ label: 'Structure style', values: ['Flexible pages and databases', 'Spaces and page trees'] },
+{ label: 'Offline mode', values: ['No', 'No'] },
+]}
+/>
+
+Notion: flexible databases and blocks
+Notion does not force you into a specific structure. Every page is a blank canvas where you can type text, embed images, or insert databases. You can view the same database as a table, a calendar, or a kanban board. This flexibility makes it easy to build custom workflows for different departments.
+
+However, sharing a workspace comes with immediate costs. Once you add a second member to the Free plan, the 1,000-block limit applies. To remove this, you must upgrade to the Plus plan, which costs $10 per user per month. The Free plan also restricts file uploads to 5 MB per file and only saves 7 days of page history.   
+
+<ProsCons
+pros={['databases let you filter and view information in multiple ways', 'the editor is highly customizable for building dashboards', 'the Free plan has no block limit if you use it alone']}
+cons={['teams hit the 1,000-block limit on the Free plan almost immediately', 'the lack of rigid structure can create disorganized workspaces over time']}
+/>
+
+Confluence: structured company wikis
+Confluence is built by Atlassian specifically for company documentation. It organizes information into "Spaces" with strict page hierarchies. This makes it harder to build creative dashboards, but it keeps large wikis organized and easy to navigate.   
+
+The pricing is very friendly for small groups. The Free plan covers up to 10 users and provides unlimited pages. You do not have to worry about counting blocks. The main restriction is the 2 GB limit on total file storage. If you exceed 10 users or fill your storage, the Standard plan costs $5.42 per user per month.   
+
+<ProsCons
+pros={['completely free for teams of up to 10 people with no page limits', 'strict page trees keep documentation organized naturally', 'integrates tightly with Jira and other Atlassian products']}
+cons={['file storage on the Free plan is strictly capped at 2 GB', 'the interface is less flexible than block-based editors']}
+/>
+
+How to choose in 30 seconds
+You have 10 people or fewer and want a free wiki: Confluence.
+
+You want to build custom databases and kanban boards: Notion.
+
+Your team already uses Jira for project management: Confluence.
+
+You work alone and want unlimited pages for free: Notion.
+
+FAQ
+Is Notion free for teams?
+Technically yes, but with severe limits. If you add a second member to a free Notion workspace, you can only create up to 1,000 blocks. Once you hit that limit, you must upgrade to a paid plan.   
+
+How much does Confluence cost after 10 users?
+Once you exceed 10 users on Confluence, you must upgrade to the Standard plan. This plan costs $5.42 per user per month. It also increases your file storage limit from 2 GB to 250 GB.   
+
+Can I upload large files to Notion?
+On the Free plan, Notion restricts file uploads to a maximum of 5 MB per file. If you upgrade to the Plus plan or higher, file uploads are unlimited in total storage, with a maximum size of 5 GB per individual file.

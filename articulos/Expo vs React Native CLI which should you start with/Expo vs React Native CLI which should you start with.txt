@@ -1,0 +1,88 @@
+title: "Expo vs React Native CLI: which should you start with?"
+description: The official React Native documentation now recommends Expo. Compare setup times, native control, and cloud build costs to make the right choice.
+lede: If you are starting a new project, use Expo. It configures the native environment for you and handles cloud builds. Only choose React Native CLI if you need manual control over Xcode and Android Studio from day one.
+kind: vs
+method: research
+topic: Mobile frameworks
+tools: [Expo, React Native CLI]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on official React Native documentation and Expo Application Services (EAS) pricing, September 2026.
+versions:
+- { tool: Expo, version: "Latest (September 2026)" }
+- { tool: React Native CLI, version: "Latest (September 2026)" }
+notes: Feature sets and official recommendations checked directly on reactnative.dev.
+sources:
+
+{ title: "React Native official environment setup", url: "https://reactnative.dev/docs/environment-setup" }
+
+{ title: "Expo EAS pricing plans", url: "https://docs.expo.dev/billing/plans/" }
+
+{ title: "React Native CLI vs Expo comparison", url: "https://oneuptime.com/blog/post/2026-01-15-react-native-cli-vs-expo/view" }
+
+{ title: "Expo vs React Native CLI hard specs", url: "https://ztabs.co/compare/expo-vs-react-native-cli" }
+draft: false
+
+The verdict
+Why the official recommendation changed
+For years, developers debated whether Expo was only for simple prototypes. That is no longer the case. The official React Native documentation now explicitly recommends Expo as the default framework for building production applications.   
+
+The main difference lies in how you interact with native mobile code. Expo acts as a layer that configures the native iOS and Android environments for you. React Native CLI exposes the raw ios and android folders directly, forcing you to manage them yourself using Xcode and Android Studio.   
+
+The tools side by side
+<Results
+caption="Expo and React Native CLI feature differences, based on official 2026 guidelines"
+tools={['Expo', 'React Native CLI']}
+winner="Expo"
+rows={[
+{ label: 'Initial setup time', values: ['5–10 minutes', '30–60 minutes'] },
+{ label: 'Requires Xcode/Android Studio', values: ['No (by default)', 'Yes'] },
+{ label: 'Cloud builds built-in', values: ['Yes (via EAS)', 'No'] },
+{ label: 'Over-the-air updates', values: ['Yes (EAS Update)', 'No (requires CodePush)'] },
+{ label: 'Base app size overhead', values: ['+ 3–5 MB', 'Baseline'] },
+]}
+/>
+
+Expo: the managed workflow
+Expo abstracts the hardest parts of mobile development. You do not need to install Xcode or Android Studio to start coding. You can test your app immediately using the Expo Go app on your physical phone.   
+
+While the core Expo framework is free, its cloud services are paid. Expo Application Services (EAS) handles building your app in the cloud and submitting it to the app stores. The free tier gives you 30 builds per month, while the Production plan costs $99 per month. You can also push JavaScript updates directly to users over-the-air (OTA) without waiting for app store reviews.   
+
+<ProsCons
+pros={['gets you coding in minutes without configuring native build tools', 'EAS handles complex app signing and cloud builds automatically', 'you can update app logic over-the-air without app store approval']}
+cons={['adds a small file size overhead to the final app bundle', 'heavy reliance on EAS can get expensive if your team runs constant builds']}
+/>
+
+React Native CLI: total manual control
+React Native CLI gives you a bare project. It requires you to set up CocoaPods, Node.js, Android Studio, and Xcode before you can run the app locally. This initial configuration usually takes between 30 and 60 minutes.   
+
+The advantage of this approach is absolute freedom. You have direct access to the native code directories. If you need to write custom Swift or Kotlin code, or if you need to manually link a complex third-party SDK that does not support Expo, the CLI gets out of your way. You will, however, need to build your own CI/CD pipeline to compile and deploy the app.   
+
+<ProsCons
+pros={['gives you immediate, direct access to the native iOS and Android folders', 'produces the smallest possible base app size without extra dependencies', 'ideal for integrating proprietary or highly customized native SDKs']}
+cons={['the initial setup is slow and often causes environment errors', 'you have to manage your own build pipelines and app signing certificates']}
+/>
+
+How to choose in 30 seconds
+You want to start coding immediately: Expo.
+
+You want to build an iOS app but only own a Windows PC: Expo (using EAS cloud builds).
+
+You want to push quick bug fixes over-the-air: Expo.
+
+You have dedicated Swift and Kotlin developers on your team: React Native CLI.
+
+You need to manually configure complex native SDKs: React Native CLI.
+
+FAQ
+Does Meta recommend Expo?
+Yes. The official React Native documentation, maintained by Meta and the open-source community, lists Expo as the recommended production-grade framework for new projects.   
+
+Can I write native code in Expo?
+Yes. In the past, using Expo meant you could not use custom native code without "ejecting" the project. Today, Expo uses a feature called Prebuild, which allows you to write custom native modules and generate the native code on demand without abandoning the Expo workflow.   
+
+Is Expo free to use?
+The Expo framework itself is completely free and open-source. However, Expo Application Services (EAS), which provides cloud builds and over-the-air updates, operates on a freemium model. You get a limited number of free cloud builds, after which you must pay for a subscription or pay per build.

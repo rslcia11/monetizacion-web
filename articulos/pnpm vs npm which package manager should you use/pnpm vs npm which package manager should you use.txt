@@ -1,0 +1,87 @@
+title: "pnpm vs npm: which package manager should you use?"
+description: Compare pnpm and npm based on disk space usage, installation speed, and strict dependency resolution to pick the right Node.js package manager.
+lede: npm is the default package manager included with Node.js and guarantees universal compatibility. pnpm uses a global store and hard links to save massive amounts of disk space.
+kind: vs
+method: research
+topic: Package managers
+tools: [pnpm, npm]
+author: wilson-martinez
+publishedAt: 2026-09-30
+updatedAt: 2026-09-30
+testedAt: 2026-09-30
+testing:
+environment: Research on official documentation, pnpm benchmarks, and Node.js guidelines, September 2026.
+versions:
+- { tool: pnpm, version: "Latest (12.x, September 2026)" }
+- { tool: npm, version: "Latest (10.x, September 2026)" }
+notes: Speed and disk space claims are taken directly from the official pnpm benchmarks. They are not our own measurements.
+sources:
+
+{ title: "pnpm official benchmarks", url: "https://pnpm.io/benchmarks" }
+
+{ title: "pnpm how it works", url: "https://pnpm.io/" }
+
+{ title: "npm official documentation", url: "https://docs.npmjs.com/" }
+draft: false
+
+The verdict
+The problem with copied files
+When you run an install command with npm, it copies every dependency into your project's node_modules folder. If you have ten different projects on your computer that all use the same version of React, your hard drive stores ten identical copies of React.
+
+This copying process takes time and consumes a lot of local disk space. Developers usually look for alternatives when their laptops run low on storage, or when continuous integration (CI) pipelines take too long to build.
+
+The tools side by side
+<Results
+caption="pnpm and npm feature differences, September 2026"
+tools={['pnpm', 'npm']}
+winner="pnpm"
+rows={[
+{ label: 'Storage method', values: ['Global store + hard links', 'Files copied per project'] },
+{ label: 'Phantom dependencies allowed', values: ['No (Strict)', 'Yes (Hoisted)'] },
+{ label: 'Included with Node.js', values: ['No', 'Yes'] },
+{ label: 'Monorepo workspaces', values: ['Built-in', 'Built-in'] },
+]}
+/>
+
+pnpm: global storage and hard links
+pnpm uses a content-addressable storage system. It saves exactly one copy of every package version in a global store on your machine. When you install a dependency, pnpm creates a hard link from that global store to your project instead of duplicating the files.   
+
+This drastically reduces disk usage. It also speeds up installations. According to the official pnpm benchmarks, a clean install of a test project took 14.3 seconds on pnpm 12, while the same project took 1 minute and 51 seconds using npm. Please note that these speed and space figures are published directly by the pnpm team based on their own testing environments, not our own measurements.   
+
+pnpm also enforces strict dependency resolution. It prevents your code from accessing packages that you did not explicitly declare in your package.json, which eliminates phantom dependency bugs.   
+
+<ProsCons
+pros={['saves massive amounts of disk space across multiple projects', 'official benchmarks show significantly faster installation times', 'blocks access to undeclared dependencies to prevent runtime errors']}
+cons={['requires installing a separate tool since it does not ship with Node.js', 'some older legacy scripts may fail due to the strict symlink structure']}
+/>
+
+npm: the Node.js default
+npm is the standard package manager for the Node.js ecosystem. You do not have to install or configure anything extra to use it, because it ships directly with Node.js. Almost every JavaScript tutorial, hosting platform, and CI environment supports npm out of the box.
+
+Because npm copies files and flattens the node_modules tree, it can accidentally allow your code to import packages you never installed directly. This flattened structure consumes more disk space and results in slower installations compared to a linked global store, as shown in the official pnpm benchmarks.   
+
+<ProsCons
+pros={['installed by default with every Node.js environment', 'guarantees compatibility with every third-party script and legacy tool', 'requires zero configuration to start working']}
+cons={['consumes much more disk space than pnpm by copying files', 'slower installation times according to official benchmarks', 'allows phantom dependencies which can cause hidden bugs']}
+/>
+
+How to choose in 30 seconds
+You want to save disk space on your laptop: pnpm.
+
+You want the fastest installation times: pnpm.
+
+You want strict dependency rules: pnpm.
+
+You want zero setup: npm.
+
+You are fixing a legacy project with complex dependencies: npm.
+
+FAQ
+Is pnpm actually faster than npm?
+According to the official pnpm benchmarks, yes. Their published testing shows pnpm completing clean installations multiple times faster than npm. These numbers come directly from the pnpm project's own benchmarking suite.   
+
+How does pnpm save disk space?
+Instead of copying a package into every project that needs it, pnpm stores one copy of the package in a global folder on your machine. It then creates hard links from that global folder to your project's node_modules directory.   
+
+Can I switch from npm to pnpm easily?
+Yes. pnpm acts as a drop-in replacement for npm. You can run pnpm install in an existing npm project, and it will read your package.json to install the correct dependencies.

@@ -125,41 +125,33 @@ La persona de referencia recomienda 4 categorías con mínimo 5 artículos cada 
 
 ---
 
-## 9. Calendario: primeros 20 artículos
+## 9. Calendario: primeros artículos (validado con Ahrefs)
 
-**Clúster 1 — API / Backend (núcleo, mayor volumen)**
-1. Best Postman Alternatives in 2026
-2. Best Open Source Postman Alternatives
-3. Best Free Postman Alternatives for Mac
-4. Bruno vs Postman: Which API Client Should You Use
-5. FastAPI vs Django: Which Should You Choose in 2026
-6. NestJS vs Express: Performance and Use Case Comparison
+Reglas de aprobación y calidad: `guia-calidad-articulos.md`.
 
-**Clúster 2 — Monorepo / Frontend tooling**
-7. Turborepo vs Nx: Complete Comparison for 2026
-8. Turborepo vs Nx vs Lerna: Which Monorepo Tool Wins
-9. Riverpod vs Provider in Flutter: Which to Pick
+**Clúster A: API y backend**
+1. ✅ The best Postman alternatives in 2026, compared — `/postman-alternatives/` (KD 4, >1000)
+2. Insomnia vs Postman: which API client fits your team? — `/insomnia-vs-postman/` (KD 14)
+3. Supabase vs Firebase: which backend should you pick? — `/supabase-vs-firebase/` (KD 0, >100)
+4. The best Supabase alternatives in 2026, compared — `/supabase-alternatives/` (KD 0)
+5. The best Firebase alternatives in 2026, compared — `/firebase-alternatives/` (KD 5)
+6. FastAPI vs Django: which Python framework should you choose? — `/fastapi-vs-django/` (Fácil, >100)
+7. Flask vs FastAPI vs Django: which one fits your project? — `/flask-vs-fastapi-vs-django/` (Fácil, <100)
+8. NestJS vs Express: when is the extra structure worth it? — `/nestjs-vs-express/` (Fácil, >100)
 
-**Clúster 3 — Backend-as-a-Service**
-10. Supabase vs Firebase: Full Comparison
-11. Supabase vs Firebase Pricing Breakdown
+**Clúster B: productividad**
+9. The best Notion alternatives in 2026, free and open source — `/notion-alternatives/` (KD 8, >100)
+10. Obsidian vs Notion: which one should you use? — `/obsidian-vs-notion/` (KD 0)
+11. AppFlowy vs Notion: is the open-source option good enough? — `/appflowy-vs-notion/` (KD 0)
 
-**Clúster 4 — Productividad para devs**
-12. Best Notion Alternatives (Open Source & Free)
-13. Best Self-Hosted Notion Alternatives
-14. Best Free Notion Alternatives for Teams
-15. AppFlowy vs Notion: Is It a Real Alternative
+**Clúster C: frontend, mobile y monorepos**
+12. Turborepo vs Nx: which monorepo tool should you choose? — `/turborepo-vs-nx/` (KD 2, >100)
+13. Expo vs React Native CLI: which should you start with? — `/expo-vs-react-native/` (KD 0)
+14. Riverpod vs Provider: which Flutter state manager to use? — `/riverpod-vs-provider/` (Fácil, <100)
 
-**Clúster 5 — Mobile**
-16. Flutter vs React Native: 2026 Comparison
-17. Flutter vs React Native for Startups
+**Por validar (elegir 6):** hoppscotch vs postman, bruno vs insomnia, prisma vs drizzle, obsidian alternative, logseq vs obsidian, bloc vs riverpod, zustand vs redux, pnpm vs npm.
 
-**Clúster 6 — Carrera / otros**
-18. Coding Bootcamp vs Computer Science Degree: Which Pays Off
-19. Flask vs FastAPI vs Django: Full Comparison
-20. Insomnia vs Postman: Which API Client Wins
-
-Estándar por artículo: investigación propia, experiencia real con la herramienta, fuentes enlazadas, sin relleno.
+**Descartados:** Flutter vs React Native (KD difícil); open source / free / Mac Postman alternatives, self-hosted y free Notion alternatives, Turborepo vs Nx vs Lerna (misma intención que un artículo ya aprobado → canibalización); bruno vs postman, self hosted api client, open source documentation generator, nx alternative, django alternative (sin datos en Ahrefs); coding bootcamp vs CS degree (fuera del foco del sitio).
 
 ---
 
@@ -227,7 +219,7 @@ Estándar por artículo: investigación propia, experiencia real con la herramie
 5. **Veredicto rápido** (quién gana y para quién) + tabla resumen.
 6. Índice de contenidos.
 7. Secciones por herramienta con pruebas y capturas propias.
-8. Tabla comparativa con números (cifras tabulares con `tabular-nums`, sin fuente monoespaciada).
+8. Tabla comparativa con números (cifras en fuente monoespaciada/tabular).
 9. How we tested.
 10. FAQ.
 11. Fuentes.
@@ -270,7 +262,7 @@ Estándar por artículo: investigación propia, experiencia real con la herramie
 
 ### Sitio en español (mismo dominio)
 - Estructura: subdirectorio. Inglés en `/` y español en `/es/`. Google recomienda URLs distintas por idioma y anotaciones `hreflang` para enlazar las versiones.
-- Astro trae routing i18n nativo: se configura desde el inicio sin costo extra. Implementado con rutas `src/pages/[...lang]/`: un archivo por tipo de página sirve a ambos idiomas.
+- Astro trae routing i18n nativo: se configura desde el inicio sin costo extra.
 - El español NO es traducción automática del inglés: contenido revisado/localizado y keyword research propio para el mercado hispano.
 - RPM esperado menor (tráfico fuera de EE.UU./UK/CA/AU rinde 50–80% menos).
 - Fase: inglés primero; el español se activa después, pero la arquitectura queda lista desde el día 1.
@@ -283,7 +275,7 @@ Estándar por artículo: investigación propia, experiencia real con la herramie
 ### Registrador (datos, agosto 2026)
 - Cloudflare Registrar: precio de costo, sin margen; registro y renovación iguales. .com ≈ $10.44/año (sube a ≈ $11.15 desde 1-nov-2026 por alza de Verisign). .dev ≈ $12. WHOIS privacy incluido. Requiere usar DNS de Cloudflare (no es problema: el hosting candidato también es Cloudflare).
 - Namecheap: primer año con promoción; renovación .com ≈ $15.88.
-- Decisión de compra: la toma Wilson.
+- Decisión de compra: la toma Juan.
 
 ---
 
@@ -337,6 +329,25 @@ Matices honestos:
 ### 10.4 Hosting
 - Candidato: Cloudflare (estático, CDN, gratis). Confirmar el producto/plan exacto al momento de desplegar.
 
+
+### Estrategia de despliegue (decidido)
+- Desarrollo en local. Opcional: desplegar antes con `<meta name="robots" content="noindex">` (variable `PUBLIC_INDEXABLE=false`) solo para probar producción.
+- **Lanzamiento:** con 15–20 artículos terminados, publicados juntos. Google (John Mueller) ha dicho que publicar muchas páginas a la vez no es problema si son buenas; lo que se evalúa es la calidad, no el ritmo.
+- **Después del lanzamiento:** ritmo sostenible (ej. 2–3 por semana). Un calendario rígido no es factor de ranking; la constancia es para los lectores.
+- **Lo que sí parece automatizado (evitar):** artículos con la misma plantilla de texto cambiando solo nombres, páginas casi duplicadas, varias páginas para la misma búsqueda, contenido sin pruebas propias.
+- **Fechas reales:** la fecha es la de la prueba/publicación real. Nunca cambiar fechas sin cambiar contenido.
+- No usar `Disallow` en robots.txt para esconder el sitio: Google dice que robots.txt no mantiene páginas fuera del índice, y si bloquea el rastreo, Google no puede leer el `noindex`.
+- Lanzamiento público cuando haya 15–20 artículos: `PUBLIC_INDEXABLE=true`, verificar que el noindex desapareció, enviar sitemap en Search Console.
+- AdSense: aplicar después del lanzamiento, con el contenido ya indexable.
+
+---
+
+### Estado del desarrollo (revisión técnica)
+- ✅ Proyecto Astro revisado: `astro check` 0 errores; build OK; SEO base, JSON-LD (Article, BreadcrumbList, Organization), sitemap, robots, hreflang, ads.txt, reglas de anuncios, páginas legales, buscador Pagefind (solo artículos), `/search/` con noindex y fuera del sitemap, imágenes OG generadas por código, título de portada con marca.
+- Pendientes antes de lanzar: foto real del autor, bio con experiencia concreta, correo del dominio (reemplazar Gmail personal), logos oficiales en `src/assets/logos/` (SVG o PNG), escribir los 20 artículos.
+- Artículo #1 "Best Postman alternatives": borrador listo (`postman-alternatives.mdx`, draft). Enfoque: comparativa investigada con fuentes oficiales + experiencia del autor con Postman; sin afirmar pruebas que no se hicieron. Pendiente: bloque [TU EXPERIENCIA], verificar celdas "—", campo `method: research` en el sitio.
+- Al activar AdSense: variables `ADSENSE_*` y mensaje de consentimiento en AdSense > Privacy & messaging.
+
 ---
 
 ## 11. Checklist antes de aplicar a AdSense
@@ -348,56 +359,7 @@ Matices honestos:
 - [ ] Sitemap y robots.txt
 - [ ] Google Search Console configurado y sitio indexado
 - [ ] Espacios de anuncios reservados en el layout (evitar CLS)
-- [x] ads.txt: se genera solo al configurar `ADSENSE_CLIENT`
-- [ ] Activar el mensaje de consentimiento de AdSense (Privacidad y mensajes) para EEE/UK/Suiza antes de mostrar anuncios: la Privacy policy lo promete y Google lo exige en esas regiones
-- [ ] Revisar Privacy y Terms con alguien de confianza en temas legales antes de publicar
-- [ ] Si se agregan analytics, actualizar la Privacy policy (hoy dice que no se usan)
-
----
-
-## 11.1 Auditoría de cumplimiento (28-sep-2026)
-
-Fuentes: [políticas del programa AdSense](https://support.google.com/adsense/answer/48182), [requisitos de elegibilidad](https://support.google.com/adsense/answer/9724), [políticas para publishers de Google](https://support.google.com/publisherpolicies/answer/10502938), [CMP certificado para EEE/UK/Suiza](https://support.google.com/adsense/answer/13554116), [leyes estatales de EE.UU.](https://support.google.com/adsense/answer/9560818), reglas de anuncios sticky ([Ad Manager](https://support.google.com/admanager/answer/7246067)).
-
-| Requisito | Estado |
-|---|---|
-| Contenido original y de valor; nada copiado sin aportar análisis | Estándar editorial §9.3 + validaciones de build. Faltan los artículos. |
-| Transparencia: dueño, propósito, independencia, relaciones comerciales | About, How we test, Contact; autor real con bio. |
-| Política de privacidad con cookies de terceros (Google) y opt-out | Privacy con los avisos exigidos, LOPDP, GDPR y opt-out de estados de EE.UU. |
-| CMP certificado (EEE/UK/Suiza) | Se activa en AdSense > Privacidad y mensajes; no requiere código (lo sirve el script de AdSense). |
-| Estados de EE.UU. ("Do not sell or share") | Mensaje de estados de EE.UU. en Privacidad y mensajes; opcional RDP. |
-| Anuncios distinguibles del contenido, etiquetados, sin incitar clics | Etiqueta "Advertisement"; sin textos tipo "support us" ni flechas. |
-| No anuncios junto a navegación ni imitándola | Solo 3 ubicaciones: dentro del artículo, barra lateral y portada. |
-| Sticky: uno solo, escritorio, ≤300px, sin tapar contenido | Barra lateral 300px, solo el anuncio es sticky, oculto <1120px. |
-| Densidad (Better Ads Standards) | Máx. 3 anuncios en el artículo, nunca seguidos, nunca antes del veredicto. |
-| Espacio reservado (CLS) | Alto fijo por ubicación. |
-| ads.txt | Automático con `ADSENSE_CLIENT`. |
-| Navegación clara, sin secciones vacías | Menú solo con secciones con artículos. |
-| Acceso al HTML del sitio, dominio propio, HTTPS | Sitio propio en Astro; .dev obliga HTTPS. |
-| Sitemap, robots, canonical, datos estructurados | Sí (Article, BreadcrumbList, WebSite, Organization). RSS en `/rss.xml`. |
-| Accesibilidad básica | Enlace "Skip to content", foco visible, contraste, `alt` obligatorio en capturas. |
-| Identidad visual completa | Favicon propio (SVG). Pendiente: imagen para compartir en redes (og:image). |
-
-**Pendiente antes de aplicar:** comprar el dominio y desplegar, 15–20 artículos reales, activar los mensajes de Privacidad y mensajes, revisión legal de Privacy/Terms.
-
----
-
-## 11.2 Monetización más allá de AdSense (investigación 28-sep-2026)
-
-| Opción | Requisito de entrada | Encaje con Kriterio |
-|---|---|---|
-| AdSense | Sin mínimo de tráfico; contenido de calidad | **Fase 1.** |
-| Google Ad Manager (gratis) | Sin mínimo; acceso a AdX solo vía un socio MCM | Cuando haya volumen, para sumar demanda. |
-| Journey by Mediavine | 1.000 sesiones/mes (desde ene-2026) | Primer salto natural desde AdSense. |
-| Raptive | 25.000 páginas vistas/mes (desde oct-2025) | Fase de crecimiento. |
-| Mediavine (principal) | ~$5.000/año en ingresos por anuncios | Fase madura. |
-| Ezoic | Subió a 250.000 usuarios/mes (feb-2026, dato de terceros; verificar) | No por ahora. |
-| EthicalAds / Carbon | Audiencia de desarrolladores; CPM ~$1–2.5; Carbon pide miles de visitas diarias | Complemento que encaja con la audiencia y con el tono independiente. |
-| Afiliados de herramientas | Programas de cada vendedor | Posible, pero exige divulgación visible y `rel="sponsored"`; hoy el sitio declara que no tenemos relaciones comerciales, así que se decide artículo por artículo y se actualiza About/How we test. |
-
-Fuentes: [Mediavine y Raptive cambian requisitos](https://thisweekinblogging.com/mediavine-raptive-requirements/), [Journey 2026](https://www.productiveblogging.com/everything-you-need-to-know-about-journey-by-mediavine/), [Ezoic y alternativas](https://newormedia.com/blog/best-ad-networks-for-publishers-2026/), [EthicalAds publishers](https://www.ethicalads.io/publishers/), [Carbon FAQ](https://www.carbonads.net/faq), [Ad Manager y MCM](https://www.publift.com/blog/google-mcm-multiple-customer-management).
-
-**Preparado para cambiar de red:** todos los anuncios pasan por un solo componente (`AdSlot`), un solo script en el `<head>` y un solo `ads.txt`. Cambiar o sumar una red es tocar esos tres puntos, no los artículos. Journey/Mediavine piden redirigir `ads.txt` a su servidor: se configura en el hosting.
+- [ ] ads.txt listo para cuando llegue la aprobación
 
 ---
 
@@ -415,7 +377,7 @@ Fuentes: [Mediavine y Raptive cambian requisitos](https://thisweekinblogging.com
 - ✅ Bilingüe en el mismo dominio: inglés en `/`, español en `/es/`.
 
 **Pendientes:**
-- Compra de kriterio.dev (la hace Wilson).
+- Compra de kriterio.dev (la hace Juan).
 - Serif final de títulos.
 - Hosting exacto (candidato: Cloudflare; confirmar al desplegar).
 - Metodología de pruebas por tipo de herramienta.
@@ -431,7 +393,4 @@ Fuentes: [Mediavine y Raptive cambian requisitos](https://thisweekinblogging.com
 1. ✅ Nombre y dominio: kriterio.dev.
 2. ✅ Dirección visual y colores aprobados en mockup. Pendiente: serif final y aprobación de la portada.
 3. ✅ Diseño aprobado (portada + artículo). SEO definido (9.5).
-4. ✅ Proyecto Astro base (27-sep-2026): Astro 7.3 (Node 22.12+), MDX, sitemap i18n, fuentes self-hosted (API de fuentes de Astro), Content Collection `articles` con esquema validado, layout con SEO (canonical, hreflang, JSON-LD Article + BreadcrumbList), portada, secciones (Comparisons, Alternatives, Guides), página de artículo y 404. Español listo pero apagado: se activa agregando `'es'` a `publishedLocales` en `src/i18n/ui.ts` (probado).
-5. ✅ Componentes del artículo (27-sep-2026): Picks/Pick, Results, ToolFacts, Screenshot, ProsCons y Ad en MDX; How we tested, Sources y caja de autor generados desde el frontmatter; colección `authors` bilingüe; logos por archivo en `src/assets/logos/`; anuncios apagados hasta configurar `ADSENSE_*` (y `ads.txt` automático); menú sin secciones vacías. El build valida anclas, posición de anuncios, filas de resultados y frontmatter. Guía: `docs/escribir-articulos.md`.
-6. ✅ Páginas del footer (27-sep-2026): About, How we test, Contact, Privacy (avisos de AdSense + LOPDP/GDPR/CCPA) y Terms (ley de Ecuador, tribunales de Loja), en `src/content/pages/en/`. Datos del responsable en `src/lib/site.ts` (Wilson Rene Martínez Jimenez, Loja, Ecuador). El build falla si falta una página del footer.
-7. **Siguiente:** archivo de autor (`src/content/authors/`: rol, bio y foto) para firmar artículos; buscador (Pagefind) + filtros en la portada.
+4. **En curso:** crear el proyecto Astro base (un solo repo). Requisito: Node 22.12+ (Astro 6).

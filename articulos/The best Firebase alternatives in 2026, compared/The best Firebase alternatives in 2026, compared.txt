@@ -1,0 +1,89 @@
+title: "The best Firebase alternatives in 2026, compared"
+description: Firebase's Blaze plan has no hard spend limits. Compare Supabase and Appwrite to find an open-source backend with predictable pricing.
+lede: If you need PostgreSQL and a large ecosystem, pick Supabase. If you want a strict flat fee per project with 2TB of bandwidth, choose Appwrite. Both let you self-host to avoid vendor lock-in.
+kind: alternatives
+method: research
+topic: Backend
+tools: [Firebase, Supabase, Appwrite]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on vendor pricing pages and documentation, September 2026.
+versions:
+- { tool: Firebase, version: "Latest (September 2026)" }
+- { tool: Supabase, version: "Latest (September 2026)" }
+- { tool: Appwrite, version: "2.0 (September 2026)" }
+notes: Prices are per organization or project. Every price links to the vendor's page in Sources.
+sources:
+
+{ title: "Firebase pricing review", url: "https://checkthat.ai/brands/firebase/pricing" }
+
+{ title: "Supabase pricing breakdown", url: "https://www.cloudzero.com/blog/supabase-pricing/" }
+
+{ title: "Appwrite pricing update", url: "https://appwrite.io/blog/post/appwrite-pricing-update" }
+
+{ title: "Appwrite pricing page", url: "https://appwrite.io/pricing" }
+
+{ title: "Supabase pricing page", url: "https://supabase.com/pricing" }
+draft: false
+
+Our picks
+Why teams are leaving Firebase
+Firebase offers a generous free tier, but the transition to its paid tier introduces risk. The Blaze plan operates strictly on a pay-as-you-go model. You pay for every database read, write, and cloud function execution above the free limits. There is no way to set a hard spending cap. If your app has an inefficient query loop, your monthly bill can jump from zero to hundreds of dollars overnight.   
+
+Many teams look for alternatives to get predictable flat-rate billing. They also want open-source solutions that prevent vendor lock-in, since Firebase is entirely proprietary and managed by Google.   
+
+The alternatives side by side
+<Results
+caption="Firebase and its top alternatives, based on official 2026 pricing and limits"
+tools={['Firebase', 'Supabase', 'Appwrite']}
+winner="Supabase"
+rows={[
+{ label: 'Database type', values: ['NoSQL (Firestore)', 'PostgreSQL', 'MariaDB, PostgreSQL, MySQL'] },
+{ label: 'Paid plan structure', values: ['Pay-as-you-go', '$25/org + compute', '$25 flat per project'] },
+{ label: 'Hard spend caps', values: ['No', 'Yes', 'Yes'] },
+{ label: 'Open source core', values: ['No', 'Yes', 'Yes'] },
+{ label: 'Self-hosting allowed', values: ['No', 'Yes', 'Yes'] },
+]}
+/>
+
+Supabase: PostgreSQL with compute pricing
+Supabase is an open-source alternative that replaces Firebase's NoSQL document store with a PostgreSQL database. This allows you to write standard SQL queries and use relational data models.   
+
+The Pro plan costs $25 per month per organization, but that is only the base fee. Every project runs on its own compute instance, which is billed separately. The base plan includes a $10 credit covering one small compute instance, but scaling up to handle more traffic will increase your monthly bill. The Pro plan includes a spend cap by default to prevent unexpected overages.   
+
+<ProsCons
+pros={['you want a true relational database using PostgreSQL', 'you want a hard spend cap to prevent billing surprises', 'you prefer an open-source tool you can self-host']}
+cons={['your base costs will grow as you upgrade compute instances', 'free projects automatically pause after seven days of inactivity']}
+/>
+
+Appwrite: flat fees and high bandwidth
+Appwrite is an open-source backend that gives you options. As of the 2.0 release in 2026, it supports native PostgreSQL and MySQL alongside its default database.   
+
+Appwrite stands out for its predictable pricing. It charges a flat $25 per month per project. This base price includes a massive 2TB of API bandwidth. Unlike Firebase, you do not pay per database read or write within the tier limits, making it much easier to budget for high-traffic applications.   
+
+<ProsCons
+pros={['you want strict per-project pricing without separate compute fees', 'your application consumes a lot of bandwidth', 'you want the choice between NoSQL, MySQL, and PostgreSQL']}
+cons={['the free plan limits you to 2GB of database storage', 'you have to pay $15 per month for each additional project']}
+/>
+
+How to choose in 30 seconds
+You want relational data and a huge ecosystem: Supabase.
+
+You want a flat monthly fee with massive bandwidth: Appwrite.
+
+You need to self-host to avoid Google lock-in: Supabase or Appwrite.
+
+You want to stay on a pay-as-you-go model: Stay with Firebase.
+
+FAQ
+Can I self-host Firebase?
+No. Firebase is a proprietary, closed-source service managed entirely by Google. If you want to self-host your backend, you must switch to an open-source alternative like Supabase or Appwrite.   
+
+Is Supabase cheaper than Firebase?
+It depends on your scale. Firebase has a larger free tier for NoSQL document reads, but its Blaze plan charges for every operation. Supabase charges a flat $25 organization fee plus compute costs, which is more expensive for a small prototype but more predictable for a scaling application.   
+
+Does Appwrite support SQL?
+Yes. As of the Appwrite 2.0 update in 2026, the platform natively supports PostgreSQL and MySQL databases. You can manage these relational databases directly inside your Appwrite project.

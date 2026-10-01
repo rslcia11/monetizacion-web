@@ -1,0 +1,93 @@
+title: "Supabase vs Firebase: which backend should you pick?"
+description: Compare Supabase and Firebase pricing, database types, and hosting options to find the best backend for your app.
+lede: Firebase is a Google-managed NoSQL backend that charges per operation. Supabase is an open-source Postgres alternative with a flat base fee. Here is how their free tiers, databases, and prices compare.
+kind: vs
+method: research
+topic: Backend
+tools: [Supabase, Firebase]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on vendor pricing pages, official documentation, and technical breakdowns, September 2026.
+versions:
+- { tool: Supabase, version: "Latest (September 2026)" }
+- { tool: Firebase, version: "Latest (September 2026)" }
+notes: Prices are per organization or usage-based. Every price links to the vendor's page in Sources.
+sources:
+
+{ title: "Supabase Pricing", url: "https://supabase.com/pricing" }
+
+{ title: "Supabase limits and self-hosting", url: "https://catdoes.com/blog/what-is-supabase" }
+
+{ title: "Supabase pricing breakdown", url: "https://flexprice.io/blog/supabase-pricing-breakdown" }
+
+{ title: "Firebase Pricing Plans", url: "https://firebase.google.com/docs/projects/billing/firebase-pricing-plans" }
+
+{ title: "Firebase Spark vs Blaze limits", url: "https://dev.to/androve2k/spark-vs-blaze-the-firebase-pricing-guide-i-wish-id-read-sooner-onb" }
+draft: false
+
+The verdict
+The cost of scaling
+Many developers start with a free backend but face billing surprises later. Firebase uses a pay-as-you-go model that charges for every single database read and write. An inefficient query loop can cause an unexpected bill because there is no hard ceiling on costs.   
+
+Supabase takes a different approach. It charges a flat monthly fee for its paid plans, with compute limits and overage fees applied on top. This gives teams more predictable baseline costs, especially when dealing with complex relational data.   
+
+The numbers side by side
+<Results
+caption="Supabase and Firebase features and pricing limits, September 2026"
+tools={['Supabase', 'Firebase']}
+winner="Supabase"
+rows={[
+{ label: 'Database type', values: ['PostgreSQL (SQL)', 'Firestore (NoSQL)'] },
+{ label: 'Open source core', values: ['Yes (Apache 2.0)', 'No'] },
+{ label: 'Self-hosting allowed', values: ['Yes (Docker)', 'No'] },
+{ label: 'Free tier database', values: ['500 MB', '1 GiB'] },
+{ label: 'Free tier MAUs', values: ['50,000', '50,000'] },
+{ label: 'Paid plan structure', values: ['Flat fee + compute', 'Pay per operation'] },
+]}
+/>
+
+Supabase: SQL and predictable base fees
+Supabase uses PostgreSQL. You write standard SQL queries and use foreign keys to relate your data. The platform is open source, which allows you to self-host the entire stack using Docker if you decide to leave their cloud.   
+
+The free plan includes 500 MB of database storage and 50,000 monthly active users. However, free projects pause after one week of inactivity. The Pro plan starts at $25 per month, which includes an 8 GB database and higher quotas before usage billing kicks in.   
+
+If you find that the project pausing is a dealbreaker, you can explore The best Supabase alternatives in 2026.
+
+<ProsCons
+pros={['you need a relational database with SQL', 'you want the option to self-host your data to avoid vendor lock-in']}
+cons={['your free project will go offline if unused for seven days', 'you have to manage compute instance sizes as your app grows']}
+/>
+
+Firebase: NoSQL with pay-as-you-go billing
+Firebase relies on Firestore, a NoSQL document database. It is closed-source and managed entirely by Google, meaning you cannot host it yourself. The Spark plan is free and provides 1 GiB of storage, 50,000 document reads per day, and 50,000 monthly active users.   
+
+Once you exceed the free quotas, you must upgrade to the Blaze plan. Blaze has no flat monthly fee. Instead, you pay for exactly what you use. This structure requires you to optimize your queries carefully, as inefficient data reads can inflate your bill.   
+
+If unpredictable billing is a concern for your project, check out The best Firebase alternatives in 2026.
+
+<ProsCons
+pros={['you want a NoSQL document store that scales automatically', 'you want a generous daily quota of free database reads']}
+cons={['you have a strict budget and cannot risk sudden billing spikes', 'you want to host the database on your own servers']}
+/>
+
+How to choose in 30 seconds
+You need SQL and relational data: Supabase.
+
+You want to self-host your backend: Supabase.
+
+You prefer a NoSQL document store: Firebase.
+
+You need small, low-traffic projects to stay online forever: Firebase.
+
+FAQ
+Is Supabase completely free?
+Supabase has a free tier that includes two active projects and 500 MB of database storage. However, free projects pause automatically after seven days of inactivity.   
+
+Can I host Firebase on my own servers?
+No. Firebase is a proprietary, closed-source product owned by Google. You cannot self-host the Firebase backend.   
+
+How does Firebase billing work on the Blaze plan?
+The Blaze plan is pay-as-you-go. You retain the free daily quotas from the Spark plan, but pay a specific rate for any additional database reads, writes, compute, and storage used beyond those limits.v

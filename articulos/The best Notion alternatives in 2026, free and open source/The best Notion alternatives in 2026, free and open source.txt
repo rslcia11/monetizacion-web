@@ -1,0 +1,86 @@
+title: "The best Notion alternatives in 2026, free and open source"
+description: Notion forces your data into the cloud. Compare AppFlowy and Anytype to find a private, local-first workspace with transparent code.
+lede: If you want an interface that feels exactly like Notion, pick AppFlowy. If your priority is absolute privacy and peer-to-peer data syncing, choose Anytype. Both let you keep your notes on your own device.
+kind: alternatives
+method: research
+topic: Productivity
+tools: [AppFlowy, Anytype]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on vendor pricing pages, licensing documents, and official repositories, September 2026.
+versions:
+- { tool: AppFlowy, version: "0.14.5 (September 2026)" }
+- { tool: Anytype, version: "Latest (September 2026)" }
+notes: Prices are per user or per month. Every price links to the vendor's page in Sources.
+sources:
+
+{ title: "AppFlowy pricing", url: "https://appflowy.com/pricing" }
+
+{ title: "AppFlowy self-hosted commercial license", url: "https://github.com/AppFlowy-IO/AppFlowy-SelfHost-Commercial" }
+
+{ title: "Anytype pricing", url: "https://anytype.io/pricing/" }
+
+{ title: "Anytype legal and licensing", url: "https://legal.any.coop/" }
+draft: false
+
+Our picks
+Why teams are leaving Notion
+Notion is the standard for team wikis, but it lacks an offline mode. All your data lives on their servers. If you lose your internet connection, you cannot access your workspace.
+
+Many users also worry about vendor lock-in and privacy. Because Notion is proprietary, you cannot audit its code or host it yourself. This pushes individuals and teams toward local-first alternatives where they can actually own their data files and read the underlying source code.
+
+The alternatives side by side
+<Results
+caption="AppFlowy and Anytype feature and pricing limits, September 2026"
+tools={['AppFlowy', 'Anytype']}
+winner="Tie"
+rows={[
+{ label: 'Cloud free tier', values: ['5 GB storage, 2 members', '100 MB remote storage'] },
+{ label: 'Paid plan starts at', values: ['$10/user/mo (yearly)', '$4/mo'] },
+{ label: 'Offline first', values: ['Yes', 'Yes'] },
+{ label: 'License', values: ['AGPL v3.0 / Commercial', 'Source-available'] },
+{ label: 'Self-hosting allowed', values: ['Yes', 'Yes'] },
+]}
+/>
+
+AppFlowy: the open-source Notion clone
+AppFlowy is designed to look and work like Notion. It uses the same block-based editing system, slash commands, and database views. The free cloud plan includes 5 GB of storage, unlimited pages, and collaboration for up to two members.   
+
+The core software is open source under the AGPL v3.0 license. You can self-host the community edition for free. If you want to self-host for a larger team, AppFlowy requires a commercial self-hosted license. The paid Pro cloud plan costs $10 per user per month when billed annually, raising the limits to 50 members and unlimited storage.   
+
+<ProsCons
+pros={['the interface is nearly identical to Notion, making the switch very easy', 'you can run AI features locally on your own hardware for privacy', 'the free cloud plan offers a generous 5 GB of storage']}
+cons={['the free self-hosted tier is limited to one user seat and three guest editors', 'commercial self-hosting requires negotiating a paid license']}
+/>
+
+Anytype: built for extreme privacy
+Anytype takes a different approach to data. It is a local-first application that uses peer-to-peer technology to sync your notes between your devices. Your knowledge base lives on your hard drive, not in a central cloud.   
+
+The free plan gives you 100 MB of remote backup storage and limits you to 10 shared channels. If you need more backup space, the Plus plan costs $4 per month and upgrades your remote storage to 1 GB. Anytype describes its code as "source-available" rather than strictly open-source, meaning anyone can read the code but certain commercial uses are restricted.   
+
+<ProsCons
+pros={['complete data ownership with local-first, peer-to-peer syncing', 'fast offline performance because files live on your device', 'paid plans for remote backups are very affordable']}
+cons={['the data structure (nodes and spaces) has a steeper learning curve than Notion', 'the free plan only provides 100 MB of remote backup storage', 'the license restricts some commercial uses']}
+/>
+
+How to choose in 30 seconds
+You want a direct Notion replacement: AppFlowy.
+
+You want to collaborate with one other person for free: AppFlowy.
+
+You want absolute control over your offline files: Anytype.
+
+You want a peer-to-peer sync network: Anytype.
+
+FAQ
+Are these tools actually open source?
+AppFlowy is open source under the AGPL v3.0 license, though it uses a separate commercial license for enterprise self-hosting. Anytype is classified as "source-available"; you can read and modify the code, but the license restricts certain commercial applications.   
+
+Can I use AppFlowy offline?
+Yes. Unlike Notion, AppFlowy supports working locally on your device. You can even configure its AI features, called Vault Workspace, to run entirely on your local hardware without transferring data over the internet.   
+
+Does Anytype charge per user?
+No. Anytype's paid plans are based on the amount of remote backup storage you consume, starting at $4 per month for 1 GB. It does not use the standard per-seat billing model for individual accounts.

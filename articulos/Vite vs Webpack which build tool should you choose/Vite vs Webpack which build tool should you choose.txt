@@ -1,0 +1,84 @@
+title: "Vite vs Webpack: which build tool should you choose?"
+description: Compare Vite and Webpack based on development server speed, module bundling, and configuration complexity to choose your frontend tool.
+lede: Vite uses native ES modules to start your development server in milliseconds. Webpack is an older, highly configurable bundler that excels in complex enterprise architectures and micro-frontends.
+kind: vs
+method: research
+topic: Frontend build tools
+tools: [Vite, Webpack]
+author: wilson-martinez
+publishedAt: 2026-09-30
+updatedAt: 2026-09-30
+testedAt: 2026-09-30
+testing:
+environment: Research on official documentation, architecture designs, and community benchmarks, September 2026.
+versions:
+- { tool: Vite, version: "Latest (September 2026)" }
+- { tool: Webpack, version: "Latest (5.x, September 2026)" }
+notes: Speed comparisons reflect the architectural differences described in the official Vite documentation, not independent testing.
+sources:
+
+{ title: "Webpack official concepts", url: "https://webpack.js.org/concepts/" }
+
+{ title: "Vite official documentation (Dev server architecture)", url: "https://vitejs.dev/guide/why.html" }
+draft: false
+
+The verdict
+The development server gap
+The main difference between these tools is how they handle your code during local development. Webpack is a bundle-based server. Before you can see your application in the browser, Webpack must scan your entire project, build a dependency graph, and bundle all the files together. As your project grows, this process takes longer, causing slower startup times.   
+
+Vite takes a different approach by using native ES modules (ESM) in the browser. It does not bundle your code during development. Instead, it serves source files on demand. When you edit a file, Vite only invalidates that specific module. According to the official Vite documentation, this architecture allows the development server to start in milliseconds, regardless of the total project size.   
+
+The tools side by side
+<Results
+caption="Vite and Webpack core differences, based on official 2026 documentation"
+tools={['Vite', 'Webpack']}
+winner="Tie"
+rows={[
+{ label: 'Development server', values: ['Native ESM (On-demand)', 'Bundle-based'] },
+{ label: 'Production bundler', values: ['Rollup', 'Webpack'] },
+{ label: 'Configuration required', values: ['Minimal', 'Extensive'] },
+{ label: 'Micro-frontend support', values: ['Limited', 'Excellent (Module Federation)'] },
+{ label: 'Default for frameworks', values: ['Vue, Svelte, Remix', 'Next.js (historically), Angular'] },
+]}
+/>
+
+Vite: native ES modules and speed
+Vite focuses on developer experience by eliminating long wait times. Because it relies on the browser to handle module resolution, the development server starts very quickly. The Vite project states that Hot Module Replacement (HMR) speeds remain consistently fast even in massive applications, because the tool only updates the exact file that changed. Please note that these speed claims come directly from Vite's official documentation and design principles, not our own independent measurements.   
+
+For production, Vite does not use its development server architecture. Instead, it pre-configures Rollup to bundle your code into highly optimized static assets. It comes with sensible defaults out of the box, meaning you can start a React or Vue project with a very small configuration file.
+
+<ProsCons
+pros={['development server starts in milliseconds based on official architectural designs', 'requires very little manual configuration for standard web applications', 'hot module replacement updates the browser quickly without full reloads']}
+cons={['does not support advanced micro-frontend architectures as well as Webpack', 'uses two different tools (esbuild for dev, Rollup for prod), which can occasionally cause edge-case bugs']}
+/>
+
+Webpack: the configurable standard
+Webpack has been the standard JavaScript bundler for over a decade. At its core, it is a static module bundler that builds a dependency graph of every asset in your project. This includes JavaScript, CSS, HTML, and images.   
+
+Unlike Vite, Webpack requires you to explicitly configure how different file types are processed using loaders and plugins. This makes the initial setup complex, but it provides absolute control over your build pipeline. It is also the industry standard for enterprise micro-frontends through its Module Federation plugin, which allows multiple separate builds to share code at runtime.   
+
+<ProsCons
+pros={['offers total control over every step of the bundling process', 'the best ecosystem for Module Federation and micro-frontend architectures', 'has a massive library of plugins and loaders built over a decade']}
+cons={['the development server gets noticeably slower as the project grows', 'the configuration files are verbose and difficult for beginners to learn']}
+/>
+
+How to choose in 30 seconds
+You are starting a new React or Vue SPA: Vite.
+
+You want the fastest development server startup: Vite.
+
+You are building a micro-frontend architecture: Webpack.
+
+You are maintaining a complex legacy application: Webpack.
+
+You want minimal configuration files: Vite.
+
+FAQ
+Does Vite bundle my code for production?
+Yes. While Vite does not bundle your code during local development, it uses Rollup to bundle and optimize your assets when you build the application for production.
+
+Is Vite faster than Webpack?
+During development, Vite is significantly faster. According to the official Vite documentation, its native ES module architecture allows the server to start in milliseconds, whereas Webpack must build the entire dependency graph before starting. These speed claims are based on their respective architectural designs published by the maintainers, not our own independent benchmarks.
+
+Can I use Webpack plugins in Vite?
+No, Webpack plugins do not work directly in Vite. However, because Vite uses Rollup for production builds, it is compatible with many existing Rollup plugins, and it has a growing ecosystem of its own dedicated plugins.

@@ -1,0 +1,87 @@
+title: "The best Obsidian alternatives in 2026, free and open source"
+description: Obsidian is now free for work, but its code is closed. Compare Logseq and Joplin to find a truly open-source knowledge base.
+lede: If you want a block-based outliner with bidirectional links, pick Logseq. If you want a traditional folder-based note app that works with Dropbox, choose Joplin.
+kind: alternatives
+method: research
+topic: Productivity
+tools: [Obsidian, Logseq, Joplin]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on official documentation, GitHub repositories, and license agreements, September 2026.
+versions:
+- { tool: Obsidian, version: "Latest (September 2026)" }
+- { tool: Logseq, version: "Latest (September 2026)" }
+- { tool: Joplin, version: "Latest (September 2026)" }
+notes: Prices and licensing rules verified on official pages.
+sources:
+
+{ title: "Obsidian commercial license update", url: "https://obsidian.md/license" }
+
+{ title: "Logseq GitHub repository", url: "https://github.com/logseq/logseq" }
+
+{ title: "Joplin official plans", url: "https://joplinapp.org/plans" }
+draft: false
+
+Our picks
+Why teams look for alternatives
+Obsidian is an excellent local-first application. On February 20, 2025, the company updated its license to make the app completely free for commercial use. You no longer need to pay to use it at your job.   
+
+However, the core application remains proprietary and closed-source. You cannot inspect the code. Many users want a guarantee that their primary knowledge base will never be locked behind a paywall or sold to another company. This pushes them toward fully open-source alternatives. If you do not care about open-source code and just want a cloud-based wiki, you can also check out Obsidian vs Notion.   
+
+The alternatives side by side
+<Results
+caption="Obsidian, Logseq, and Joplin features based on official 2026 documentation"
+tools={['Obsidian', 'Logseq', 'Joplin']}
+winner="Tie"
+rows={[
+{ label: 'Data storage format', values: ['Local Markdown', 'Local Markdown', 'Local database / Markdown'] },
+{ label: 'Open source core', values: ['No', 'Yes (AGPL-3.0)', 'Yes (AGPL/GPL)'] },
+{ label: 'Commercial use', values: ['Free', 'Free', 'Free'] },
+{ label: 'Built-in free sync', values: ['No (DIY only)', 'No (DIY only)', 'Yes (Dropbox, WebDAV)'] },
+{ label: 'Structure type', values: ['Files and folders', 'Block-based outliner', 'Notebooks and tags'] },
+]}
+/>
+
+Logseq: the open-source outliner
+Logseq is an open-source knowledge management tool. It uses a block-based structure where every paragraph is a separate node. You can link these blocks together to create a web of connected ideas, making it function as an outliner.   
+
+Like Obsidian, your data stays on your local device as plain text Markdown files. You can read and edit these files with any basic text editor. The source code is publicly available under the AGPL-3.0 license, ensuring anyone can audit it.   
+
+<ProsCons
+pros={['you want to connect ideas using bidirectional links and block references', 'your files are saved locally in plain text Markdown formats', 'the entire application is open-source and free for all uses']}
+cons={['the outliner structure has a learning curve if you are used to normal folders', 'mobile apps can feel heavy when loading very large graphs']}
+/>
+
+Joplin: folders and free sync
+Joplin organizes information using traditional notebooks and tags. It provides an interface that feels very familiar if you are moving away from older tools like Evernote. It also includes end-to-end encryption to secure your data during transfers.   
+
+The desktop and mobile apps are free and open-source. You can sync your notes across devices without paying by connecting the app to your existing Dropbox, Nextcloud, or WebDAV accounts. If you want a managed service instead, they sell a Joplin Cloud subscription.   
+
+<ProsCons
+pros={['you prefer organizing your notes into traditional folders and sub-folders', 'you can sync across devices easily using a free Dropbox account', 'includes end-to-end encryption to keep your data private']}
+cons={['it does not store files as simple local Markdown folders by default', 'it lacks the advanced visual graph views found in Logseq and Obsidian']}
+/>
+
+How to choose in 30 seconds
+You want a block-based outliner: Logseq.
+
+You prefer standard folders and tags: Joplin.
+
+You want built-in sync via Dropbox: Joplin.
+
+You just want to use Obsidian for work: Stay with Obsidian, it is now free for commercial use.
+
+You prefer a cloud workspace: Read The best Notion alternatives.
+
+FAQ
+Is Obsidian free for commercial use?
+Yes. In February 2025, Obsidian updated its terms to allow free commercial use. You can use the application at work without buying a license.   
+
+Does Logseq store data locally?
+Yes. Logseq is a local-first application. It saves your notes as plain Markdown files directly on your hard drive, not on a remote server.   
+
+Can I sync Joplin for free?
+Yes. Joplin allows you to sync your notes across devices for free using third-party services like Dropbox, OneDrive, Nextcloud, or WebDAV.

@@ -1,0 +1,86 @@
+title: "Logseq vs Obsidian: which note-taking app should you use?"
+description: Compare Logseq and Obsidian based on open-source licenses, block-based outlining, and folder structures for local Markdown notes.
+lede: Obsidian uses traditional files and folders combined with bidirectional links. Logseq is a block-based outliner where every paragraph acts as a connectable node.
+kind: vs
+method: research
+topic: Productivity
+tools: [Logseq, Obsidian]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on official documentation, GitHub repositories, and license agreements, September 2026.
+versions:
+- { tool: Logseq, version: "0.10.15 / Latest (September 2026)" }
+- { tool: Obsidian, version: "Latest (September 2026)" }
+notes: Commercial license terms and code availability checked on official vendor pages.
+sources:
+
+{ title: "Logseq GitHub repository", url: "https://github.com/logseq/logseq" }
+
+{ title: "Logseq official site", url: "https://logseq.com/" }
+
+{ title: "Obsidian commercial license update", url: "https://obsidian.md/license" }
+
+{ title: "Obsidian terms of service", url: "https://obsidian.md/terms" }
+draft: false
+
+The verdict
+The outliner vs the folder
+Both Logseq and Obsidian are local-first applications that store your data as plain Markdown files on your hard drive. You never have to worry about a cloud server going down or a vendor locking you out of your account.   
+
+The main difference is how they structure information. Obsidian acts like a traditional file manager. You create a note, put it in a folder, and write in it. Logseq is an outliner. Instead of writing long standard documents, you write in bullet points. Every bullet point (or block) becomes a node that you can link to other notes across your graph.   
+
+The tools side by side
+<Results
+caption="Logseq and Obsidian feature comparison, based on official 2026 documentation"
+tools={['Logseq', 'Obsidian']}
+winner="Tie"
+rows={[
+{ label: 'Core structure', values: ['Block-based outliner', 'Files and folders'] },
+{ label: 'Data format', values: ['Local Markdown', 'Local Markdown'] },
+{ label: 'Open source code', values: ['Yes (AGPL-3.0)', 'No (Proprietary)'] },
+{ label: 'Commercial use', values: ['Free', 'Free'] },
+{ label: 'Mobile apps', values: ['Yes (iOS, Android)', 'Yes (iOS, Android)'] },
+]}
+/>
+
+Logseq: the open-source outliner
+Logseq is an open-source knowledge management tool. It uses an outliner format where every paragraph or bullet point is an individual block. This allows for precise bidirectional linking between specific thoughts rather than just linking whole pages.   
+
+The application saves all your data locally as plain text files. It is completely free for personal and commercial use, and its core code is available under the AGPL-3.0 license. This ensures that your knowledge base is not tied to a proprietary, closed system.   
+
+<ProsCons
+pros={['open-source code guarantees the app will not be locked behind a paywall', 'block-level referencing makes it easy to connect specific paragraphs', 'saves data in standard Markdown formats on your own device']}
+cons={['the outliner structure can be confusing if you just want to write a standard document', 'mobile performance can struggle with very large graphs']}
+/>
+
+Obsidian: folders and flexibility
+Obsidian is also a local-first application that saves your notes as Markdown files. However, it takes a more traditional approach. You create files, place them in folders, and write standard long-form text. You can still use bidirectional links to connect pages, but the foundation feels more like a standard text editor.
+
+The application is closed-source, meaning you cannot audit its code. However, as of February 2025, Obsidian is completely free for both personal and commercial use. You no longer need to buy a license to use it at your job.   
+
+<ProsCons
+pros={['traditional folder structure is immediately familiar', 'the application is now completely free for all commercial use', 'huge ecosystem of community plugins to change how the app works']}
+cons={['the core application is proprietary and closed-source', 'linking specific paragraphs is not as fast as in a dedicated outliner']}
+/>
+
+How to choose in 30 seconds
+You want to outline your thoughts in bullet points: Logseq.
+
+You want open-source software to avoid vendor lock-in: Logseq.
+
+You want to write long-form articles or journal entries: Obsidian.
+
+You want to organize notes using standard folders: Obsidian.
+
+FAQ
+Is Obsidian free for work?
+Yes. In February 2025, Obsidian changed its license rules. The application is now free for all commercial use, meaning you can use it at your company without purchasing a commercial license.   
+
+Does Logseq store my notes in the cloud?
+No. By default, Logseq is a local-first application. It saves your data as plain text files on your local hard drive. It does not force you to upload your notes to a cloud server.   
+
+Is Logseq open source?
+Yes. Logseq is an open-source project published under the AGPL-3.0 license. Anyone can inspect the code, modify it, and run it independently.

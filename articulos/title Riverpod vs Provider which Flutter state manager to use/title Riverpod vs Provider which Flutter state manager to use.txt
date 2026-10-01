@@ -1,0 +1,88 @@
+title: "Riverpod vs Provider: which Flutter state manager to use?"
+description: Compare Riverpod and Provider based on widget tree dependency, compile-time errors, and maintenance status to pick the right Flutter state manager.
+lede: Provider is simple to learn but ties your state tightly to the Flutter widget tree. Riverpod is its modern replacement, offering compile-time safety and state management outside of the UI layer.
+kind: vs
+method: research
+topic: Flutter state management
+tools: [Riverpod, Provider]
+author: wilson-martinez
+publishedAt: 2026-09-29
+updatedAt: 2026-09-29
+testedAt: 2026-09-29
+testing:
+environment: Research on official documentation, pub.dev packages, and community consensus, September 2026.
+versions:
+- { tool: Riverpod, version: "Latest (September 2026)" }
+- { tool: Provider, version: "Latest (6.x, September 2026)" }
+notes: Features and maintenance status checked directly on riverpod.dev and technical analyses.
+sources:
+
+{ title: "Riverpod: From Provider", url: "https://riverpod.dev/docs/from_provider/provider_vs_riverpod" }
+
+{ title: "Provider vs Riverpod vs Bloc", url: "https://www.bidev.dev/blog/flutter-state-management-provider-vs-riverpod-vs-bloc" }
+
+{ title: "Flutter State Management 2026", url: "https://www.gigson.co/blog/flutter-state-management-provider-vs-riverpod-vs-bloc-explained" }
+
+{ title: "State Management comparison", url: "https://www.bacancytechnology.com/blog/flutter-bloc-vs-riverpod-vs-provider" }
+draft: false
+
+The verdict
+The widget tree problem
+Remi Rousselet created both Provider and Riverpod. Provider was one of the first officially endorsed state management libraries for Flutter. However, it relies heavily on BuildContext to read state. If you try to read a provider outside of its widget hierarchy, the app crashes at runtime.   
+
+Riverpod was designed specifically to fix these flaws. It moves providers out of the widget tree entirely, making them global Dart objects. This allows you to catch errors while writing code instead of waiting for the app to crash on a user's phone.   
+
+The tools side by side
+<Results
+caption="Riverpod and Provider feature differences, September 2026"
+tools={['Riverpod', 'Provider']}
+winner="Riverpod"
+rows={[
+{ label: 'Depends on widget tree', values: ['No (Global Dart objects)', 'Yes (BuildContext)'] },
+{ label: 'Error catching', values: ['Compile-time', 'Runtime'] },
+{ label: 'Development status', values: ['Active development', 'Maintenance mode'] },
+{ label: 'Code generation', values: ['Optional but recommended', 'Not used'] },
+{ label: 'Multiple providers of same type', values: ['Yes', 'No'] },
+]}
+/>
+
+Riverpod: safe and context-free
+With Riverpod, you declare your state as global variables. Because they do not depend on Flutter's UI layer, you can use them in plain Dart applications or access them easily inside background processes.   
+
+Riverpod catches dependency errors at compile time. You cannot accidentally request a provider that does not exist. It also lets you declare multiple providers of the same type, which is impossible in Provider without overriding. While it introduces a new mental model, its testing flexibility and automatic state cleanup make it scale better for large teams.   
+
+<ProsCons
+pros={['catches dependency errors during compilation instead of runtime', 'does not require a BuildContext to read or update state', 'automatically destroys state when no longer used via autoDispose']}
+cons={['requires learning a new syntax and reading data via a WidgetRef', 'frequently relies on code generation tools which add build steps']}
+/>
+
+Provider: simple but limited
+Provider is easy to learn because it feels like standard Flutter widget composition. You wrap your app in a MultiProvider and read state using context.watch or context.read. It requires very little boilerplate to get a small app running.   
+
+However, Provider is officially in maintenance mode. It will not receive new features. Its reliance on the widget tree makes it harder to scale, and large apps often accumulate massive ChangeNotifier classes that become difficult to maintain.   
+
+<ProsCons
+pros={['extremely easy to learn for beginners coming from basic Flutter', 'requires very little boilerplate for simple applications', 'still works perfectly fine for small or legacy projects']}
+cons={['in maintenance mode with no new features planned', 'reading state outside of the widget tree is difficult', 'errors only show up at runtime and can crash the app']}
+/>
+
+How to choose in 30 seconds
+You are starting a new project today: Riverpod.
+
+You want compile-time error checking: Riverpod.
+
+You need to test business logic without UI: Riverpod.
+
+You are maintaining an older app: Provider.
+
+You just want to learn the basics of Flutter state: Provider.
+
+FAQ
+Is Provider deprecated?
+No. Provider is completely stable and works well. However, it is in maintenance mode. It will receive bug fixes, but active feature development has moved to Riverpod.   
+
+Do I have to use code generation with Riverpod?
+No. While code generation with @riverpod and build_runner is recommended to reduce boilerplate, you can still declare your providers manually.   
+
+Which one is better for testing?
+Riverpod is much easier to test. Because providers are plain Dart objects that do not depend on the widget tree, you can test your business logic directly without having to mock a complex UI environment.
