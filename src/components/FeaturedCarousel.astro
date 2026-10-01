@@ -1,0 +1,332 @@
+---
+import { getEntry } from 'astro:content';
+import ArticleCover from './ArticleCover.astro';
+import { articleUrl, type Article } from '../lib/articles';
+import { formatDate, t, type Locale } from '../i18n/ui';
+
+// Home page feature: every article takes a turn, newest first. Starts on a random slide per visit
+// and advances every few seconds. Pauses on hover and focus, has a pause button (WCAG 2.2.2), and
+// stays still for readers who ask for reduced motion. Without JavaScript the newest article shows.
+interface Props {
+  articles: Article[];
+  locale: Locale;
+}
+
+const { articles, locale } = Astro.props;
+const total = articles.length;
+
+const slides = await Promise.all(
+  articles.map(async (article) => ({
+    article,
+    author: (await getEntry(article.data.author))?.data.name,
+    method: t(locale, article.data.method === 'research' ? 'article.researched' : 'article.tested').toLowerCase(),
+  })),
+);
+---
+
+<section
+  class="carousel"
+  aria-roledescription="carousel"
+  aria-label={t(locale, 'carousel.label')}
+  data-carousel
+  data-interval="7000"
+>
+  <div class="slides" aria-live="off">
+    {
+      slides.map(({ article, author, method }, index) => (
+        <div
+          class:list={['slide', { active: index === 0 }]}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={t(locale, 'carousel.slide').replace('{n}', String(index + 1)).replace('{total}', String(total))}
+          aria-hidden={index === 0 ? undefined : 'true'}
+          inert={index === 0 ? undefined : true}
+          data-slide
+        >
+          <a class="featured" href={articleUrl(article)}>
+            <ArticleCover tools={article.data.tools} kind={article.data.kind} size="featured" />
+            <div>
+              <p class="topic-label">{article.data.topic}</p>
+              <h2 class="featured-title">{article.data.title}</h2>
+              <p class="featured-lede">{article.data.lede}</p>
+              <p class="meta">
+                {author}, {method} {formatDate(locale, article.data.testedAt)}
+              </p>
+            </div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    total > 1 && (
+      <div class="controls" hidden data-controls>
+        <button type="button" class="control" data-prev aria-label={t(locale, 'carousel.prev')}>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+        </button>
+        <span class="counter" aria-hidden="true"><span data-current>1</span> / {total}</span>
+        <button type="button" class="control" data-next aria-label={t(locale, 'carousel.next')}>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </button>
+        <button
+          type="button"
+          class="control toggle"
+          data-toggle
+          data-label-pause={t(locale, 'carousel.pause')}
+          data-label-play={t(locale, 'carousel.play')}
+          aria-label={t(locale, 'carousel.pause')}
+        >
+          <svg class="icon-pause" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6v12M15 6v12" /></svg>
+          <svg class="icon-play" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg>
+        </button>
+        <span class="progress" aria-hidden="true"><span data-progress></span></span>
+      </div>
+    )
+  }
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-carousel]')) {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const controls = root.querySelector<HTMLElement>('[data-controls]');
+    if (slides.length < 2 || !controls) continue;
+
+    const current = root.querySelector<HTMLElement>('[data-current]')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const progress = root.querySelector<HTMLElement>('[data-progress]')!;
+    const interval = Number(root.dataset.interval) || 7000;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let index = 0;
+    let timer: number | undefined;
+    // Paused by the reader (button) or by context (hover, focus, hidden tab).
+    let pausedByUser = reducedMotion;
+    let pausedByContext = false;
+
+    const show = (next: number) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        slide.classList.toggle('active', active);
+        slide.toggleAttribute('inert', !active);
+        if (active) slide.removeAttribute('aria-hidden');
+        else slide.setAttribute('aria-hidden', 'true');
+      });
+      current.textContent = String(index + 1);
+      restart();
+    };
+
+    const running = () => !pausedByUser && !pausedByContext;
+
+    const restart = () => {
+      window.clearTimeout(timer);
+      progress.style.animation = 'none';
+      void progress.offsetWidth; // Restart the progress bar animation.
+      progress.style.animation = '';
+      progress.style.animationDuration = `${interval}ms`;
+      root.classList.toggle('playing', running());
+      if (running()) timer = window.setTimeout(() => show(index + 1), interval);
+    };
+
+    const setUserPause = (paused: boolean) => {
+      pausedByUser = paused;
+      toggle.setAttribute('aria-label', paused ? toggle.dataset.labelPlay! : toggle.dataset.labelPause!);
+      root.classList.toggle('paused', paused);
+      restart();
+    };
+
+    const setContextPause = (paused: boolean) => {
+      pausedByContext = paused;
+      restart();
+    };
+
+    root.querySelector('[data-prev]')!.addEventListener('click', () => show(index - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => show(index + 1));
+    toggle.addEventListener('click', () => setUserPause(!pausedByUser));
+
+    root.addEventListener('mouseenter', () => setContextPause(true));
+    root.addEventListener('mouseleave', () => setContextPause(root.contains(document.activeElement)));
+    root.addEventListener('focusin', () => setContextPause(true));
+    root.addEventListener('focusout', (event) => {
+      if (!root.contains(event.relatedTarget as Node)) setContextPause(root.matches(':hover'));
+    });
+    document.addEventListener('visibilitychange', () => setContextPause(document.hidden));
+
+    // Swipe on touch screens.
+    let startX = 0;
+    root.addEventListener('touchstart', (event) => (startX = event.touches[0].clientX), { passive: true });
+    root.addEventListener('touchend', (event) => {
+      const delta = event.changedTouches[0].clientX - startX;
+      if (Math.abs(delta) > 50) show(delta < 0 ? index + 1 : index - 1);
+    });
+
+    controls.hidden = false;
+    root.classList.toggle('paused', pausedByUser);
+    // A different article on each visit, so the home page doesn't look the same every time.
+    show(Math.floor(Math.random() * slides.length));
+  }
+</script>
+
+<style>
+  .carousel {
+    margin-bottom: 48px;
+  }
+
+  /* Slides share one grid cell: the box keeps the tallest slide's height, so nothing jumps. */
+  .slides {
+    display: grid;
+  }
+
+  .slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s ease,
+      visibility 0.5s;
+  }
+
+  .slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .featured {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px;
+    align-items: center;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .topic-label {
+    margin-bottom: 10px;
+  }
+
+  .featured-title {
+    margin-bottom: 12px;
+    font-size: 36px;
+    line-height: 1.15;
+  }
+
+  .featured:hover .featured-title {
+    color: var(--accent);
+  }
+
+  .featured-lede {
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+
+  .meta {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .controls[hidden] {
+    display: none;
+  }
+
+  .control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .control:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .control svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .icon-play {
+    display: none;
+  }
+
+  .carousel.paused .icon-play {
+    display: block;
+    fill: currentColor;
+  }
+
+  .carousel.paused .icon-pause {
+    display: none;
+  }
+
+  .counter {
+    min-width: 56px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .progress {
+    flex: 1;
+    max-width: 200px;
+    height: 3px;
+    margin-left: 8px;
+    border-radius: 3px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .progress span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .carousel.playing .progress span {
+    animation: fill linear forwards;
+  }
+
+  @keyframes fill {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slide {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .featured {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .featured-title {
+      font-size: 30px;
+    }
+  }
+</style>

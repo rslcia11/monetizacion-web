@@ -1,24 +1,24 @@
 ---
-import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
-import ArticleCover from '../components/ArticleCover.astro';
+import FeaturedCarousel from '../components/FeaturedCarousel.astro';
 import ArticleGrid from '../components/ArticleGrid.astro';
 import SearchForm from '../components/SearchForm.astro';
 import TopicFilter from '../components/TopicFilter.astro';
-import { articleUrl, getArticles } from '../lib/articles';
+import { getArticles } from '../lib/articles';
 import { absoluteUrl, organizationJsonLd, site } from '../lib/site';
-import { formatDate, sharedAlternates, t, type Locale } from '../i18n/ui';
+import { sharedAlternates, t, type Locale } from '../i18n/ui';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const [featured, ...latest] = await getArticles(locale);
-const featuredAuthor = featured && (await getEntry(featured.data.author));
+const articles = await getArticles(locale);
+// The feature rotates through every article, so the grid below lists all of them too.
+const featured = articles.length > 0;
 // Filter buttons only make sense with at least two topics to choose from.
-const topics = [...new Set(latest.map((a) => a.data.topic))].sort((a, b) => a.localeCompare(b, locale));
+const topics = [...new Set(articles.map((a) => a.data.topic))].sort((a, b) => a.localeCompare(b, locale));
 
 // Tells search engines what the site is and who publishes it.
 const jsonLd = [
@@ -43,31 +43,16 @@ const jsonLd = [
       {featured && <SearchForm locale={locale} />}
     </div>
 
-    {
-      featured && (
-        <a class="featured" href={articleUrl(featured)}>
-          <ArticleCover tools={featured.data.tools} kind={featured.data.kind} size="featured" />
-          <div>
-            <p class="topic-label">{featured.data.topic}</p>
-            <h2 class="featured-title">{featured.data.title}</h2>
-            <p class="featured-lede">{featured.data.lede}</p>
-            <p class="meta">
-              {featuredAuthor?.data.name}, {t(locale, featured.data.method === 'research' ? 'article.researched' : 'article.tested').toLowerCase()}{' '}
-              {formatDate(locale, featured.data.testedAt)}
-            </p>
-          </div>
-        </a>
-      )
-    }
+    {featured && <FeaturedCarousel articles={articles} locale={locale} />}
 
     {!featured && <p class="empty">{t(locale, 'home.empty')}</p>}
 
     {
-      latest.length > 0 && (
+      articles.length > 0 && (
         <section class="latest" aria-labelledby="latest">
           <h2 id="latest" class="section-title">{t(locale, 'home.latest')}</h2>
           {topics.length > 1 && <TopicFilter topics={topics} locale={locale} />}
-          <ArticleGrid articles={latest} emptyText={t(locale, 'home.empty')} />
+          <ArticleGrid articles={articles} emptyText={t(locale, 'home.empty')} />
         </section>
       )
     }
@@ -94,41 +79,6 @@ const jsonLd = [
     font-size: 30px;
   }
 
-  .featured {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 36px;
-    align-items: center;
-    margin-bottom: 48px;
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  .topic-label {
-    margin-bottom: 10px;
-  }
-
-  .featured-title {
-    margin-bottom: 12px;
-    font-size: 36px;
-    line-height: 1.15;
-  }
-
-  .featured:hover .featured-title {
-    color: var(--accent);
-  }
-
-  .featured-lede {
-    margin-bottom: 14px;
-    font-size: 18px;
-    color: var(--ink-2);
-  }
-
-  .meta {
-    font-size: 14px;
-    color: var(--muted);
-  }
-
   .empty {
     color: var(--muted);
   }
@@ -142,16 +92,5 @@ const jsonLd = [
     padding-bottom: 14px;
     border-bottom: 1px solid var(--line);
     font-size: 26px;
-  }
-
-  @media (max-width: 1023px) {
-    .featured {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 20px;
-    }
-
-    .featured-title {
-      font-size: 30px;
-    }
   }
 </style>
