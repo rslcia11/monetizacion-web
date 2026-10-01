@@ -2,12 +2,12 @@
 import Mark from '../icons/Mark.astro';
 import { t, toLocale } from '../../i18n/ui';
 
-// A measured value ("1.8 s", "412 MB"), a yes/no, or null while the run is pending.
-// Never an estimate: every number comes from our own test (DESIGN.md 5).
+// A value with its unit ("1.8 s", "$12"), a yes/no, or null when no official source states it.
+// Never an estimate: each value is measured by us or linked in the article's Sources (DESIGN.md 5).
 type Value = string | number | boolean | null;
 
 interface Props {
-  // Read by screen readers: what was measured and on what.
+  // Read by screen readers: what the table compares and where the data comes from.
   caption: string;
   tools: string[];
   // Highlighted column. Must be one of `tools`.
